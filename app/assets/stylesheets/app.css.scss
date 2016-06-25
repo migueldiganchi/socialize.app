@@ -1,0 +1,24 @@
+@import 'settings';
+
+.button.face {
+    background-color: $blue-face;
+}
+
+.explanation {
+    border: solid 1px red;
+
+    .columns {
+        border: solid 1px green;
+        text-align: center;
+        padding: 10px;
+    }
+}
+
+.steps {
+    border: solid 1px blue;
+}
+
+
+footer {
+    border: solid 1px $medium-gray;
+}
