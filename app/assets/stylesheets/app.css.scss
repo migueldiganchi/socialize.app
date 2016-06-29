@@ -1,5 +1,14 @@
 @import 'settings';
 
+header {
+    // border: solid 1px blue;
+    padding: 2em;
+}
+
+.profile {
+    padding: 0.5em 0 1.9em;
+}
+
 .button {
 
     &.face {
@@ -55,37 +64,6 @@
     }
 }
 
-
-// .icn {
-//     display: inline-block;
-
-//     &.icn-16 {
-//         width: 16px;
-//         height: 16px;
-
-//         &.love {
-//             background-image: asset-url('icons/love-16.png');
-//         }
-//     }
-
-//     &.icn-24 {
-//         width: 24px;
-//         height: 24px;
-//         margin: 0;
-//         padding: 0;
-
-//         &.love {
-//             background-image: asset-url('icons/love-24.png');
-//         }
-//     }
-
-//     &.icn-32 {
-//         width: 32px;
-//         height: 32px;
-//     }
+// footer {
+//     border: solid 1px $medium-gray;
 // }
-
-
-footer {
-    border: solid 1px $medium-gray;
-}
