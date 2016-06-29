@@ -56,11 +56,12 @@ $foundation-palette: (
   alert: #ec5840,
 );
 $light-gray: #e6e6e6;
-$medium-gray: #cacaca;
+$medium-gray: #A59C9C;
 $dark-gray: #333;
 $black: #0a0a0a;
 $white: #fefefe;
 $blue-face: #3b5998;
+$blue-face-light: scale-color($blue-face, $lightness: -15%);
 $body-background: $dark-gray;
 $body-font-color: $white;
 $body-font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;

@@ -1,22 +1,89 @@
 @import 'settings';
 
-.button.face {
-    background-color: $blue-face;
-}
+.button {
 
-.explanation {
-    border: solid 1px red;
+    &.face {
+        background-color: $blue-face;
+        &:hover, &:focus {
+            background-color: $blue-face-light;
+            &.disabled {
+                background-color: $blue-face;
+                &:focus {
+                    background-color: $blue-face;
+                }
+            }
+        }
+    }
 
-    .columns {
-        border: solid 1px green;
-        text-align: center;
-        padding: 10px;
+    &.icn {
+        background-repeat: no-repeat;
+        background-position: 15px 50%;
+
+        &.icn-24 {
+            padding-left: 50px;
+            &.facebook {
+                background-image: asset-url('icons/facebook-24.png');
+            }
+            &.love {
+                background-image: asset-url('icons/love-24.png');
+            }
+            &.friends {
+                background-image: asset-url('icons/friends-24.png');
+            }
+        }
     }
 }
 
-.steps {
-    border: solid 1px blue;
+.explanation {
+    // border: solid 1px red;
+
+    .columns {
+        // border: solid 1px green;
+        text-align: center;
+        padding: 10px;
+        color: $white;
+
+        &.disabled {
+            color: $medium-gray;
+        }
+
+
+        p {
+            padding: 10px 0;
+            font-size: $small-font-size;
+        }
+    }
 }
+
+
+// .icn {
+//     display: inline-block;
+
+//     &.icn-16 {
+//         width: 16px;
+//         height: 16px;
+
+//         &.love {
+//             background-image: asset-url('icons/love-16.png');
+//         }
+//     }
+
+//     &.icn-24 {
+//         width: 24px;
+//         height: 24px;
+//         margin: 0;
+//         padding: 0;
+
+//         &.love {
+//             background-image: asset-url('icons/love-24.png');
+//         }
+//     }
+
+//     &.icn-32 {
+//         width: 32px;
+//         height: 32px;
+//     }
+// }
 
 
 footer {
