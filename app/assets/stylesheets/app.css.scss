@@ -43,24 +43,27 @@ header {
     }
 }
 
-.explanation {
-    // border: solid 1px red;
+.columns { 
 
-    .columns {
-        // border: solid 1px green;
-        text-align: center;
-        padding: 10px;
-        color: $white;
+    text-align: center;
+    padding: 10px;
+    color: $white;
+    position: relative;
+    border-right: solid 1px #555;
 
-        &.disabled {
-            color: $medium-gray;
-        }
+    &:last-child{
+        border: none;
+    }
 
+    &.disabled {
+        color: $medium-gray;
+    }
 
-        p {
-            padding: 10px 0;
-            font-size: $small-font-size;
-        }
+    p {
+        padding: 10px 0;
+        min-height: 7em;
+        font-size: $small-font-size;
+        border-bottom: solid 1px #555;
     }
 }
 
