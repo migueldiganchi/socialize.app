@@ -39,6 +39,7 @@
 //  34. Title Bar
 //  35. Tooltip
 //  36. Top Bar
+//  37. mixin
 
 @import 'util/util';
 
@@ -566,3 +567,11 @@ $topbar-submenu-background: $topbar-background;
 $topbar-title-spacing: 1rem;
 $topbar-input-width: 200px;
 $topbar-unstack-breakpoint: medium;
+
+// 36. Mixin
+// -----------
+@mixin box_circle {
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+     -moz-border-radius: 50%;
+}

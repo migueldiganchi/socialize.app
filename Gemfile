@@ -23,6 +23,10 @@ gem 'jbuilder', '~> 2.0'
 
 gem 'foundation-rails'
 
+gem 'omniauth-facebook'
+
+gem 'figaro'
+
 group :development do
   gem 'capistrano',         require: false
   gem 'capistrano-rvm',     require: false

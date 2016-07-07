@@ -1,13 +1,32 @@
 @import 'settings';
 
 header {
-    // border: solid 1px blue;
     padding: 2em;
 }
 
 .profile {
+    color: $white;
     padding: 0.5em 0 1.9em;
+    margin: 0 auto;
+
+    img {
+        @include box_circle;
+        height: 9em;
+        width: 9em;
+    }
+
+    h3 {
+        margin-top: 0.9em;
+    }
+
+    p {
+        padding: 10px 0;
+        min-height: 7em;
+        font-size: $small-font-size;
+        border-bottom: solid 1px #555;
+    }
 }
+
 
 .button {
 
@@ -43,30 +62,19 @@ header {
     }
 }
 
-.columns { 
-
-    text-align: center;
-    padding: 10px;
-    color: $white;
-    position: relative;
-    border-right: solid 1px #555;
-
-    &:last-child{
-        border: none;
+#numbers {
+    border: solid 1px red;
+    padding: 0;
+    .number {
+        border: solid 1px green;
+        display: inline-block;
+        width: 7em;
+        height: 7em;
+        margin: 0.2em;
     }
 
-    &.disabled {
-        color: $medium-gray;
-    }
-
-    p {
-        padding: 10px 0;
-        min-height: 7em;
-        font-size: $small-font-size;
-        border-bottom: solid 1px #555;
-    }
 }
 
 // footer {
-//     border: solid 1px $medium-gray;
+
 // }

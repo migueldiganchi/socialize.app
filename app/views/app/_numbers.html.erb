@@ -1,0 +1,30 @@
+<button type="button" id="invite_button" class="button face large icn icn-24 friends">
+    Invita a tus amigos
+</button>
+
+<%= link_to 'Dejar el juego', 
+    logout_path, 
+    method: 'delete', 
+    id: 'logout_button', 
+    class: 'button face large',
+    data: { confirm: '¿Está seguro que desea salir del juego?' }
+%>
+
+<br><br>
+
+<h5>
+    Podrás tomar un número diferente por cada amigo que invites
+</h5>   
+
+<br><br>
+
+<div id="numbers" class="container">
+    <% (0..10).each do |number| %>
+        <div class="number" id="<%= number %>">
+            <!-- picture-->
+            <%= number.to_s.rjust(3, '0') %>
+
+
+        </div>
+    <% end %> 
+</div>

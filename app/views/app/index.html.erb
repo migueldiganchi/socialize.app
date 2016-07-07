@@ -1,64 +1,30 @@
-<div class="profile text-center">
-    <%= image_tag asset_url("icons/profile-128.png"), alt: 'Perfil del usuario' %>
+<%= hidden_field_tag :__login_url, login_url(provider: 'facebook') %>
+<%= hidden_field_tag :__facebook_app_id, ENV['FACEBOOK_KEY'] %>
+<%= hidden_field_tag :__facebook_scope, ENV['FACEBOOK_SCOPE'] %>
+
+<%
+    content_for(:title) do "Socialize application" end 
+    facebook_image_url = @facebook_image_url ? @facebook_image_url : asset_url("icons/profile-128.png") 
+%>
+
+<div class="small-4 profile text-center">
+    <%= image_tag facebook_image_url, alt: 'Perfil del usuario', id: 'user_image' %>
     <h3>
-        User name
+        Hola <b id="user_name"><%= @username %></b>!
     </h3>
 </div>
 
-<div class="row">
-    <div class="small-4 columns">
+<div id="app_container" class="app-container text-center">
+    <!-- @todo: check if user is logged in -->
+    <% if logged_in? %> 
+        <%= render partial: 'numbers' %>
+    <% else %>
+        <%= link_to(
+            'Iniciar sesión con facebook', 
+            '/auth/facebook', 
+            id: 'login_button', 
+            class: 'button face large icn icn-24 facebook'
+        ) %>
+    <% end %>
 
-        <h5>
-            1. Iniciar sesión con facebook
-        </h5>
-        <p>
-            Inicia sesión con facebook
-        </p>
-
-        <button type="button" class="button face large icn icn-24 facebook">
-            Iniciar sesión 
-        </button>
-
-    </div>
-
-    <div class="small-4 columns disabled">
-    <!-- <div class="small-4 columns"> -->
-        <h5>
-            2. Activa el tablero 
-        </h5>
-        <p>
-            Para activar el tablero, debes darle 'Me gusta' a la página :)
-            Para activar el tablero, debes darle 'Me gusta' a la página :)
-            Para activar el tablero, debes darle 'Me gusta' a la página :)
-        </p>
-
-        <button type="button" class="button face disabled large icn icn-24 love" disabled>
-        <!-- <button type="button" class="button face large icn icn-24 love"> -->
-            Dale me gusta a la página
-        </button>
-
-    </div>
-
-    <div class="small-4 columns disabled">
-    <!-- <div class="small-4 columns"> -->
-        <h5>
-            3. Escoge tus números
-        </h5>
-        <p>
-            Selecciona un número diferente por cada amigo que invites
-        </p>
-
-        <button data-toggle="exampleModal8" type="button" class="button face disabled large icn icn-24 friends" disabled>
-        <!-- <button data-toggle="exampleModal8" type="button" class="button face large icn icn-24 friends"> -->
-            Invita a tus amigos
-        </button>
-    </div>
-</div>
-
-<!-- numeric dashboard -->
-<div class="full reveal" id="exampleModal8" data-reveal>
-    <p style="color: red;">OOOPA. Elige tus números!</p>
-    <button class="close-button" style="color: red;" data-close aria-label="Close reveal" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
 </div>

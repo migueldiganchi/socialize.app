@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
-    <%= stylesheet_link_tag "application" %>
-    <%= csrf_meta_tags %>
-  </head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            <%= content_for?(:title) ? yield(:title) : "Untitled" %>
+        </title>
+        <%= stylesheet_link_tag "application" %>
+        <%= csrf_meta_tags %>
+    </head>
 
-  <body>
+    <body>
 
-    <header class="text-center">
-        <h2>Bienvenidos a socialize</h2>
-    </header>
+        <header class="text-center">
+            <h2>
+                Participa por <b>$1000</b> totalmente gratis
+            </h2>
+            <h5>
+                Mientras más amigos tengas, más posibilidades tendrás de ganar. 
+            </h5>
+        </header>
 
-    <main>
-      <%= yield %>
-    </main>
+        <main>
+          <%= yield %>
+        </main>
 
-  </body>
+        <footer>
+            <!-- @todo: logo app  on fixed place -->
+        </footer>
+
+    </body>
   
 </html>
 
