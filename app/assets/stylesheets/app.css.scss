@@ -43,19 +43,6 @@ header {
         }
     }
 
-    &.face.logged-in {
-        background-color: $green-faso;
-        &:hover, &:focus {
-            background-color: $green-faso-light;
-            &.disabled {
-                background-color: $green-faso;
-                &:focus {
-                    background-color: $green-faso;
-                }
-            }
-        }
-    }
-
     &.icn {
         background-repeat: no-repeat;
         background-position: 15px 50%;
