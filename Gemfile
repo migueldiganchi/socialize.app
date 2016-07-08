@@ -23,9 +23,11 @@ gem 'jbuilder', '~> 2.0'
 
 gem 'foundation-rails'
 
+gem 'figaro'
+
 gem 'omniauth-facebook'
 
-gem 'figaro'
+# gem "koala", "~> 2.2"
 
 group :development do
   gem 'capistrano',         require: false

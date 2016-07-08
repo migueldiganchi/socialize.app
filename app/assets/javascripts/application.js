@@ -136,12 +136,45 @@ $(document).ready(function() {
             });
         }
 
+        function inviteFriends(invitationMessage) {
+            // request app
+            FB.ui({
+                method: 'apprequests',
+                message: invitationMessage
+            }, function(fb_response) {
+
+                if (!fb_response) {
+                    console.log('invitation cancelled...');
+                    return;
+                }
+
+                // @todo: check for errors
+                var request = fb_response.request;
+                var fb_invited_uids = fb_response.to;
+
+                console.log(request);
+                console.log(fb_invited_uids);
+            });
+        }
+
+        function showOnWall(message) {
+
+            // @todo: investigate how to show in my wall with images
+
+        }
+
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         // :::::::::::::::::::::::::: handlers :::::::::::::::::::::::::: 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         
         loginButton.click(function() {
             checkLoginState();
+            return false;
+        });
+
+        // native events
+        $(document).on('click', '#invite_button', function(e) {
+            inviteFriends("Hooola! Vení a probar ésta app!");
             return false;
         });
 
