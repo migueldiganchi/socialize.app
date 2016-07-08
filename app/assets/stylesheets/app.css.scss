@@ -43,6 +43,19 @@ header {
         }
     }
 
+    &.face.logged-in {
+        background-color: $green-faso;
+        &:hover, &:focus {
+            background-color: $green-faso-light;
+            &.disabled {
+                background-color: $green-faso;
+                &:focus {
+                    background-color: $green-faso;
+                }
+            }
+        }
+    }
+
     &.icn {
         background-repeat: no-repeat;
         background-position: 15px 50%;
@@ -68,9 +81,9 @@ header {
     .number {
         border: solid 1px green;
         display: inline-block;
-        width: 7em;
-        height: 7em;
-        margin: 0.2em;
+        width: 9em;
+        height: 9em;
+        margin: 0.5em 0.2em;
     }
 
 }

@@ -1,28 +1,26 @@
-<button type="button" id="invite_button" class="button face large icn icn-24 friends">
-    Invita a tus amigos
+<% logged_in_class = logged_in? ? 'logged-in' : '' %>
+
+<button type="button" id="invite_button" class="button face large icn icn-24 friends <%= logged_in_class %>">
+    Invitale una seca a tus amigos (-_-)
 </button>
 
-<%= link_to 'Dejar el juego', 
+<%= link_to 'Salir', 
     logout_path, 
     method: 'delete', 
     id: 'logout_button', 
-    class: 'button face large',
+    class: 'button face large ' + logged_in_class,
     data: { confirm: '¿Está seguro que desea salir del juego?' }
 %>
 
 <br><br>
 
-<h5>
-    Podrás tomar un número diferente por cada amigo que invites
-</h5>   
-
-<br><br>
-
-<div id="numbers" class="container">
-    <% (0..10).each do |number| %>
-        <div class="number" id="<%= number %>">
-            <!-- picture-->
-            <%= number.to_s.rjust(3, '0') %>
-        </div>
-    <% end %> 
+<div class="row" style="border: solid 1px orange;">
+    <div id="numbers" class="small-5 small-centered columns">
+        <% (0..10).each do |number| %>
+            <div class="number" id="<%= number %>">
+                <!-- picture-->
+                <%= number.to_s.rjust(3, '0') %>
+            </div>
+        <% end %> 
+    </div>
 </div>

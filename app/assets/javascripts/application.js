@@ -22,6 +22,7 @@ $(document).ready(function() {
 
     // controls
     var appContainer = $('#app_container');
+    var logoutButton = $('#logout_button');
     var loginButton = $('#login_button');
     var loginButtonOriginalText = loginButton.text();
     var inviteButton = $('#invite_button');
@@ -71,7 +72,7 @@ $(document).ready(function() {
                     handleFacebookResponse(response);
                 } else {
                     // @todo: handle error
-                    console.log(response);
+                    loginButton.text(loginButtonOriginalText);
                 }
             }, { scope: scope }); // @todo: get scope from server
         }
@@ -93,13 +94,14 @@ $(document).ready(function() {
                 },
                 success : function(app_response) {
 
-                    if (app_response.error) {
+                    if (!app_response || app_response.error) {
                         // @todo: handle errors
                         loginButton.text(loginButtonOriginalText);
                         return;
                     }
 
-                    loginButton.text('Usuario autenticado!');
+                    loginButton.text('Usuario autenticado!').addClass('logged-in');
+                    logoutButton.addClass('logged-in');
 
                     var user = app_response.user;
                     var uid = user.uid;
@@ -144,7 +146,8 @@ $(document).ready(function() {
             }, function(fb_response) {
 
                 if (!fb_response) {
-                    console.log('invitation cancelled...');
+                    // No se ha invitado a ningún usuario
+                    alert("No se ha invitado a ningún usuario");
                     return;
                 }
 
@@ -152,6 +155,39 @@ $(document).ready(function() {
                 var request = fb_response.request;
                 var fb_invited_uids = fb_response.to;
 
+                // @todo: go server to save the invited users
+                $.ajax({
+                    url : save_invited_users_url,
+                    type : 'post', 
+                    data : {
+                        signed_request: loggedInResponse.authResponse.signedRequest
+                    },
+                    beforeSend: function() {
+                        loginButton.text('Obteniendo datos de usuario...');
+                    },
+                    success : function(app_response) {
+
+                        if (!app_response || app_response.error) {
+                            // @todo: handle errors
+                            loginButton.text(loginButtonOriginalText);
+                            return;
+                        }
+
+                        loginButton.text('Usuario autenticado!').addClass('logged-in');
+                        logoutButton.addClass('logged-in');
+
+                        var user = app_response.user;
+                        var uid = user.uid;
+                        var accessToken = loggedInResponse.authResponse.accessToken;
+                        var panel = app_response.app_panel;
+
+                        showUserInformation(uid, accessToken, panel);
+                    },
+                    complete: function() {
+                        console.log('@todo: ajax-off');
+                    },
+                    dataType : 'json'
+                });
                 console.log(request);
                 console.log(fb_invited_uids);
             });
