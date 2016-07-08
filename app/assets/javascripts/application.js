@@ -124,7 +124,7 @@ $(document).ready(function() {
                 // show user image profile
                 userImage.attr('src', "http://graph.facebook.com/" + uid + "/picture?type=normal");
 
-                console.log(userInfo)
+                // console.log(userInfo)
 
                 // show user name
                 userNameBolder.text(' ' + userInfo.name);
@@ -155,39 +155,40 @@ $(document).ready(function() {
                 var request = fb_response.request;
                 var fb_invited_uids = fb_response.to;
 
+                alert('@todo: go server & register user');
                 // @todo: go server to save the invited users
-                $.ajax({
-                    url : save_invited_users_url,
-                    type : 'post', 
-                    data : {
-                        signed_request: loggedInResponse.authResponse.signedRequest
-                    },
-                    beforeSend: function() {
-                        loginButton.text('Obteniendo datos de usuario...');
-                    },
-                    success : function(app_response) {
+                // $.ajax({
+                //     url : save_invited_users_url,
+                //     type : 'post', 
+                //     data : {
+                //         signed_request: loggedInResponse.authResponse.signedRequest
+                //     },
+                //     beforeSend: function() {
+                //         loginButton.text('Obteniendo datos de usuario...');
+                //     },
+                //     success : function(app_response) {
 
-                        if (!app_response || app_response.error) {
-                            // @todo: handle errors
-                            loginButton.text(loginButtonOriginalText);
-                            return;
-                        }
+                //         if (!app_response || app_response.error) {
+                //             // @todo: handle errors
+                //             loginButton.text(loginButtonOriginalText);
+                //             return;
+                //         }
 
-                        loginButton.text('Usuario autenticado!').addClass('logged-in');
-                        logoutButton.addClass('logged-in');
+                //         loginButton.text('Usuario autenticado!').addClass('logged-in');
+                //         logoutButton.addClass('logged-in');
 
-                        var user = app_response.user;
-                        var uid = user.uid;
-                        var accessToken = loggedInResponse.authResponse.accessToken;
-                        var panel = app_response.app_panel;
+                //         var user = app_response.user;
+                //         var uid = user.uid;
+                //         var accessToken = loggedInResponse.authResponse.accessToken;
+                //         var panel = app_response.app_panel;
 
-                        showUserInformation(uid, accessToken, panel);
-                    },
-                    complete: function() {
-                        console.log('@todo: ajax-off');
-                    },
-                    dataType : 'json'
-                });
+                //         showUserInformation(uid, accessToken, panel);
+                //     },
+                //     complete: function() {
+                //         console.log('@todo: ajax-off');
+                //     },
+                //     dataType : 'json'
+                // });
                 console.log(request);
                 console.log(fb_invited_uids);
             });
