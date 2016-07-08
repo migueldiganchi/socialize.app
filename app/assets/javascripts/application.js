@@ -127,7 +127,7 @@ $(document).ready(function() {
                 console.log(userInfo)
 
                 // show user name
-                userNameBolder.text(userInfo.name);
+                userNameBolder.text(' ' + userInfo.name);
 
                 // load app panel
                 appContainer.html(panel);
