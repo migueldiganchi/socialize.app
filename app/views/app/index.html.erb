@@ -3,8 +3,10 @@
 <%= hidden_field_tag :__facebook_scope, ENV['FACEBOOK_SCOPE'] %>
 
 <%
-    content_for(:title) do "Socialize application" end 
-    facebook_image_url = @facebook_image_url ? @facebook_image_url : asset_url("icons/profile-128.png") 
+    content_for(:title) do "Fasobook" end 
+    facebook_image_url = @facebook_image_url ? 
+        @facebook_image_url : 
+        asset_url("icons/user-128.png") 
 %>
 
 <div class="small-4 profile text-center">
@@ -17,7 +19,9 @@
 <div id="app_container" class="app-container text-center">
     <!-- @todo: check if user is logged in -->
     <% if logged_in? %> 
-        <%= render partial: 'numbers' %>
+
+        <%= render partial: 'invited_users' %>
+
     <% else %>
         <%= link_to(
             'Iniciar sesión con facebook', 

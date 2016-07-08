@@ -1,0 +1,32 @@
+<% logged_in_class = logged_in? ? 'logged-in' : '' %>
+
+<button type="button" id="invite_button" class="button face large icn icn-24 friends <%= logged_in_class %>">
+    <%= invitation_text_button = @invitation_text_button ? @invitation_text_button : 'Invita a tus amigos' %>
+</button>
+
+<%= link_to 'Salir', 
+    logout_path, 
+    method: 'delete', 
+    id: 'logout_button', 
+    class: 'button face large ' + logged_in_class,
+    data: { confirm: '¿Está seguro que desea salir del juego?' }
+%>
+
+<br><br>
+
+<div class="row">
+    <div id="invited_users" class="small-5 small-centered columns">
+        <div class="invited_user" id="">
+            Invited 1
+        </div>
+        <div class="invited_user" id="">
+            Invited 2
+        </div>
+        <div class="invited_user" id="">
+            Invited 3
+        </div>
+        <div class="invited_user" id="">
+            Invited 4
+        </div>
+    </div>
+</div>

@@ -75,11 +75,12 @@ header {
     }
 }
 
-#numbers {
-    border: solid 1px red;
+#invited_users {
+    // border: solid 1px red;
     padding: 0;
-    .number {
-        border: solid 1px green;
+    .invited_user {
+        border: solid 1px $medium-gray;
+        @include box_circle;
         display: inline-block;
         width: 9em;
         height: 9em;

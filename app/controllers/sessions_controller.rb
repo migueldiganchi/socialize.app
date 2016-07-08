@@ -4,7 +4,8 @@ class SessionsController < ApplicationController
     user = User.from_omniauth(env['omniauth.auth']);
     session[:user_id] = user.id
 
-    @app_panel = render_to_string partial: 'app/numbers'
+    @invitation_text_button = 'Invita una seca a tus amigos'
+    @app_panel = render_to_string partial: 'app/invited_users'
     
     if request.xhr?
       render json: { 
