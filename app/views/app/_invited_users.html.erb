@@ -16,17 +16,10 @@
 
 <div class="row">
     <div id="invited_users" class="small-5 small-centered columns">
-        <div class="invited_user" id="">
-            Invited 1
-        </div>
-        <div class="invited_user" id="">
-            Invited 2
-        </div>
-        <div class="invited_user" id="">
-            Invited 3
-        </div>
-        <div class="invited_user" id="">
-            Invited 4
-        </div>
+        <% current_user.receivers.each do |invitation| %>
+            <div class="invited_user" id="<%= invitation.endpoint_fb_uid %>">
+                fb_uid: <%= invitation.endpoint_fb_uid %>
+            </div>
+        <% end unless current_user.receivers.nil? %>
     </div>
 </div>

@@ -121,10 +121,9 @@ $(document).ready(function() {
             // show user picture & name  
             FB.api('/me', function(userInfo) {
 
+
                 // show user image profile
                 userImage.attr('src', "http://graph.facebook.com/" + uid + "/picture?type=normal");
-
-                // console.log(userInfo)
 
                 // show user name
                 userNameBolder.text(' ' + userInfo.name);
@@ -139,58 +138,60 @@ $(document).ready(function() {
         }
 
         function inviteFriends(invitationMessage) {
+
             // request app
             FB.ui({
                 method: 'apprequests',
+                filters: ['app_non_users'], // @todo: review this
+                fields: "id, name, email",
                 message: invitationMessage
+
             }, function(fb_response) {
 
-                if (!fb_response) {
+                if (!fb_response || fb_response.error_code) {
+
+                    if (fb_response.error_message) {
+                        console.log('Ha ocurrido el siguiente error: ' + fb_response.error_message);
+                    }
+
                     // No se ha invitado a ningún usuario
-                    alert("No se ha invitado a ningún usuario");
+                    alert("No se ha invitado a ningún usuario"); // @todo: improve This
                     return;
                 }
 
                 // @todo: check for errors
                 var request = fb_response.request;
                 var fb_invited_uids = fb_response.to;
+                var url = $('#__invitations_url').val();
 
-                alert('@todo: go server & register user');
-                // @todo: go server to save the invited users
-                // $.ajax({
-                //     url : save_invited_users_url,
-                //     type : 'post', 
-                //     data : {
-                //         signed_request: loggedInResponse.authResponse.signedRequest
-                //     },
-                //     beforeSend: function() {
-                //         loginButton.text('Obteniendo datos de usuario...');
-                //     },
-                //     success : function(app_response) {
+                $.ajax({
+                    url : url,
+                    type : 'post', 
+                    data : {
+                        fb_uids: fb_invited_uids
+                    },
+                    beforeSend: function() {
+                        
+                    },
+                    success : function(app_response) {
 
-                //         if (!app_response || app_response.error) {
-                //             // @todo: handle errors
-                //             loginButton.text(loginButtonOriginalText);
-                //             return;
-                //         }
+                        var message = null;
 
-                //         loginButton.text('Usuario autenticado!').addClass('logged-in');
-                //         logoutButton.addClass('logged-in');
+                        if (!app_response || app_response.error) {
+                            var message = 'Ha ocurrido un error en la invitación';
+                            alert(message);
+                            return;
+                        }
+                        
+                        message = app_response.message ? app_response.message : 'Invitación exitosa';
 
-                //         var user = app_response.user;
-                //         var uid = user.uid;
-                //         var accessToken = loggedInResponse.authResponse.accessToken;
-                //         var panel = app_response.app_panel;
-
-                //         showUserInformation(uid, accessToken, panel);
-                //     },
-                //     complete: function() {
-                //         console.log('@todo: ajax-off');
-                //     },
-                //     dataType : 'json'
-                // });
-                console.log(request);
-                console.log(fb_invited_uids);
+                        alert(message);
+                    },
+                    complete: function() {
+                        console.log('@todo: ajax-off');
+                    },
+                    dataType : 'json'
+                });
             });
         }
 

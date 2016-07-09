@@ -6,8 +6,10 @@ Rails.application.routes.draw do
   root 'app#index'
 
   match 'auth/:provider/callback',  to: 'sessions#create',      as: 'login',    via: 'get'
-  match 'auth/failure',             to: redirect('/'),                          via: 'get'
+  match 'auth/failure',             to: redirect('/'),                          via: 'get' # @todo: check for errors
   match 'logout',                   to: 'sessions#destroy',     as: 'logout',   via: 'delete'
+
+  resources :invitations, only: [:create, :update, :destroy]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

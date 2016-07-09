@@ -1,7 +1,7 @@
+<%= hidden_field_tag :__invitations_url, invitations_url %>
 <%= hidden_field_tag :__login_url, login_url(provider: 'facebook') %>
 <%= hidden_field_tag :__facebook_app_id, ENV['FACEBOOK_KEY'] %>
 <%= hidden_field_tag :__facebook_scope, ENV['FACEBOOK_SCOPE'] %>
-
 <%
     content_for(:title) do "Fasobook" end 
     facebook_image_url = @facebook_image_url ? 
