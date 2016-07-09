@@ -183,14 +183,16 @@ $(document).ready(function() {
                             return;
                         }
                         
-                        message = app_response.message ? app_response.message : 'Invitación exitosa';
+                        $('#app_container').html(app_response);
 
-                        alert(message);
+                        // message = app_response.message ? app_response.message : 'Invitación exitosa';
+
+                        // alert(message);
                     },
                     complete: function() {
                         console.log('@todo: ajax-off');
                     },
-                    dataType : 'json'
+                    dataType : 'html'
                 });
             });
         }

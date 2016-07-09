@@ -16,7 +16,7 @@ class InvitationsController < ApplicationController
             }
         end
         format.html do
-          render partial: 'invited_users'
+          render partial: 'app/invited_users'
         end
       end
     else

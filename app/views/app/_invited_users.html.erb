@@ -20,6 +20,6 @@
             <div class="invited_user" id="<%= invitation.endpoint_fb_uid %>">
                 fb_uid: <%= invitation.endpoint_fb_uid %>
             </div>
-        <% end unless current_user.receivers.nil? %>
+        <% end unless current_user.nil? || current_user.receivers.nil? %>
     </div>
 </div>
