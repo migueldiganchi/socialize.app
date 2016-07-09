@@ -4,6 +4,14 @@ header {
     padding: 2em;
 }
 
+.circle {
+    @include box_circle;
+}
+
+.overshadowed {
+    @include opaqued;
+}
+
 .profile {
     color: $white;
     padding: 0.5em 0 1.9em;
@@ -26,7 +34,6 @@ header {
         border-bottom: solid 1px #555;
     }
 }
-
 
 .button {
 
@@ -63,15 +70,48 @@ header {
 }
 
 #invited_users {
-    // border: solid 1px red;
     padding: 0;
+
     .invited_user {
-        border: solid 1px $medium-gray;
-        @include box_circle;
+
+        border: solid 3px;
+
+        &.pending {
+            border-color: $medium-gray;
+        }
+
+        &.playing {
+            border-color: $blue;
+        }
+
+        &.accepted {
+            border-color:  $green;
+        }
+
+        &.rejected {
+            border-color: $red;
+        }
+
         display: inline-block;
         width: 9em;
         height: 9em;
         margin: 0.5em 0.2em;
+        position: relative;
+
+        img {
+            position: absolute;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 8.6em;
+            height: 8.6em;
+
+            &.pending {
+                @include opaqued;
+            }
+        }
     }
 
 }

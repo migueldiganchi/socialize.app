@@ -185,9 +185,6 @@ $(document).ready(function() {
                         
                         $('#app_container').html(app_response);
 
-                        // message = app_response.message ? app_response.message : 'Invitación exitosa';
-
-                        // alert(message);
                     },
                     complete: function() {
                         console.log('@todo: ajax-off');

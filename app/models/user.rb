@@ -12,21 +12,11 @@ class User < ActiveRecord::Base
   end
 
   def receivers(action: :invite)
-
-    receivers = Invitation.where({
-      origin_fb_uid: self.uid, 
-      action: action
-    })
-
+    Invitation.where({ origin_fb_uid: self.uid, action: action })
   end
 
   def remitters(action: :invite)
-
-    receivers = Invitation.where({
-      endpoint_fb_uid: self.uid, 
-      action: action
-    })
-
+    Invitation.where({ endpoint_fb_uid: self.uid, action: action })
   end
 
 end
