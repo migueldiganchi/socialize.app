@@ -2,10 +2,10 @@
 
     $.fn.publish = function(timeout) {
 
-        // ensure only one publisher by call.
+        // ensure only one container by publishing
         var uniqueness = $('.--class-publisher-plugin');
         if ($(uniqueness).length > 0) {
-            actions.close($(uniqueness))
+            publisher.disappear($(uniqueness))
         }
 
         var content = $(this);
@@ -13,13 +13,13 @@
         var container_width = null;
         var container_height = null;
 
-        // publisher
+        // container is the publisher
         container = jQuery('<div/>', {
             id: '__id_publisher_plugin', 
             class: '--class-publisher-plugin'
         });
 
-        // set default behavior 
+        // set default behavior: appear at bottom-right of the screan
         container.css({
             position: 'fixed',
             right: '10px',
@@ -29,7 +29,7 @@
 
         // add close button to the container
         container.prepend($('<button>×</button>').click(function(){
-            actions.close(container);
+            publisher.disappear(container);
         }));
 
         // wrap this with container
@@ -40,27 +40,27 @@
         // check if document is ready
         var body = $('body');
         if (body.length < 0) {
-            console.log("The pubhising has to be when the document is 'ready'");
+            console.log("The publishing has to be when the document is 'ready'");
             return;
         } 
     
         // append publisher to the body: 
         body.append(container);
 
-        actions.open(container, timeout);
+        publisher.appear(container, timeout);
 
     };
 
     $.fn.unpublish = function() {
         var container = $('#__id_publisher_plugin');
         if (container.attr('id') == '__id_publisher_plugin') {
-            actions.close(container);
+            publisher.disappear(container);
         }
     }
 
-    var actions = {
+    var publisher = {
 
-        open: function(container, timeout) {
+        appear: function(container, timeout) {
             // transition: set initial position
             container_width = container.width() + 10;
             container.css('right', '-' + container_width + 'px');
@@ -71,23 +71,23 @@
             }, 1100, function(){
                 if (timeout) {
                     setTimeout(function() {
-                        // transition: end 
-                        actions.close(container);
+                        // transition: end to show
+                        publisher.disappear(container);
                     }, timeout);
                 }
             });
 
         },
 
-        close: function(container) {
+        disappear: function(container) {
             // transition: get initial position
             container_height = $(container).height() + 10;
 
-            // transition
+            // transition: begin to hide
             container.animate({
                 bottom: '-' + container_height + 'px', 
             }, 1100, function() {
-                // transition: remove publisher
+                // transition: end to hide, we must remove complete element
                 container.remove();
             });        
         }

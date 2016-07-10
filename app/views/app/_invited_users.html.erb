@@ -1,5 +1,5 @@
 <% logged_in_class = logged_in? ? 'logged-in' : '' %>
-<% status_class = 'playing' %>
+<% status_class = 'pending' %>
 
 <button type="button" id="invite_button" class="button face large icn icn-24 friends <%= logged_in_class %>">
     <%= invitation_text_button = @invitation_text_button ? @invitation_text_button : 'Invita a tus amigos' %>
@@ -12,14 +12,6 @@
     class: 'button face large ' + logged_in_class,
     data: { confirm: '¿Está seguro que desea salir del juego?' }
 %>
-
-<button id="test_button">
-    close publisher
-</button>
-
-<button id="test_button_open">
-    open publisher
-</button>
 
 <br><br>
 

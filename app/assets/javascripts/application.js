@@ -215,20 +215,6 @@ $(document).ready(function() {
             return false;
         });
 
-        // test button
-        $(document).on('click', '#test_button', function(e) {
-            $('#p_1').unpublish();
-        });
-
-        // test button
-        $(document).on('click', '#test_button_open', function(e) {
-            // $('#p_1').publish(2000);
-            $('<div><h2>Title publicity</h2><p>publicity</p></div>').publish(3000);
-        });
-
     });
-
-    // publishing?    
-    $('#p_1').publish();
 
 });
