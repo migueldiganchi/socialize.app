@@ -1,9 +1,6 @@
-
-// jQuery.noConflict();
-
 (function ( $ ) {
 
-    $.fn.publish = function(opt) { // event: [show | hide]
+    $.fn.publish = function(timeout) { // event: [show | hide]
 
         // ensure only one publisher by call.
         var uniqueness = $('#__id_publisher_plugin');
@@ -11,17 +8,16 @@
             $(uniqueness).remove();
         }
 
-        var options = opt ? opt : {};
-        var container_width = null;
+        var content = $(this);
         var container = null;
+        var container_width = null;
         var container_height = null;
 
-        // set default options to the publisher
-        options.id = '__id_publisher_plugin';
-        options.class = '--class-publisher-plugin';
-
         // publisher
-        container = create_div(options);
+        container = create_div({
+            id: '__id_publisher_plugin', 
+            class: '--class-publisher-plugin'
+        });
 
         // set default behavior 
         $(container).css({
@@ -48,21 +44,35 @@
 
         // transition: set new position
         $(container).css('right', '-' + container_width + 'px');
-        $(container).css('bottom', '-' + container_height + 'px');
+        // $(container).css('bottom', '-' + container_height + 'px');
 
         // show publisher
         $(container).show();
 
         $(container).animate({
-            bottom: '10px',
+            // bottom: '10px',
             right: '10px'
-        }, 1100);
+        }, 1100, function(){
+            if (timeout) {
+                setTimeout(function(){
+                    $(content).unpublish();
+                }, timeout);
+            }
+        });
+
 
     };
 
-    function create_div(options) {
+    $.fn.unpublish = function() {
 
-        console.log(options);
+        var container = $('#__id_publisher_plugin');
+
+        if ($(container).attr('id') == '__id_publisher_plugin') {
+            remove(container);
+        }
+    }
+
+    function create_div(options) {
         return jQuery('<div/>', options);
     }
 
@@ -72,7 +82,7 @@
         container_height = $(container).height() + 10;
 
         $(container).animate({
-            right: '-' + container_width + 'px',
+            // right: '-' + container_width + 'px',
             bottom: '-' + container_height + 'px',
         }, 1100, function() {
             $(container).remove();

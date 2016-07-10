@@ -27,8 +27,6 @@ gem 'figaro'
 
 gem 'omniauth-facebook'
 
-# gem "koala", "~> 2.2"
-
 group :development do
   gem 'capistrano',         require: false
   gem 'capistrano-rvm',     require: false

@@ -216,14 +216,18 @@ $(document).ready(function() {
         });
 
         // test button
-        // $(document).on('click', '#test_button', function(e) {
-        //     $('#p_1').publish();
-        //     return false;
-        // });
+        $(document).on('click', '#test_button', function(e) {
+            $('#p_1').unpublish();
+        });
+
+        // test button
+        $(document).on('click', '#test_button_open', function(e) {
+            $('#p_1').publish(2000);
+        });
 
     });
 
     // publishing?    
-    // $('<div>Esto en una publicidad</div>').publish();
+    $('#p_1').publish();
 
 });
