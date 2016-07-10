@@ -222,7 +222,8 @@ $(document).ready(function() {
 
         // test button
         $(document).on('click', '#test_button_open', function(e) {
-            $('#p_1').publish(2000);
+            // $('#p_1').publish(2000);
+            $('<div><h2>Title publicity</h2><p>publicity</p></div>').publish(3000);
         });
 
     });

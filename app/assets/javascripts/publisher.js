@@ -1,11 +1,11 @@
 (function ( $ ) {
 
-    $.fn.publish = function(timeout) { // event: [show | hide]
+    $.fn.publish = function(timeout) {
 
         // ensure only one publisher by call.
-        var uniqueness = $('#__id_publisher_plugin');
+        var uniqueness = $('.--class-publisher-plugin');
         if ($(uniqueness).length > 0) {
-            $(uniqueness).remove();
+            actions.close($(uniqueness))
         }
 
         var content = $(this);
@@ -14,13 +14,13 @@
         var container_height = null;
 
         // publisher
-        container = create_div({
+        container = jQuery('<div/>', {
             id: '__id_publisher_plugin', 
             class: '--class-publisher-plugin'
         });
 
         // set default behavior 
-        $(container).css({
+        container.css({
             position: 'fixed',
             right: '10px',
             bottom: '10px',
@@ -28,65 +28,69 @@
         });
 
         // add close button to the container
-        $(container).prepend($('<button>×</button>').click(function(){
-            remove($(container));
+        container.prepend($('<button>×</button>').click(function(){
+            actions.close(container);
         }));
 
         // wrap this with container
-        $(container).append($(this).html());
+        container.css('display', 'block');
+        container.append($(content).html());
+        container.show();
         
-        // show element
-        $('body').append(container);
+        // check if document is ready
+        var body = $('body');
+        if (body.length < 0) {
+            console.log("The pubhising has to be when the document is 'ready'");
+            return;
+        } 
+    
+        // append publisher to the body: 
+        body.append(container);
 
-        // transition: get locations
-        container_width = $(container).width() + 10;
-        container_height = $(container).height() + 10; /*in case want to*/
-
-        // transition: set new position
-        $(container).css('right', '-' + container_width + 'px');
-        // $(container).css('bottom', '-' + container_height + 'px');
-
-        // show publisher
-        $(container).show();
-
-        $(container).animate({
-            // bottom: '10px',
-            right: '10px'
-        }, 1100, function(){
-            if (timeout) {
-                setTimeout(function(){
-                    $(content).unpublish();
-                }, timeout);
-            }
-        });
-
+        actions.open(container, timeout);
 
     };
 
     $.fn.unpublish = function() {
-
         var container = $('#__id_publisher_plugin');
-
-        if ($(container).attr('id') == '__id_publisher_plugin') {
-            remove(container);
+        if (container.attr('id') == '__id_publisher_plugin') {
+            actions.close(container);
         }
     }
 
-    function create_div(options) {
-        return jQuery('<div/>', options);
-    }
+    var actions = {
 
-    function remove(container) {
+        open: function(container, timeout) {
+            // transition: set initial position
+            container_width = container.width() + 10;
+            container.css('right', '-' + container_width + 'px');
 
-        container_width = $(container).width() + 10;
-        container_height = $(container).height() + 10;
+            // transition: begin to show
+            container.animate({
+                right: '10px'
+            }, 1100, function(){
+                if (timeout) {
+                    setTimeout(function() {
+                        // transition: end 
+                        actions.close(container);
+                    }, timeout);
+                }
+            });
 
-        $(container).animate({
-            // right: '-' + container_width + 'px',
-            bottom: '-' + container_height + 'px',
-        }, 1100, function() {
-            $(container).remove();
-        });
-    }
+        },
+
+        close: function(container) {
+            // transition: get initial position
+            container_height = $(container).height() + 10;
+
+            // transition
+            container.animate({
+                bottom: '-' + container_height + 'px', 
+            }, 1100, function() {
+                // transition: remove publisher
+                container.remove();
+            });        
+        }
+    };
 
 }( jQuery ));   
