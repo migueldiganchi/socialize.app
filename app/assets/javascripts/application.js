@@ -215,5 +215,15 @@ $(document).ready(function() {
             return false;
         });
 
+        // test button
+        $(document).on('click', '#test_button', function(e) {
+            $('#p_1').publish();
+            return false;
+        });
+
     });
+
+    // publishing?    
+    $('<div>Esto en una publicidad</div>').publish();
+
 });
