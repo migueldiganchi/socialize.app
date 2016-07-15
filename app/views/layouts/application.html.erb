@@ -1,34 +1,25 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>
-            <%= content_for?(:title) ? yield(:title) : "Untitled" %>
-        </title>
-        <%= stylesheet_link_tag "application" %>
-        <%= csrf_meta_tags %>
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
+    <%= stylesheet_link_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
 
-    <body>
+  <body>
 
-        <header class="text-center">
-            <h2>
-                Bienvenidos a <b>[Chain.me]!</b>
-            </h2>
-        </header>
+    <header class="text-center">
+        <h2>Bienvenidos a socialize</h2>
+    </header>
 
-        <main>
-          <%= yield %>
-        </main>
+    <main>
+      <%= yield %>
+    </main>
 
-        <footer>
-            come content in the footer
-            <!-- @todo: logo app  on fixed place -->
-        </footer>
-
-    </body>
+  </body>
   
 </html>
 
