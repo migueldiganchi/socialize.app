@@ -9,15 +9,8 @@ class InvitationsController < ApplicationController
 
     if request.xhr?
       respond_to do |format|
-        format.json do
-            render json: {
-              status: true, 
-              message: 'Invitación exitosa.'
-            }
-        end
-        format.html do
-          render partial: 'app/invited_users'
-        end
+        format.json render json: {status: true, message: 'Invitación exitosa.' }
+        format.html render partial: 'app/invitations'
       end
     else
       redirect_to root_url
@@ -25,12 +18,17 @@ class InvitationsController < ApplicationController
 
   end
 
-  # def update  
+  def update  
 
-  # end
+    invitation_id = params[:id]
+    invitation_status = params[:status]
+
+    # @todo: update invitation status with the invitation.id
+
+  end
 
   # def destroy
 
   # end
-
+  
 end

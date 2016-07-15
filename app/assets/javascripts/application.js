@@ -21,7 +21,7 @@ $(document).foundation();
 $(document).ready(function() {
 
     // controls
-    var appContainer = $('#app_container');
+    var dynamicContainer = $('#dynamic_container');
     var logoutButton = $('#logout_button');
     var loginButton = $('#login_button');
     var loginButtonOriginalText = loginButton.text();
@@ -129,7 +129,7 @@ $(document).ready(function() {
                 userNameBolder.text(' ' + userInfo.name);
 
                 // load app panel
-                appContainer.html(panel);
+                dynamicContainer.html(panel);
 
             }, { 
                 access_token: accessToken, 
@@ -183,7 +183,7 @@ $(document).ready(function() {
                             return;
                         }
                         
-                        $('#app_container').html(app_response);
+                        dynamicContainer.html(app_response);
 
                     },
                     complete: function() {
@@ -214,6 +214,9 @@ $(document).ready(function() {
             inviteFriends("Hooola! Vení a probar ésta app!");
             return false;
         });
+
+        $('<div style="border: solid 1px red;"><h1>This is my publication1?</h1></div>').publish(5000);
+        $('<div style="border: solid 1px red;"><h1>This is my publication2?</h1></div>').publish(5000);
 
     });
 

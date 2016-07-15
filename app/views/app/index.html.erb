@@ -6,25 +6,92 @@
     content_for(:title) do "Fasobook" end 
 %>
 
-<div class="small-4 profile text-center">
-    <%= image_tag facebook_picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
-    <h3>
-        Hola<b id="user_name"><%= @username %></b>!
-    </h3>
-</div>
+<div class="row">
 
-<div id="app_container" class="app-container text-center">
+    <div class="columns small-4 profile text-center">
+        <%= image_tag facebook_picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
+        <h4>
+            Hola<b id="user_name"><%= @username %></b>!
+        </h4>
 
-    <!-- @todo: check if user is logged in -->
-    <% if logged_in? %> 
-        <%= render partial: 'invited_users' %>
-    <% else %>
-        <%= link_to(
-            'Iniciar sesión con facebook', 
-            '/auth/facebook', 
-            id: 'login_button', 
-            class: 'button face large icn icn-24 facebook'
-        ) %>
-    <% end %>
+        <% if logged_in? %> 
+
+            <button type="button" id="invite_button" class="button face icn icn-24 friends <%= logged_in? ? 'logged-in' : '' %>">
+                <%= invitation_text_button = @invitation_text_button ? @invitation_text_button : 'Invita a tus amigos' %>
+            </button>
+
+            <%= link_to 'Salir', 
+                logout_path, 
+                method: 'delete', 
+                id: 'logout_button', 
+                class: 'button face ' + (logged_in? ? 'logged-in' : ''),
+                data: { confirm: '¿Está seguro que desea salir del juego?' }
+            %>
+
+        <% else %>
+
+            <%= link_to(
+                'Iniciar sesión con facebook', 
+                '/auth/facebook', 
+                id: 'login_button', 
+                class: 'button face icn icn-24 facebook'
+            ) %>
+
+        <% end %>
+    </div>
+
+    <div id="app_container" class="columns small-8 app-container text-center">
+
+        <div class="row tail" style="border: solid 1px orange; padding: 10px;">
+            <%= render partial: 'node' %>
+        </div>
+
+        <div id="dynamic_container">
+            <% if logged_in? %> 
+
+                <%= render partial: 'invitations' %>
+
+            <% else %>
+
+                <ul style="padding: 0; margin: 0;">
+                    <li style="display: block;">
+                        <div class="row tail" style="border-bottom: solid 1px orange; border-right: solid 1px orange; padding: 10px;">
+                            <%= render partial: 'app/node', locals: {type: "node"} %>
+                            <%= render partial: 'app/node', locals: {continue: true} %>
+                        </div>
+                    </li>
+                    <li style="display: block;">
+                        <div class="row tail" style="border-bottom: solid 1px orange; border-right: solid 1px orange; padding: 10px;">
+                            <%= render partial: 'app/node', locals: {type: "node"} %>
+                            <%= render partial: 'app/node', locals: {continue: true} %>
+                        </div>
+                    </li>
+                    <li style="display: block;">
+                        <div class="row tail" style="border-bottom: solid 1px orange; border-right: solid 1px orange; padding: 10px;">
+                            <%= render partial: 'app/node', locals: {type: "node", continue: true} %>
+                            <%= render partial: 'app/node', locals: {type: "node", continue: true} %>
+                            <%= render partial: 'app/node', locals: {continue: true} %>
+                        </div>
+                    </li>
+                    <li style="display: block;">
+                        <div class="row tail" style="border-bottom: solid 1px orange; border-right: solid 1px orange; padding: 10px;">
+                            <%= render partial: 'app/node', locals: {type: "node", continue: true} %>
+                            <%= render partial: 'app/node', locals: {continue: true} %>
+                        </div>
+                    </li>
+                </ul>
+
+            <% end %>
+        </div>
+
+    </div>
+
+    <p>
+    this 
+    <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="2" title="You see?  I'm open!">tooltip will stay open</span>
+
+    while 
+    <span data-tooltip aria-haspopup="true" class="has-tip top" data-click-open="false" data-disable-hover="false" tabindex="2" title="I don't stay open">this one will only be open when hovered</span>
+    </p>
 
 </div>

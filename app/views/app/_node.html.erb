@@ -1,0 +1,46 @@
+<% nodo_type = defined?(type) ? type : 'form' %>
+<% continue = defined?(continue) && continue ? continue : false %>
+
+
+<div class="columns small-12 float-left node" style="margin: 0 0 0 -31px;">
+
+    <div class="row">
+
+        <div class="columns small-1"  style=" text-align: left; padding: 0;">
+            <div class="profile-picture circle">
+                <%= image_tag facebook_picture_url, class: 'circle float-left' %>
+            </div>
+        </div>
+
+        <div class="columns small-11 radius-5" style="padding: 1em 0; border: solid 1px violet;">
+
+            <% if nodo_type == 'form' %>
+
+                <% if continue %>
+                    <div style="margin: -3.2em 0 0; padding: 0; list-style-type: none;">
+                        <button type="button" class="button face icn icn-24 plug only-icon"></button>
+                        <button type="button" class="button face icn icn-24 friends only-icon"></button>
+                        <button type="button" class="button face icn icn-24 share only-icon"></button>
+                    </div>
+                <% end %>
+
+                <form class="float-left columns small-12 radius-5"  style="background: #fff;">
+                    <textarea class="content" placeholder="[Continúa la cadena en 150 caracteres]" maxlength="150" style="margin: 0;"></textarea>
+                </form>
+
+            <% else %>
+
+                <label style="color: #fff;">
+                    una historia cortita una historia cortita una historia 
+                    cortita una historia cortita una historia cortita
+                     una historia cortita una historia cortita ...
+                </label>
+
+
+            <% end %>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,7 +1,23 @@
 @import 'settings';
 
+
 header {
     padding: 2em;
+}
+
+main {
+    border-top: solid 1px #c9c9c9;
+    border-bottom: solid 1px #c9c9c9;
+    background: asset-url('bg.png');
+    background-repeat: repeat;
+}
+
+#app_container {
+    border-left: solid 3px #c9c9c9;
+}
+
+.radius-5 {
+    @include box_radius_5;
 }
 
 .circle {
@@ -37,6 +53,8 @@ header {
 
 .button {
 
+    margin: 0;
+
     &.face {
         background-color: $blue-face;
         &:hover, &:focus {
@@ -55,7 +73,14 @@ header {
         background-position: 15px 50%;
 
         &.icn-24 {
+
             padding-left: 50px;
+
+            &.only-icon {
+                padding: 20px;
+                background-position: center;
+            }
+
             &.facebook {
                 background-image: asset-url('icons/facebook-24.png');
             }
@@ -65,14 +90,21 @@ header {
             &.friends {
                 background-image: asset-url('icons/friends-24.png');
             }
+            &.plug {
+                background-image: asset-url('icons/plug-24.png');   
+            }
+            &.share {
+                background-image: asset-url('icons/share-24.png');   
+            }
         }
     }
 }
 
-#invited_users {
+.invitations {
+    
     padding: 0;
 
-    .invited_user {
+    .invitation {
 
         border: solid 3px;
 
@@ -116,14 +148,57 @@ header {
 
 }
 
-// publisher plugin
-.--class-publisher-plugin {
-    // position: fixed;
-    // right: 10px;
-    // bottom: 10px;
-    // border: solid 2px red;
+.node {
+    margin: 15px 0;
+    padding: 10px 50px;
+    background: none;
+
+    .profile-picture {
+        @include base_shadow;
+        width: 39px; 
+        height: 39px;
+        float: left;
+        clear: right; 
+        border: solid 1px #fff;
+
+        img {
+            // border: solid 1px violet;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    textarea.content, textarea.content:focus, label {
+        float: left;
+        border: none;
+        box-shadow: none;
+        background: none;
+        // color: #fff !important;
+        // border: solid 1px green;
+        display: inline;
+    }
+
+    .button {
+        margin-left: 0.1em 0.1em;
+    }
+
+    // button.button {
+    //     border: solid 1px pink;
+    //     width: 100%;
+    //     height: 100%;
+    //     &::after{
+
+    //         content: ' ';
+
+    //     }
+    // }
 }
 
-// footer {
+footer {
+    padding: 50px;
+    text-align: center;
+}
 
-// }
+// publisher plugin
+.--class-publisher-plugin {
+}
