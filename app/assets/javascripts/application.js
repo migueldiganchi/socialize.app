@@ -150,7 +150,7 @@ $(document).ready(function() {
 
                 if (!fb_response || fb_response.error_code) {
 
-                    if (fb_response.error_message) {
+                    if (fb_response && fb_response.error_message) {
                         console.log('Ha ocurrido el siguiente error: ' + fb_response.error_message);
                     }
 
@@ -204,7 +204,7 @@ $(document).ready(function() {
         });
 
         // native events
-        $(document).on('click', inviteButton, function(e) {
+        $(document).on('click', '#invite_button', function(e) {
             inviteFriends("Hooola! Vení a probar ésta app!");
             return false;
         });
