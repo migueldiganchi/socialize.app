@@ -194,12 +194,6 @@ $(document).ready(function() {
             });
         }
 
-        function showOnWall(message) {
-
-            // @todo: investigate how to show in my wall with images
-
-        }
-
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         // :::::::::::::::::::::::::: handlers :::::::::::::::::::::::::: 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -210,13 +204,13 @@ $(document).ready(function() {
         });
 
         // native events
-        $(document).on('click', '#invite_button', function(e) {
+        $(document).on('click', inviteButton, function(e) {
             inviteFriends("Hooola! Vení a probar ésta app!");
             return false;
         });
 
-        $('<div style="border: solid 1px red;"><h1>This is my publication1?</h1></div>').publish(5000);
-        $('<div style="border: solid 1px red;"><h1>This is my publication2?</h1></div>').publish(5000);
+        // $('<div style="border: solid 1px red;"><h1>This is my publication1?</h1></div>').publish(5000);
+        // $('<div style="border: solid 1px red;"><h1>This is my publication2?</h1></div>').publish(5000);
 
     });
 
