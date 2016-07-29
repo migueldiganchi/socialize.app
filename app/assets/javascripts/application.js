@@ -209,9 +209,6 @@ $(document).ready(function() {
             return false;
         });
 
-        // $('<div style="border: solid 1px red;"><h1>This is my publication1?</h1></div>').publish(5000);
-        // $('<div style="border: solid 1px red;"><h1>This is my publication2?</h1></div>').publish(5000);
-
     });
 
 });
