@@ -27,7 +27,6 @@ $(document).ready(function() {
     var loginButtonOriginalText = loginButton.text();
     var inviteButton = $('#invite_button');
     var userNameBolder = $('#user_name');
-    var userImage = $('img#user_image');
 
     $.ajaxSetup({ cache: true });
 
@@ -48,6 +47,7 @@ $(document).ready(function() {
                 // the user is logged in and has authenticated your
                 getRegisteredUser(response);
             } else {
+
                 if (response.status === 'not_authorized') {
                     console.log('application is not authorized');
                 }
@@ -60,9 +60,6 @@ $(document).ready(function() {
         function checkLoginState() {
             loginButton.text('Verificando conexión con facebook...');
             FB.getLoginStatus(function(response) {
-
-                console.log(response);
-
                 handleFacebookResponse(response);
             });
         }
@@ -123,10 +120,6 @@ $(document).ready(function() {
         function showUserInformation(uid, accessToken, panel) {
             // show user picture & name  
             FB.api('/me', function(userInfo) {
-
-
-                // show user image profile
-                userImage.attr('src', "http://graph.facebook.com/" + uid + "/picture?type=normal");
 
                 // show user name
                 userNameBolder.text(' ' + userInfo.name);
@@ -212,6 +205,27 @@ $(document).ready(function() {
         $(document).on('click', '#invite_button', function(e) {
             inviteFriends("Hooola! Vení a probar ésta app!");
             return false;
+        });
+
+        // native events
+        $(document).on('click', '.button.icn.plant', function(e) {
+            // @todo: post positive votation service
+            alert('positive votation :)');
+            return false;
+        });
+
+        $(document).on('click', '.button.icn.deny', function(e) {
+            // @todo: negative votation
+            alert('negative votation :(');
+            return false;
+        });
+
+        $(document).on('keyup', '#light_description', function(e){
+            var value = $(this).val();
+            var is_empty = $.trim(value).length < 1;
+
+            $('form input[type=submit]').prop('disabled', is_empty);
+            
         });
 
     });

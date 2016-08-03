@@ -12,6 +12,9 @@ class LightsController < ApplicationController
   end
 
   def create
+
+    
+
   end
 
   def update

@@ -10,7 +10,7 @@ class AppController < ApplicationController
     end
 
     @title = 'Socialize.App'
-    @lights = Light.all.take(4)
+    @lights = Light.all.order('lights.id asc').last(5)
 
   end
 

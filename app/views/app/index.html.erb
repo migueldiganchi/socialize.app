@@ -9,7 +9,9 @@
     <div class="columns small-10 small-centered">
 
         <div class="profile text-center" style="padding: 10px 15px; margin: 0;">
-            <a href="#" id="btn_more_lights" class="button expanded" style="margin: 0;">Ver más luces encendidas</a>
+            <button id="btn_more_lights" class="button expanded" style="margin: 0;">
+                Ver más luces encendidas
+            </button>
         </div>
 
         <% @lights.each do |light| %>   
@@ -20,30 +22,5 @@
             <%= render partial: 'light', locals: { light: Light.new } %> 
         </div>
 
-
-        <div class="light columns small-4 profile text-center float-right">
-            <h3>
-                Construye los cimientos de una buena sociedad 
-                <br>
-                :)
-            </h3>
-
-            <% if logged_in? %>
-                <button 
-                    type="button" 
-                    id="invite_button" 
-                    class="button face icn icn-24 friends <%= logged_in? ? 'logged-in' : '' %>">
-                </button>
-
-                <%= link_to 'Salir', 
-                    logout_path, 
-                    method: 'delete', 
-                    id: 'logout_button', 
-                    class: 'button face ' + (logged_in? ? 'logged-in' : ''),
-                    data: { confirm: '¿Está seguro que desea salir del juego?' }
-                %>
-            <% end %>
-
-        </div>
     </div>
 </div>  

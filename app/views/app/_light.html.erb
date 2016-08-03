@@ -1,9 +1,9 @@
 <% 
-    method_action = light.id ? "patch" : "post" 
-    # save_url = light.id ? lights_url : ''
+    method = light.id ? "patch" : "post" 
     picture_url = light && light.user ? 
         facebook_picture_url(light.user.uid) : 
         facebook_picture_url 
+    disable_button = light && !light.description.blank?
 %>
 
 <div class="light columns small-4 profile text-center">
@@ -20,28 +20,47 @@
 
             <p>
                 <b><%= light.id.to_s %></b> <%= light.description %>
-                <label>
-                    user id: <%= light.user_id %>
-                </label>
             </p>
+
+            <button type="button" class="button face icn icn-24 share only-icon"></button>
+            <button type="button" class="button icn icn-24 positive only-icon"></button>
+            <button type="button" class="button icn icn-24 negative only-icon"></button>
 
         <% else %>
 
             <h4>
-                Hola!
+                Hola<%= " #{current_user.name}" if current_user %>!
             </h4>
+            <h5 style="line-height: 30px;">
+                Construye los cimientos de una <i>buena sociedad</i>
+                aportando <i>ideas</i> para mejorar el mundo
+            </h5>
 
             <% if logged_in? %>
 
-                <%= form_for light, url: lights_url, method: method_action do |f| %>
+                <%= form_for light, url: lights_url, method: method do |f| %>
 
                     <%= f.hidden_field :id %>            
 
                     <%= f.text_area :description, placeholder: 'Qué harías para mejorar la humandidad?' %>
 
-                    <%= f.submit "Mostrar mi idea", class: "button radius", disabled: 'disabled' %>
+                    <%= f.submit "Publicar mi idea", class: "button radius", disabled: !disable_button %>
 
                 <% end %>
+
+                <button 
+                    type="button" 
+                    id="invite_button" 
+                    class="button face icn icn-24 friends only-icon">
+                </button>
+
+                <%= link_to 'Salir', 
+                    logout_path, 
+                    method: 'delete', 
+                    id: 'logout_button', 
+                    class: 'button face ' + (logged_in? ? 'logged-in' : ''),
+                    data: { confirm: '¿Está seguro que desea salir del juego?' }
+                %>
 
             <% else %>
 
@@ -51,6 +70,7 @@
                     id: 'login_button', 
                     class: 'button face icn icn-24 facebook'
                 ) %>
+
             <% end %>
 
            
