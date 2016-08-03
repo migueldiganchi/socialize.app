@@ -42,55 +42,52 @@
 
     <div id="app_container" class="columns small-8 app-container text-center">
 
-        <div class="row tail" style="border: solid 1px orange; padding: 10px;">
-            <%= render partial: 'node' %>
+<!--         <div class="row tail" style="padding: 10px;">
+
+
         </div>
+ -->
+        <div id="dynamic_container" style="padding: 10px;">
 
-        <div id="dynamic_container">
-            <% if logged_in? %> 
+            <% if !logged_in? %> 
 
-                <%= render partial: 'invitations' %>
+                <p>
+
+                    testing tooltips within the data presentation 
+
+                    <span data-tooltip 
+                        aria-haspopup="true" 
+                        class="has-tip top" 
+                        data-disable-hover="false" 
+                        tabindex="2" 
+                        title="You see?  I'm open!">
+                        tooltip will stay open
+                    </span>
+
+                    while more testing tooltips within the data presentation is going up
+
+                    <span data-tooltip 
+                        aria-haspopup="true" 
+                        class="has-tip top" 
+                        data-click-open="false" 
+                        data-disable-hover="false" 
+                        tabindex="2" 
+                        title="I don't stay open">
+
+                        this one will only be open when hovered
+
+                    </span>
+
+                </p>
 
             <% else %>
 
-                <ul style="padding: 0; margin: 0;">
-                    <li style="display: block;">
-                        <div class="row tail" style="border-bottom: solid 1px orange; border-right: solid 1px orange; padding: 10px;">
-                            <%= render partial: 'app/node', locals: {type: "node"} %>
-                            <%= render partial: 'app/node', locals: {continue: true} %>
-                        </div>
-                    </li>
-                    <li style="display: block;">
-                        <div class="row tail" style="border-bottom: solid 1px orange; border-right: solid 1px orange; padding: 10px;">
-                            <%= render partial: 'app/node', locals: {type: "node"} %>
-                            <%= render partial: 'app/node', locals: {continue: true} %>
-                        </div>
-                    </li>
-                    <li style="display: block;">
-                        <div class="row tail" style="border-bottom: solid 1px orange; border-right: solid 1px orange; padding: 10px;">
-                            <%= render partial: 'app/node', locals: {type: "node", continue: true} %>
-                            <%= render partial: 'app/node', locals: {type: "node", continue: true} %>
-                            <%= render partial: 'app/node', locals: {continue: true} %>
-                        </div>
-                    </li>
-                    <li style="display: block;">
-                        <div class="row tail" style="border-bottom: solid 1px orange; border-right: solid 1px orange; padding: 10px;">
-                            <%= render partial: 'app/node', locals: {type: "node", continue: true} %>
-                            <%= render partial: 'app/node', locals: {continue: true} %>
-                        </div>
-                    </li>
-                </ul>
+                <%= render partial: 'invitations' %>
 
             <% end %>
+
         </div>
 
     </div>
 
-    <p>
-    this 
-    <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="2" title="You see?  I'm open!">tooltip will stay open</span>
-
-    while 
-    <span data-tooltip aria-haspopup="true" class="has-tip top" data-click-open="false" data-disable-hover="false" tabindex="2" title="I don't stay open">this one will only be open when hovered</span>
-    </p>
 </div>
