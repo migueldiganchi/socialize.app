@@ -11,6 +11,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20160803074800) do
+
+  create_table "invitations", force: :cascade do |t|
+    t.string   "origin_fb_uid"
+    t.string   "endpoint_fb_uid"
+    t.string   "action"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invitations", ["action"], name: "index_invitations_on_action"
+  add_index "invitations", ["endpoint_fb_uid"], name: "index_invitations_on_endpoint_fb_uid"
+  add_index "invitations", ["origin_fb_uid"], name: "index_invitations_on_origin_fb_uid"
+  add_index "invitations", ["status"], name: "index_invitations_on_status"
+
+  create_table "lights", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.integer  "up"
+    t.integer  "down"
+    t.integer  "user_id"
+    t.datetime "denounced_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "lights", ["user_id"], name: "index_lights_on_user_id"
+
+  create_table "users", force: :cascade do |t|
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "name"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
 
 end

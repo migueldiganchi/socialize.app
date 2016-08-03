@@ -2,92 +2,48 @@
 <%= hidden_field_tag :__login_url, login_url(provider: 'facebook') %>
 <%= hidden_field_tag :__facebook_app_id, ENV['FACEBOOK_KEY'] %>
 <%= hidden_field_tag :__facebook_scope, ENV['FACEBOOK_SCOPE'] %>
-<%
-    content_for(:title) do "Fasobook" end 
-%>
+<% content_for(:title) do "Enciende una luz por la humanidad" end %>
 
 <div class="row">
 
-    <div class="columns small-4 profile text-center">
-        <%= image_tag facebook_picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
-        <h4>
-            Hola<b id="user_name"><%= @username %></b>!
-        </h4>
+    <div class="columns small-10 small-centered">
 
-        <% if logged_in? %> 
-
-            <button type="button" id="invite_button" class="button face icn icn-24 friends <%= logged_in? ? 'logged-in' : '' %>">
-                <%= invitation_text_button = @invitation_text_button ? @invitation_text_button : 'Invita a tus amigos' %>
-            </button>
-
-            <%= link_to 'Salir', 
-                logout_path, 
-                method: 'delete', 
-                id: 'logout_button', 
-                class: 'button face ' + (logged_in? ? 'logged-in' : ''),
-                data: { confirm: '¿Está seguro que desea salir del juego?' }
-            %>
-
-        <% else %>
-
-            <%= link_to(
-                'Iniciar sesión con facebook', 
-                '/auth/facebook', 
-                id: 'login_button', 
-                class: 'button face icn icn-24 facebook'
-            ) %>
-
-        <% end %>
-    </div>
-
-    <div id="app_container" class="columns small-8 app-container text-center">
-
-<!--         <div class="row tail" style="padding: 10px;">
-
-
+        <div class="profile text-center" style="padding: 10px 15px; margin: 0;">
+            <a href="#" id="btn_more_lights" class="button expanded" style="margin: 0;">Ver más luces encendidas</a>
         </div>
- -->
-        <div id="dynamic_container" style="padding: 10px;">
 
-            <% if !logged_in? %> 
+        <% @lights.each do |light| %>   
+            <%= render partial: 'light', locals: { light: light } %>         
+        <% end %>
 
-                <p>
+        <div id="dynamic_container">
+            <%= render partial: 'light', locals: { light: Light.new } %> 
+        </div>
 
-                    testing tooltips within the data presentation 
 
-                    <span data-tooltip 
-                        aria-haspopup="true" 
-                        class="has-tip top" 
-                        data-disable-hover="false" 
-                        tabindex="2" 
-                        title="You see?  I'm open!">
-                        tooltip will stay open
-                    </span>
+        <div class="light columns small-4 profile text-center float-right">
+            <h3>
+                Construye los cimientos de una buena sociedad 
+                <br>
+                :)
+            </h3>
 
-                    while more testing tooltips within the data presentation is going up
+            <% if logged_in? %>
+                <button 
+                    type="button" 
+                    id="invite_button" 
+                    class="button face icn icn-24 friends <%= logged_in? ? 'logged-in' : '' %>">
+                </button>
 
-                    <span data-tooltip 
-                        aria-haspopup="true" 
-                        class="has-tip top" 
-                        data-click-open="false" 
-                        data-disable-hover="false" 
-                        tabindex="2" 
-                        title="I don't stay open">
-
-                        this one will only be open when hovered
-
-                    </span>
-
-                </p>
-
-            <% else %>
-
-                <%= render partial: 'invitations' %>
-
+                <%= link_to 'Salir', 
+                    logout_path, 
+                    method: 'delete', 
+                    id: 'logout_button', 
+                    class: 'button face ' + (logged_in? ? 'logged-in' : ''),
+                    data: { confirm: '¿Está seguro que desea salir del juego?' }
+                %>
             <% end %>
 
         </div>
-
     </div>
-
-</div>
+</div>  

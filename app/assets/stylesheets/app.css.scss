@@ -6,10 +6,7 @@ header {
 }
 
 main {
-    border-top: solid 1px #c9c9c9;
-    border-bottom: solid 1px #c9c9c9;
-    background: asset-url('bg.png');
-    background-repeat: repeat;
+    padding: 1em
 }
 
 #app_container {
@@ -69,7 +66,9 @@ main {
     }
 
     &.icn {
+        
         background-repeat: no-repeat;
+
         background-position: 15px 50%;
 
         &.icn-24 {
@@ -148,40 +147,29 @@ main {
 
 }
 
-.node {
-    margin: 15px 0;
-    padding: 10px 50px;
-    background: none;
-
-    .profile-picture {
-        @include base_shadow;
-        width: 39px; 
-        height: 39px;
-        float: left;
-        clear: right; 
-        border: solid 1px #fff;
-
-        img {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    textarea.content, textarea.content:focus, label {
-        float: left;
-        border: none;
-        box-shadow: none;
-        background: none;
-        // color: #fff !important;
-        // border: solid 1px green;
-        display: inline;
-    }
-
-    .button {
-        margin-left: 0.1em 0.1em;
-    }
-    
+.light {
+    padding: 10px 0;
 }
+
+#btn_more_lights {
+    background-color: #333;
+    @include base_shadow_light;    
+}
+
+.light .base {
+
+    // border: solid 1px violet;
+
+    &.on { @include base_shadow_light; }
+    
+    padding: 10px;
+
+    @include box_radius_5;
+
+    // &.off { @include base_shadow; }
+}
+
+
 
 footer {
     padding: 50px;

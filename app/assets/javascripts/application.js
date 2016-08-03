@@ -60,6 +60,9 @@ $(document).ready(function() {
         function checkLoginState() {
             loginButton.text('Verificando conexión con facebook...');
             FB.getLoginStatus(function(response) {
+
+                console.log(response);
+
                 handleFacebookResponse(response);
             });
         }
@@ -182,6 +185,8 @@ $(document).ready(function() {
                             alert(message);
                             return;
                         }
+
+                        // alert(app_response);
                         
                         dynamicContainer.html(app_response);
 

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   match 'logout',                   to: 'sessions#destroy',     as: 'logout',   via: 'delete'
 
   resources :invitations, only: [:create, :update, :destroy]
+  resources :lights
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
