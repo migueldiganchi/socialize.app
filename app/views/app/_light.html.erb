@@ -22,9 +22,30 @@
                 <b><%= light.id.to_s %></b> <%= light.description %>
             </p>
 
-            <button type="button" class="button face icn icn-24 share only-icon"></button>
-            <button type="button" class="button icn icn-24 positive only-icon"></button>
-            <button type="button" class="button icn icn-24 negative only-icon"></button>
+            <button type="button" class="button face icn icn-24 share only-icon top"
+                data-tooltip 
+                aria-haspopup="true" 
+                data-click-open="false" 
+                data-disable-hover="false" 
+                tabindex="2" 
+                title="Compartir esta idea en facebook"></button>
+
+            <button type="button" class="button icn icn-24 positive only-icon top"
+                data-tooltip 
+                aria-haspopup="true" 
+                data-click-open="false" 
+                data-disable-hover="false" 
+                tabindex="2" 
+                title="Voto positivo"></button>
+
+            <button type="button" class="button icn icn-24 negative only-icon top"
+                data-tooltip 
+                aria-haspopup="true" 
+                data-click-open="false" 
+                data-disable-hover="false" 
+                tabindex="2" 
+                title="Voto negativo"></button>
+
 
         <% else %>
 
