@@ -1,0 +1,33 @@
+<%
+    per_page = 2 # @todo: read from configuration
+    next_page = true
+    from = @lights.count
+    limit = limit ? limit : per_page
+%>
+
+<!-- next page indicator -->
+<% if next_page %>
+
+    <button id="btn_more_lights" 
+        class="button expanded" 
+        data-from="<%= from %>"
+        data-limit="<%= limit %>"
+        style="margin: 0;">
+        Ver más luces encendidas
+    </button>
+
+<% else %>
+
+    <button id="light_a_candel" 
+        class="success button expanded" 
+        style="margin: 0;">
+        Crea la última luz!
+    </button>
+    
+<% end %>
+
+<% @lights.each do |light| %>   
+    <div class="light columns small-4 profile text-center float-left">
+        <%= render partial: 'app/light', locals: { light: light } %>         
+    </div>
+<% end %>

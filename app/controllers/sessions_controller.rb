@@ -10,10 +10,7 @@ class SessionsController < ApplicationController
     
     if request.xhr?
       render json: { 
-        user: {
-          uid: user.uid,
-          name: user.name
-        }, 
+        user: { uid: user.uid, name: user.name }, 
         app_panel: @app_panel }
     else
       redirect_to root_url

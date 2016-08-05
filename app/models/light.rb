@@ -3,9 +3,17 @@ class Light < ActiveRecord::Base
 
   validates(:description, length: { maximum: 300 })
 
-  def get_lights(from = 0)
+  def self.get_lights(from = 0, limit = nil)
 
-    Light.all.order('lights.id asc').last(10)
+    lights = Light.all.order('lights.id asc')
+
+    if limit.nil?
+      limit = 10 # @todo: get from configuration
+    end
+
+    lights = lights.offset(from).limit(limit)
+
+    return lights
 
   end
 

@@ -9,8 +9,9 @@ class AppController < ApplicationController
       @invitation_text_button = 'Invita a tus amigos a encender una luz'
     end
 
-    @title = 'Socialize.App'
-    @lights = Light.all.order('lights.id asc').last(5)
+    @title = 'My Candel'
+    
+    @lights = Light.get_lights 0, 5 # last lights to show
 
   end
 

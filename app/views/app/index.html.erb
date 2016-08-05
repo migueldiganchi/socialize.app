@@ -1,26 +1,44 @@
 <%= hidden_field_tag :__invitations_url, invitations_url %>
+<%= hidden_field_tag :__lights_url, lights_url %>
 <%= hidden_field_tag :__login_url, login_url(provider: 'facebook') %>
 <%= hidden_field_tag :__facebook_app_id, ENV['FACEBOOK_KEY'] %>
 <%= hidden_field_tag :__facebook_scope, ENV['FACEBOOK_SCOPE'] %>
 <% content_for(:title) do "Enciende una luz por la humanidad" end %>
 
 <div class="row">
+    <div class="columns small-2 small-centered float-left" style="border: solid 1px violet;">
+
+        only my lights
+        <br>
+
+        <i>floating elements</i>
+        
+        rounded-searcher
+
+        <br>
+
+        new - light
+        <br>
+
+
+        rankign
+
+
+    </div>
 
     <div class="columns small-10 small-centered">
 
-        <div class="profile text-center" style="padding: 10px 15px; margin: 0;">
-            <button id="btn_more_lights" class="button expanded" style="margin: 0;">
-                Ver más luces encendidas
-            </button>
+        <div id="lights_container">
+
+            <!-- dynamic loading of more lights -->
+
+            <%= render partial: 'lights' %>
+
+            <div class="light columns small-4 profile text-center float-left">
+                <%= render partial: 'new_light' %>
+            </div>
+
         </div>
-
-        <% @lights.each do |light| %>   
-            <%= render partial: 'light', locals: { light: light } %>         
-        <% end %>
-
-        <div id="dynamic_container">
-            <%= render partial: 'light', locals: { light: Light.new } %> 
-        </div>
-
     </div>
+
 </div>  

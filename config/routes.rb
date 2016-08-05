@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'app#index'
 
-  match 'auth/:provider/callback',  to: 'sessions#create',      as: 'login',    via: 'get'
-  match 'auth/failure',             to: redirect('/'),                          via: 'get' # @todo: check for errors
-  match 'logout',                   to: 'sessions#destroy',     as: 'logout',   via: 'delete'
+  match 'auth/:provider/callback',  to: 'sessions#create',      as: 'login',        via: 'get'
+  match 'auth/failure',             to: redirect('/'),                              via: 'get' # @todo: check for errors
+  match 'logout',                   to: 'sessions#destroy',     as: 'logout',       via: 'delete'
 
   resources :invitations, only: [:create, :update, :destroy]
   resources :lights

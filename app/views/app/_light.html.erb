@@ -1,102 +1,98 @@
 <% 
     method = light.id ? "patch" : "post" 
+    disable_button = light && !light.description.blank?
     picture_url = light && light.user ? 
         facebook_picture_url(light.user.uid) : 
         facebook_picture_url 
-    disable_button = light && !light.description.blank?
 %>
 
-<div class="light columns small-4 profile text-center">
+<div class="base <%= light.id ? 'on new' : 'off' %>">
 
-    <div class="base <%= light.id ? 'on' : 'off' %>">
+    <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
 
-        <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
+    <% if light && light.id %> 
 
-        <% if light && light.id %> 
+        <label>
+            <b><%= light.user.name %></b> <i>dijo:</i>
+        </label>
 
-            <label>
-                <b><%= light.user.name %></b> <i>dijo:</i>
-            </label>
+        <p>
+            <b><%= light.id.to_s %></b> <%= light.description %>
+        </p>
 
-            <p>
-                <b><%= light.id.to_s %></b> <%= light.description %>
-            </p>
+        <button type="button" class="button face icn icn-24 share only-icon top"
+            data-tooltip 
+            aria-haspopup="true" 
+            data-click-open="false" 
+            data-disable-hover="false" 
+            tabindex="2" 
+            title="Compartir esta idea en facebook"></button>
 
-            <button type="button" class="button face icn icn-24 share only-icon top"
-                data-tooltip 
-                aria-haspopup="true" 
-                data-click-open="false" 
-                data-disable-hover="false" 
-                tabindex="2" 
-                title="Compartir esta idea en facebook"></button>
+        <button type="button" class="button icn icn-24 positive only-icon top"
+            data-tooltip 
+            aria-haspopup="true" 
+            data-click-open="false" 
+            data-disable-hover="false" 
+            tabindex="2" 
+            title="Voto positivo"></button>
 
-            <button type="button" class="button icn icn-24 positive only-icon top"
-                data-tooltip 
-                aria-haspopup="true" 
-                data-click-open="false" 
-                data-disable-hover="false" 
-                tabindex="2" 
-                title="Voto positivo"></button>
-
-            <button type="button" class="button icn icn-24 negative only-icon top"
-                data-tooltip 
-                aria-haspopup="true" 
-                data-click-open="false" 
-                data-disable-hover="false" 
-                tabindex="2" 
-                title="Voto negativo"></button>
+        <button type="button" class="button icn icn-24 negative only-icon top"
+            data-tooltip 
+            aria-haspopup="true" 
+            data-click-open="false" 
+            data-disable-hover="false" 
+            tabindex="2" 
+            title="Voto negativo"></button>
 
 
-        <% else %>
+    <% else %>
 
-            <h4>
-                Hola<%= " #{current_user.name}" if current_user %>!
-            </h4>
-            <h5 style="line-height: 30px;">
-                Construye los cimientos de una <i>buena sociedad</i>
-                aportando <i>ideas</i> para mejorar el mundo
-            </h5>
+        <h4>
+            Hola<%= " #{current_user.name}" if current_user %>!
+        </h4>
+        <h5 style="line-height: 30px;">
+            Construye los cimientos de una <i>buena sociedad</i>
+            aportando <i>ideas</i> para mejorar el mundo
+        </h5>
 
-            <% if logged_in? %>
+        <% if logged_in? %>
 
-                <%= form_for light, url: lights_url, method: method do |f| %>
+            <%= form_for light, url: lights_url, method: method, html: { class: 'light-form' } do |f| %>
 
-                    <%= f.hidden_field :id %>            
+                <%= f.hidden_field :id %>            
 
-                    <%= f.text_area :description, placeholder: 'Qué harías para mejorar la humandidad?' %>
+                <%= f.text_area :description, placeholder: 'Qué harías para mejorar la humandidad?' %>
 
-                    <%= f.submit "Publicar mi idea", class: "button radius", disabled: !disable_button %>
-
-                <% end %>
-
-                <button 
-                    type="button" 
-                    id="invite_button" 
-                    class="button face icn icn-24 friends only-icon">
-                </button>
-
-                <%= link_to 'Salir', 
-                    logout_path, 
-                    method: 'delete', 
-                    id: 'logout_button', 
-                    class: 'button face ' + (logged_in? ? 'logged-in' : ''),
-                    data: { confirm: '¿Está seguro que desea salir del juego?' }
-                %>
-
-            <% else %>
-
-                <%= link_to(
-                    'Iniciar sesión con facebook', 
-                    '/auth/facebook', 
-                    id: 'login_button', 
-                    class: 'button face icn icn-24 facebook'
-                ) %>
+                <%= f.submit "Publicar mi idea", class: "button radius", disabled: !disable_button %>
 
             <% end %>
 
-           
-        <% end %> 
+            <button 
+                type="button" 
+                id="invite_button" 
+                class="button face icn icn-24 friends only-icon">
+            </button>
 
-    </div>
+            <%= link_to 'Salir', 
+                logout_path, 
+                method: 'delete', 
+                id: 'logout_button', 
+                class: 'button face ' + (logged_in? ? 'logged-in' : ''),
+                data: { confirm: '¿Está seguro que desea salir del juego?' }
+            %>
+
+        <% else %>
+
+            <%= link_to(
+                'Iniciar sesión con facebook', 
+                '/auth/facebook', 
+                id: 'login_button', 
+                class: 'button face icn icn-24 facebook'
+            ) %>
+
+        <% end %>
+
+       
+    <% end %> 
 
 </div>
