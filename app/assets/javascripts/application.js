@@ -231,7 +231,6 @@ $(document).ready(function() {
         });
 
         $(document).on('click', '#light_a_candel', function(){
-
             console.log('@todo: handle this');
         });
 
@@ -312,6 +311,8 @@ $(document).ready(function() {
                 '</div>'; 
 
                 $(container).before(component);
+
+                $(document).foundation(); // reload tooltip's foundation to the document
 
             }, 'html');
         }

@@ -101,6 +101,9 @@ main {
             &.negative {
                 background-image: asset-url('icons/negative-24.png');
             }
+            &.comment {
+                background-image: asset-url('icons/comment-24.png');
+            }
 
         }
     }
@@ -155,7 +158,7 @@ main {
 }
 
 #lights_container {
-    border: solid 1px red;
+    // border: solid 1px red;
 }
 
 .light {

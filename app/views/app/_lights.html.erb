@@ -8,13 +8,15 @@
 <!-- next page indicator -->
 <% if next_page %>
 
-    <button id="btn_more_lights" 
-        class="button expanded" 
-        data-from="<%= from %>"
-        data-limit="<%= limit %>"
-        style="margin: 0;">
-        Ver más luces encendidas
-    </button>
+    <div class="columns small-12">
+        <button id="btn_more_lights" 
+            class="button expanded" 
+            data-from="<%= from %>"
+            data-limit="<%= limit %>"
+            style="margin: 0;">
+            Ver más luces encendidas
+        </button>
+    </div>
 
 <% else %>
 
