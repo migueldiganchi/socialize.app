@@ -22,6 +22,7 @@ $(document).ready(function() {
 
     // controls
     var dynamicContainer = $('#dynamic_container');
+    var mainLightContainer = $('#main_light_container');
     var logoutButton = $('#logout_button');
     var loginButton = $('#login_button');
     var loginButtonOriginalText = loginButton.text();
@@ -127,7 +128,7 @@ $(document).ready(function() {
                 userNameBolder.text(' ' + userInfo.name);
 
                 // load app panel
-                dynamicContainer.html(panel);
+                 $(mainLightContainer).html(panel);
 
             }, { 
                 access_token: accessToken, 
@@ -345,6 +346,10 @@ $(document).ready(function() {
             }, 'html');
 
         }
+
+        // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        // :::::::::::::::::::::::: utilities ::::::::::::::::::::::::::: 
+        // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
         function goTop(top) {
             $('html, body').animate({
