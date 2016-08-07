@@ -39,13 +39,6 @@ main {
     h3 {
         margin-top: 0.9em;
     }
-
-    p {
-        padding: 10px 0;
-        min-height: 8em;
-        font-size: $small-font-size;
-        border-bottom: solid 1px #555;
-    }
 }
 
 .button {
@@ -103,6 +96,18 @@ main {
             }
             &.comment {
                 background-image: asset-url('icons/comment-24.png');
+            }
+            &.pencil {
+                background-image: asset-url('icons/pencil-24.png');
+            }
+            &.trash {
+                background-image: asset-url('icons/trash-24.png');
+            }
+            &.cancel {
+                background-image: asset-url('icons/cancel-24.png');
+            }
+            &.plant {
+                background-image: asset-url('icons/plant-24.png');
             }
 
         }
@@ -162,7 +167,16 @@ main {
 }
 
 .light {
+
     padding: 10px 0;
+
+    .light-description {
+        padding: 10px 0;
+        min-height: 8em;
+        margin-bottom: 10px;
+        font-size: $small-font-size;
+        border-bottom: solid 1px #555;
+    }
 }
 
 #btn_more_lights {

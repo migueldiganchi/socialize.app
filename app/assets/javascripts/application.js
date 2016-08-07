@@ -29,6 +29,8 @@ $(document).ready(function() {
     var lightsContainer = $('#lights_container');
     var inviteButton = $('#invite_button');
     var userNameBolder = $('#user_name');
+    var modalLightContainer = $('#floating_light');
+
     var lightsUrl = $('#__lights_url').val();
 
     $.ajaxSetup({ cache: true });
@@ -211,15 +213,21 @@ $(document).ready(function() {
         });
 
         // native events
-        $(document).on('click', '.button.icn.plant', function(e) {
+        $(document).on('click', '.button.icn.positive', function(e) {
             // @todo: post positive votation service
             alert('positive votation :)');
             return false;
         });
 
-        $(document).on('click', '.button.icn.deny', function(e) {
+        $(document).on('click', '.button.icn.negative', function(e) {
             // @todo: negative votation
             alert('negative votation :(');
+            return false;
+        });
+
+        $(document).on('click', '.button.icn.comment', function(e) {
+            // @todo: negative votation
+            alert('Init comments? ');
             return false;
         });
 
@@ -245,6 +253,72 @@ $(document).ready(function() {
 
         });
 
+        // always handlers
+        $(document).on('click', '#btn_more_lights', function(){
+
+            var from = $(this).attr('data-from');
+
+            showMoreLights(from);
+
+        });
+
+        $(document).on('click', '.edit-light', function() {
+
+            var light_id = $(this).data('light-id');
+            var url = $(this).data('edit-light-url');
+            var parents = $(this).parents();
+            var light_container = parents[1];
+
+            // go get the light
+            $.get(url, null, function(response) {
+                if (!isValidResponse(response)) { 
+                    return false;
+                }
+
+                $('.tooltip.top').remove();
+
+                $(light_container).html(response);
+
+                $(document).foundation(); // reload tooltip's foundation to the document
+
+            }, 'html');
+                        
+        });
+
+        // cancel form button
+        $(document).on('click', '.cancel-light-form', function() {
+
+            var url = $(this).data('light-url');
+            var parents = $(this).parents();
+            var light_container = parents[1];
+
+            $.get(url, null, function(response) {
+
+                if (!isValidResponse(response)) {
+                    return false;
+                }
+
+                $('.tooltip.top').remove();
+
+                $(light_container).html(response);
+
+                $(document).foundation(); // reload tooltip's foundation to the document
+
+            }, 'html');
+
+        });
+
+        // @todo: save light
+        $(document).on('click', '.save-light', function() {
+
+            var parents = $(this).parents();
+            var container = parents[1]; 
+            var current_form = $(container).find('form.light-form');
+
+            $(current_form).submit();
+
+        });
+
         // login handlers
         $(document).on('submit', 'form.light-form', function() {
 
@@ -252,8 +326,6 @@ $(document).ready(function() {
             var data = $(this).serialize();
             var lightContainers = $(this).parents();
             var lightContainer = null;
-
-            console.log(lightContainers);
 
             for (var i = 0; i < lightContainers.length; i++) {
                 var container = $(lightContainers[i]);
@@ -272,50 +344,116 @@ $(document).ready(function() {
 
                 var light = jQuery.parseJSON(response.light);
 
-                lightACandle(light, lightContainer);
+                lightACandle(light, lightContainer, response.is_new);
 
             }, 'json');
 
             return false;
         });
 
+         // @todo: check behavior
+        $(document).on('click', '.remove-light', function() {
+
+            var light_id = $(this).data('light-id');
+            var url = lightsUrl + '/' + light_id;
+
+            if (!confirm('¿Está seguro que desea eliminar ésta luz?')) {
+                return false;
+            }
+
+            $.ajax({
+                url : url,
+                type : 'delete',
+                beforeSend: function() {
+                    console.log('@todo: ajax-on');
+                },
+                success : function(app_response) {
+
+                    if (!app_response || app_response.error) {
+                        // @todo: handle errors
+                        loginButton.text(loginButtonOriginalText);
+                        return;
+                    }
+
+                    loginButton.text('Usuario autenticado!').addClass('logged-in');
+
+                    logoutButton.addClass('logged-in');
+
+                    var user = app_response.user;
+                    var uid = user.uid;
+                    var accessToken = loggedInResponse.authResponse.accessToken;
+                    var panel = app_response.app_panel;
+
+                    showUserInformation(uid, accessToken, panel);
+                },
+                complete: function() {
+                    console.log('@todo: ajax-off');
+                },
+                dataType : 'json'
+            });
+
+        });
+
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         // :::::::::::::::::::::::::  methods ::::::::::::::::::::::::::: 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         
-        function lightACandle(light, container) {
+        function lightACandle(light, container, is_new) {
 
             var url = lightsUrl + '/' + light.id;
             var lights_on = $(lightsContainer).find('div.light').not('.new');
             var first_light_on = lights_on.length > 0 ? lights_on[0] : null;
 
-            for (var i = 0; i < lights_on.length; i++) {
-                light_on = lights_on[i];
-
-                console.log(light_on);
-            }
-
             $.get(url, null, function(response) {
 
                 if (!isValidResponse(response)) {
                     return false;
+                }   
+
+                if (is_new) {
+                    // IMPORTANT!
+                    console.log('@todo: check when to remove an element');
+                    if (first_light_on) {
+                        $(first_light_on).remove()
+                    }
+
+                    // create a new light
+                    var component = '<div class="light columns small-4 profile text-center float-left">' + 
+                        response + 
+                    '</div>'; 
+
+                    // put the result before the content
+                    $(container).before(component);
+                } else {
+                    // replace existing light
+                    $(container).html(response);
                 }
 
-                // @todo: consider trasitions here?
-                if (first_light_on) {
-                    $(first_light_on).remove()
-                }
-
-                var component = '<div class="light columns small-4 profile text-center float-left">' + 
-                    response + 
-                '</div>'; 
-
-                $(container).before(component);
 
                 $(document).foundation(); // reload tooltip's foundation to the document
 
             }, 'html');
         }
+
+        // function showLight(light_id) {
+
+        //     console.log($(modalLightContainer).html());
+
+        //     $(modalLightContainer).html('Loading light...');
+
+        //     $.get(lightsUrl + '/' + light_id, null, function(response) {
+
+        //         if (!isValidResponse(response)) {
+        //             alert('@todo: close modal');
+        //             return false;
+        //         }
+
+        //         // @todo: show light into the container
+        //         modalLightContainer.html(response);
+
+        //     }, 'html');
+
+        // }
         
         function showMoreLights(from) {
 
@@ -323,8 +461,6 @@ $(document).ready(function() {
             var btnMoreLights = $('#btn_more_lights');
             var original_text = $(btnMoreLights).text();
             var from = from ? from : 0;
-
-            console.log(lightsUrl);
 
             // ajax-loading
             $(btnMoreLights).text('Cargando más luces...');
