@@ -244,14 +244,7 @@ $(document).ready(function() {
 
         // always handlers
         $(document).on('click', '#btn_more_lights', function() {
-            var lights_on = lightsContainer.find('.light .on');
-            var from = lights_on.length;
-            var buttonToRemove = $(this);
-
-            console.log(from);
-
-            showMoreLights(from, buttonToRemove);
-
+            showMoreLights();
         });
 
         $(document).on('click', '.edit-light', function() {
@@ -332,7 +325,7 @@ $(document).ready(function() {
                     return false;
                 }
 
-                $('<div><b>@todo: notify the user that the light has saved successfuly</b></div>').publish(2000);
+                $('<div><b>@todo: notify the user that the light has been saved successfully</b></div>').publish(2000);
 
                 var light = jQuery.parseJSON(response.light);
 
@@ -345,14 +338,22 @@ $(document).ready(function() {
 
          // @todo: check behavior
         $(document).on('click', '.remove-light', function() {
+
             var url = $(this).data('light-url');
+            var parents = $(this).parents();
+            var containerToRemove = parents[1];
+
             $.ajax({
                 url : url,
                 type : 'delete',
                 beforeSend: function() {
+
                     console.log('@todo: ajax-on');
+
                 },
                 success : function(app_response) {
+
+                    console.log(app_response);
 
                     if (!app_response || app_response.error) {
                         // @todo: handle errors
@@ -360,22 +361,25 @@ $(document).ready(function() {
                         return;
                     }
 
-                    loginButton.text('Usuario autenticado!').addClass('logged-in');
+                    // remove element
+                    $(containerToRemove).remove();
 
-                    logoutButton.addClass('logged-in');
+                    // @todo: 
+                    $('<div><b>@todo: notify the user that the light has been removed successfully</b></div>').publish(2000);
 
-                    var user = app_response.user;
-                    var uid = user.uid;
-                    var accessToken = loggedInResponse.authResponse.accessToken;
-                    var panel = app_response.app_panel;
+                    showMoreLights(1); // 1 = quantity of elements that we've removed
 
-                    showUserInformation(uid, accessToken, panel);
+                    // showUserInformation(uid, accessToken, panel);
                 },
                 complete: function() {
+
                     console.log('@todo: ajax-off');
+
                 },
                 dataType : 'json'
             });
+
+            return false;
 
         });
 
@@ -429,48 +433,54 @@ $(document).ready(function() {
             }, 'html');
         }
 
-        // function showLight(light_id) {
+        function showLight(light_id) {
 
-        //     console.log($(modalLightContainer).html());
 
-        //     $(modalLightContainer).html('Loading light...');
+            // console.log($(modalLightContainer).html());
 
-        //     $.get(lightsUrl + '/' + light_id, null, function(response) {
+            // $(modalLightContainer).html('Loading light...');
 
-        //         if (!isValidResponse(response)) {
-        //             alert('@todo: close modal');
-        //             return false;
-        //         }
+            // $.get(lightsUrl + '/' + light_id, null, function(response) {
 
-        //         // @todo: show light into the container
-        //         modalLightContainer.html(response);
+            //     if (!isValidResponse(response)) {
+            //         alert('@todo: close modal');
+            //         return false;
+            //     }
 
-        //     }, 'html');
+            //     // @todo: show light into the container
+            //     modalLightContainer.html(response);
 
-        // }
+            // }, 'html');
+            
+            console.log('@todo: show light number: ' + light_id);
+
+        }
         
-        function showMoreLights(from, buttonToRemove) {
+        function showMoreLights(quantity) {
 
             var url = lightsUrl;
             var original_text = $(buttonToRemove).text();
-            var from = from ? from : 0;
+            var lights_on = lightsContainer.find('.light .on');
+            var from = lights_on.length;
+            var limit = quantity ? quantity : null;
+            var buttonToRemove = $('#btn_more_lights');
+
+            console.log(buttonToRemove);
 
             // ajax-loading
             $(buttonToRemove).text('Cargando más luces...');
 
-            $.get(url, {
-                from: from
-            }, function(response) {
+            $.get(url, { from: from, limit: limit }, function(app_response) {
 
                 $(buttonToRemove).text(original_text);
 
                 // check for errors
-                if (!isValidResponse(response)) {
+                if (!isValidResponse(app_response)) {
                     return false;
                 }
 
-                $(buttonToRemove).remove(); // will be replaced in the new element
-                $(lightsContainer).prepend(response);
+                $(buttonToRemove).parent().remove(); 
+                $(lightsContainer).prepend(app_response);
 
             }, 'html');
 

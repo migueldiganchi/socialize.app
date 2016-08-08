@@ -1,12 +1,14 @@
 class LightsController < ApplicationController
-
+  # @todo: check for sessions & ajax requests
 
   def index 
 
-    from = params[:from] ? params[:from] : 0
-    limit = params[:limit] ? params[:from] : 3 # @todo: read from configuration (:per_page)
-
-    @lights = Light.get_lights from, limit
+    # @todo: searching  
+    @from = (params[:from]  && !params[:from].empty?) ? params[:from].to_i : 0
+    @limit = (params[:limit] && !params[:limit].empty?) ? params[:limit].to_i : 3 # @todo: read from configuration (:per_page)
+    @total_lights = Light.get_lights.count
+    @paginated_lights = Light.get_paginated_lights @from, @limit
+    @show_next_button = (@from + @limit) < @total_lights
 
     if request.xhr?
       render partial: 'app/lights'
@@ -16,13 +18,8 @@ class LightsController < ApplicationController
   end
 
   def edit  
-
-    # check for logged in user
-
+    # @todo: preconditions > check for params
     light = Light.find params[:id]
-
-      # abort light.inspect
-    
     if request.xhr?
       render partial: 'app/light', locals: { 
         light: light,
@@ -31,21 +28,16 @@ class LightsController < ApplicationController
     else
       redirect_to root_url
     end
-
   end
 
   def show  
-
     # @todo: preconditions > check for params
-
     light = Light.find params[:id]
-
     if request.xhr?
       render partial: 'app/light', locals: { light: light }
     else
       redirect_to root_url
     end
-
   end
 
   def new
@@ -64,18 +56,16 @@ class LightsController < ApplicationController
   end
 
   def update
+    # @todo: preconditions > check for params
     # get existing light
     light = Light.find params[:id]
-
     # respond with save_light
     save_light light
   end
 
   def destroy
-
     # @todo: check for preconditions params
     light = Light.find params[:id]
-
     if light.update_attribute(:deleted_at, DateTime.now)
        if request.xhr?
         render json: { 
@@ -88,9 +78,6 @@ class LightsController < ApplicationController
     else
       # @todo: handle errors
     end
-
-    abort 'here!'
-
 
   end
 

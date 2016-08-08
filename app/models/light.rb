@@ -7,11 +7,17 @@ class Light < ActiveRecord::Base
 
     lights = Light.all.order('lights.id desc').where({ deleted_at: nil })
 
+    return lights
+
+  end
+
+  def self.get_paginated_lights(from = 0, limit = nil)
+
     if limit.nil?
-      limit = 10 # @todo: get from configuration
+      limit = 3 # @todo: get from configuration
     end
 
-    lights = lights.offset(from).limit(limit)
+    lights = self.get_lights.offset(from).limit(limit)
 
     return lights
 
