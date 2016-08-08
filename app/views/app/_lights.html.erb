@@ -10,7 +10,7 @@
 
     <div class="columns small-12">
         <button id="btn_more_lights" 
-            class="button expanded" 
+            class="button expanded btn-more-lights" 
             data-from="<%= from %>"
             data-limit="<%= limit %>"
             style="margin: 0;">
@@ -29,7 +29,7 @@
 <% end %>
 
 <% @lights.each do |light| %>   
-    <div class="light columns small-4 profile text-center float-left">
+    <div class="light columns small-4 profile text-center">
         <%= render partial: 'app/light', locals: { light: light } %>         
     </div>
 <% end %>

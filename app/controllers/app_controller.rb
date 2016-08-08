@@ -11,7 +11,7 @@ class AppController < ApplicationController
 
     @title = 'My Candel'
     
-    @lights = Light.get_lights 0, 5 # last lights to show
+    @lights = Light.get_lights 0, 2 # last lights to show
 
   end
 

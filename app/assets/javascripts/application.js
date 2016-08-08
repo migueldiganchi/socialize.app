@@ -243,22 +243,14 @@ $(document).ready(function() {
         });
 
         // always handlers
-        $(document).on('click', '#btn_more_lights', function(){
+        $(document).on('click', '#btn_more_lights', function() {
+            var lights_on = lightsContainer.find('.light .on');
+            var from = lights_on.length;
+            var buttonToRemove = $(this);
 
-            var from = $(this).attr('data-from');
+            console.log(from);
 
-            // alert('calculate this \'from\' light');
-
-            showMoreLights(from);
-
-        });
-
-        // always handlers
-        $(document).on('click', '#btn_more_lights', function(){
-
-            var from = $(this).attr('data-from');
-
-            showMoreLights(from);
+            showMoreLights(from, buttonToRemove);
 
         });
 
@@ -353,14 +345,7 @@ $(document).ready(function() {
 
          // @todo: check behavior
         $(document).on('click', '.remove-light', function() {
-
-            var light_id = $(this).data('light-id');
-            var url = lightsUrl + '/' + light_id;
-
-            if (!confirm('¿Está seguro que desea eliminar ésta luz?')) {
-                return false;
-            }
-
+            var url = $(this).data('light-url');
             $.ajax({
                 url : url,
                 type : 'delete',
@@ -418,9 +403,18 @@ $(document).ready(function() {
                     }
 
                     // create a new light
-                    var component = '<div class="light columns small-4 profile text-center float-left">' + 
-                        response + 
-                    '</div>'; 
+                    var lights = $(lightsContainer).find('.light');
+                    var component = $('<div class="light columns small-4 profile text-center"></div>');
+                    // @todo: check for clonation
+                    // var component = lights.length 
+                    //     ? $($(lights[0]).clone())
+                    //     : null;
+
+                    console.log(component);
+
+                    $(component).append(response);
+
+                    console.log(container);
 
                     // put the result before the content
                     $(container).before(component);
@@ -455,30 +449,28 @@ $(document).ready(function() {
 
         // }
         
-        function showMoreLights(from) {
+        function showMoreLights(from, buttonToRemove) {
 
             var url = lightsUrl;
-            var btnMoreLights = $('#btn_more_lights');
-            var original_text = $(btnMoreLights).text();
+            var original_text = $(buttonToRemove).text();
             var from = from ? from : 0;
 
             // ajax-loading
-            $(btnMoreLights).text('Cargando más luces...');
+            $(buttonToRemove).text('Cargando más luces...');
 
             $.get(url, {
                 from: from
             }, function(response) {
 
-                $(btnMoreLights).text(original_text);
+                $(buttonToRemove).text(original_text);
 
                 // check for errors
                 if (!isValidResponse(response)) {
                     return false;
                 }
 
+                $(buttonToRemove).remove(); // will be replaced in the new element
                 $(lightsContainer).prepend(response);
-
-                $(btnMoreLights).remove(); // will be replaced in the new element
 
             }, 'html');
 

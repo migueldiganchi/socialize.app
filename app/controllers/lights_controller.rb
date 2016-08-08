@@ -4,7 +4,7 @@ class LightsController < ApplicationController
   def index 
 
     from = params[:from] ? params[:from] : 0
-    limit = params[:limit] ? params[:from] : 3 # @todo: read from configuration
+    limit = params[:limit] ? params[:from] : 3 # @todo: read from configuration (:per_page)
 
     @lights = Light.get_lights from, limit
 
@@ -50,7 +50,7 @@ class LightsController < ApplicationController
 
   def new
     if request.xhr?
-      render 'light', locals: { light: Light.new }
+      render 'light', locals: { light: current_user.lights.build }
     else
       redirect_to root_url
     end
@@ -72,6 +72,26 @@ class LightsController < ApplicationController
   end
 
   def destroy
+
+    # @todo: check for preconditions params
+    light = Light.find params[:id]
+
+    if light.update_attribute(:deleted_at, DateTime.now)
+       if request.xhr?
+        render json: { 
+          status: true, 
+          message: 'La luz se ha eliminado exitosamente' 
+        }
+      else
+        redirect_to root_url
+      end 
+    else
+      # @todo: handle errors
+    end
+
+    abort 'here!'
+
+
   end
 
   private 
