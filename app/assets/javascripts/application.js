@@ -400,6 +400,7 @@ $(document).ready(function() {
                 }   
 
                 if (is_new) {
+                    
                     // IMPORTANT!
                     console.log('@todo: check when to remove an element');
                     if (first_light_on) {
