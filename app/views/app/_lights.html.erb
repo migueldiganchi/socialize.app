@@ -12,7 +12,7 @@
 <% end %>
 
 <% @paginated_lights.reverse.each do |light| %>   
-    <div class="light columns small-4 profile text-center">
+    <div class="light columns small-4 profile text-center float-left">
         <%= render partial: 'app/light', locals: { light: light } %>         
     </div>
 <% end %>

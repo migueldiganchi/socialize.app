@@ -65,51 +65,51 @@ main {
         background-position: 15px 50%;
 
         &.icn-24 {
-
             padding-left: 50px;
-
             &.only-icon {
                 padding: 20px;
                 background-position: center;
             }
+            &.facebook { background-image: asset-url('icons/facebook-24.png'); }
+            &.love { background-image: asset-url('icons/love-24.png'); }
+            &.friends { background-image: asset-url('icons/friends-24.png'); }
+            &.plug { background-image: asset-url('icons/plug-24.png'); }
+            &.share { background-image: asset-url('icons/share-24.png'); }
+            &.positive { background-image: asset-url('icons/positive-24.png'); }
+            &.negative { background-image: asset-url('icons/negative-24.png'); }
+            &.comment { background-image: asset-url('icons/comment-24.png'); }
+            &.pencil { background-image: asset-url('icons/pencil-24.png'); }
+            &.trash { background-image: asset-url('icons/trash-24.png'); }
+            &.cancel { background-image: asset-url('icons/cancel-24.png'); }
+            &.plant { background-image: asset-url('icons/plant-24.png'); }
+            &.shutdown { background-image: asset-url('icons/shut-down-24.png'); }
+            &.ranking { background-image: asset-url('icons/ranking-24.png'); }
+            &.searcher { background-image: asset-url('icons/searcher-24.png'); }
+            &.lamp { background-image: asset-url('icons/lamp-24.png'); }
+        }
 
-            &.facebook {
-                background-image: asset-url('icons/facebook-24.png');
+        &.icn-32 {
+            padding-left: 50px;
+            &.only-icon {
+                padding: 30px;
+                background-position: center;
             }
-            &.love {
-                background-image: asset-url('icons/love-24.png');
-            }
-            &.friends {
-                background-image: asset-url('icons/friends-24.png');
-            }
-            &.plug {
-                background-image: asset-url('icons/plug-24.png');   
-            }
-            &.share {
-                background-image: asset-url('icons/share-24.png');   
-            }
-            &.positive {
-                background-image: asset-url('icons/positive-24.png');   
-            }
-            &.negative {
-                background-image: asset-url('icons/negative-24.png');
-            }
-            &.comment {
-                background-image: asset-url('icons/comment-24.png');
-            }
-            &.pencil {
-                background-image: asset-url('icons/pencil-24.png');
-            }
-            &.trash {
-                background-image: asset-url('icons/trash-24.png');
-            }
-            &.cancel {
-                background-image: asset-url('icons/cancel-24.png');
-            }
-            &.plant {
-                background-image: asset-url('icons/plant-24.png');
-            }
-
+            &.facebook { background-image: asset-url('icons/facebook-32.png'); }
+            &.love { background-image: asset-url('icons/love-32.png'); }
+            &.friends { background-image: asset-url('icons/friends-32.png'); }
+            &.plug { background-image: asset-url('icons/plug-32.png'); }
+            &.share { background-image: asset-url('icons/share-32.png'); }
+            &.positive { background-image: asset-url('icons/positive-32.png'); }
+            &.negative { background-image: asset-url('icons/negative-32.png'); }
+            &.comment { background-image: asset-url('icons/comment-32.png'); }
+            &.pencil { background-image: asset-url('icons/pencil-32.png'); }
+            &.trash { background-image: asset-url('icons/trash-32.png'); }
+            &.cancel { background-image: asset-url('icons/cancel-32.png'); }
+            &.plant { background-image: asset-url('icons/plant-32.png'); }
+            &.shutdown { background-image: asset-url('icons/shut-down-32.png'); }
+            &.ranking { background-image: asset-url('icons/ranking-32.png'); }
+            &.searcher { background-image: asset-url('icons/searcher-32.png'); }
+            &.lamp { background-image: asset-url('icons/lamp-32.png'); }
         }
     }
 }

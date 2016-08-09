@@ -8,7 +8,7 @@
 
 %>
 
-<div class="base <%= light.id ? 'on new' : 'off' %>">
+<div class="base on <%= light.id ? 'new' : '' %>">
 
     <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
 
@@ -130,20 +130,6 @@
             <div class="light-form-container">
                 <%= render partial: 'app/light_form', locals: { light: light, submit_button: true } %>
             </div>
-
-            <button 
-                type="button" 
-                id="invite_button" 
-                class="button face icn icn-24 friends only-icon">
-            </button>
-
-            <%= link_to 'Salir', 
-                logout_path, 
-                method: 'delete', 
-                id: 'logout_button', 
-                class: 'button face ' + (logged_in? ? 'logged-in' : ''),
-                data: { confirm: '¿Está seguro que desea salir del juego?' }
-            %>
 
         <% else %>
 

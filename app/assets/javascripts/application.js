@@ -23,6 +23,7 @@ $(document).ready(function() {
     // controls
     var dynamicContainer = $('#dynamic_container');
     var mainLightContainer = $('#main_light_container');
+    var appContainer = $('main');
     var logoutButton = $('#logout_button');
     var loginButton = $('#login_button');
     var loginButtonOriginalText = loginButton.text();
@@ -130,7 +131,9 @@ $(document).ready(function() {
                 userNameBolder.text(' ' + userInfo.name);
 
                 // load app panel
-                 $(mainLightContainer).html(panel);
+                 $(appContainer).html(panel);
+
+                 console.log(appContainer);
 
             }, { 
                 access_token: accessToken, 
@@ -236,6 +239,7 @@ $(document).ready(function() {
             var is_empty = $.trim(value).length < 1;
 
             $('form input[type=submit]').prop('disabled', is_empty);
+            $('form button.cancel-new-light').prop('disabled', is_empty);
         });
 
         $(document).on('click', '#light_a_candel', function(){
@@ -245,6 +249,10 @@ $(document).ready(function() {
         // always handlers
         $(document).on('click', '#btn_more_lights', function() {
             showMoreLights();
+        });
+
+        $(document).on('click', '.init-new-light', function() {
+            goTopElement($('#new_light'));
         });
 
         $(document).on('click', '.edit-light', function() {
@@ -367,7 +375,7 @@ $(document).ready(function() {
                     // @todo: 
                     $('<div><b>@todo: notify the user that the light has been removed successfully</b></div>').publish(2000);
 
-                    showMoreLights(1); // 1 = quantity of elements that we've removed
+                    // showMoreLights(1); // 1 = quantity of elements that we've removed
 
                     // showUserInformation(uid, accessToken, panel);
                 },
@@ -400,20 +408,11 @@ $(document).ready(function() {
                 }   
 
                 if (is_new) {
-                    
-                    // IMPORTANT!
-                    console.log('@todo: check when to remove an element');
-                    if (first_light_on) {
-                        $(first_light_on).remove()
-                    }
 
                     // create a new light
                     var lights = $(lightsContainer).find('.light');
-                    var component = $('<div class="light columns small-4 profile text-center"></div>');
-                    // @todo: check for clonation
-                    // var component = lights.length 
-                    //     ? $($(lights[0]).clone())
-                    //     : null;
+
+                    var component = $('<div class="light columns small-4 profile text-center float-left"></div>');
 
                     console.log(component);
 
@@ -435,8 +434,6 @@ $(document).ready(function() {
         }
 
         function showLight(light_id) {
-
-
             // console.log($(modalLightContainer).html());
 
             // $(modalLightContainer).html('Loading light...');
@@ -454,17 +451,16 @@ $(document).ready(function() {
             // }, 'html');
             
             console.log('@todo: show light number: ' + light_id);
-
         }
         
         function showMoreLights(quantity) {
 
             var url = lightsUrl;
-            var original_text = $(buttonToRemove).text();
-            var lights_on = lightsContainer.find('.light .on');
-            var from = lights_on.length;
+            var lights_on = lightsContainer.find('.light');
+            var from = lights_on.length - 1;
             var limit = quantity ? quantity : null;
             var buttonToRemove = $('#btn_more_lights');
+            var original_text = $(buttonToRemove).text();
 
             console.log(buttonToRemove);
 
@@ -495,6 +491,14 @@ $(document).ready(function() {
             $('html, body').animate({
                 scrollTop : top
             }, 'slow');
+        }
+
+        function goTopElement(element, topless_pixels) {
+            topless_pixels = topless_pixels ? topless_pixels : 30;
+            var position = $(element).offset();
+            var position_final = ( position.top - topless_pixels);
+
+            goTop(position_final);
         }
 
         

@@ -1,0 +1,51 @@
+<%= hidden_field_tag :__invitations_url, invitations_url %>
+<%= hidden_field_tag :__lights_url, lights_url %>
+<%= hidden_field_tag :__login_url, login_url(provider: 'facebook') %>
+<%= hidden_field_tag :__facebook_app_id, ENV['FACEBOOK_KEY'] %>
+<%= hidden_field_tag :__facebook_scope, ENV['FACEBOOK_SCOPE'] %>
+<% content_for(:title) do "Enciende una luz por la humanidad" end %>
+
+<div class="row">
+
+    <div class="columns small-1 small-centered float-left">
+
+        <button type="button" 
+            class="button face icn icn-32 searcher only-icon">
+        </button>
+
+        <button type="button" 
+            id="invite_button"
+            class="button face icn icn-32 friends only-icon">
+        </button>
+
+        <button type="button" 
+            class="button face icn icn-32 ranking only-icon">
+        </button>
+
+        <% if logged_in? %>
+            <button type="button"
+                class="button face icn icn-32 lamp only-icon init-new-light">
+            </button>
+
+            <%= link_to '', 
+                logout_path, 
+                method: 'delete', 
+                id: 'logout_button', 
+                class: 'button face icn icn-32 shutdown only-icon',
+                data: { confirm: '¿Está seguro que desea salir del juego?' } %>
+        <% end %>
+
+    </div>
+
+    <div class="columns small-11 small-centered">
+        <div id="lights_container">
+            <!-- dynamic loading of more lights -->
+            <%= render partial: 'app/lights' %>
+            <div id="main_light_container" 
+                class="light columns small-4 profile text-center float-left">
+                <%= render partial: 'app/new_light' %>
+            </div>
+        </div>
+    </div>
+
+</div>  

@@ -2,7 +2,6 @@ class LightsController < ApplicationController
   # @todo: check for sessions & ajax requests
 
   def index 
-
     # @todo: searching  
     @from = (params[:from]  && !params[:from].empty?) ? params[:from].to_i : 0
     @limit = (params[:limit] && !params[:limit].empty?) ? params[:limit].to_i : 3 # @todo: read from configuration (:per_page)

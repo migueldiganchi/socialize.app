@@ -3,12 +3,8 @@ class AppController < ApplicationController
   include ApplicationHelper
 
   def index 
+    
     @username = logged_in? ? " #{current_user.name}" : ''
-
-    if logged_in?
-      @invitation_text_button = 'Invita a tus amigos a encender una luz'
-    end
-
     @title = 'My Candel'
     
     # initial lights loading
