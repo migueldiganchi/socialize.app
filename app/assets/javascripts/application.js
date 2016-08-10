@@ -31,7 +31,6 @@ $(document).ready(function() {
     var inviteButton = $('#invite_button');
     var userNameBolder = $('#user_name');
     var modalLightContainer = $('#floating_light');
-
     var lightsUrl = $('#__lights_url').val();
 
     $.ajaxSetup({ cache: true });
@@ -132,8 +131,6 @@ $(document).ready(function() {
 
                 // load app panel
                  $(appContainer).html(panel);
-
-                 console.log(appContainer);
 
             }, { 
                 access_token: accessToken, 
@@ -252,7 +249,11 @@ $(document).ready(function() {
         });
 
         $(document).on('click', '.init-new-light', function() {
-            goTopElement($('#new_light'));
+            newLight(true);
+        });
+
+        $(document).on('click', '.cancel-new-light', function() {
+            newLight(false);
         });
 
         $(document).on('click', '.edit-light', function() {
@@ -317,11 +318,12 @@ $(document).ready(function() {
 
             var url = $(this).attr('action');
             var data = $(this).serialize();
-            var lightContainers = $(this).parents();
+            var parents = $(this).parents();
             var lightContainer = null;
+            var submittedForm = $(this);
 
-            for (var i = 0; i < lightContainers.length; i++) {
-                var container = $(lightContainers[i]);
+            for (var i = 0; i < parents.length; i++) {
+                var container = $(parents[i]);
                 if ($(container).is('div.light')) {
                     lightContainer = $(container);
                 }
@@ -338,6 +340,12 @@ $(document).ready(function() {
                 var light = jQuery.parseJSON(response.light);
 
                 lightACandle(light, lightContainer, response.is_new);
+
+                clearForm(submittedForm);
+
+                var baseParent = $(submittedForm).parents('.base:first');
+
+                // $(baseParent).addClass('hide');
 
             }, 'json');
 
@@ -361,23 +369,18 @@ $(document).ready(function() {
                 },
                 success : function(app_response) {
 
-                    console.log(app_response);
-
                     if (!app_response || app_response.error) {
                         // @todo: handle errors
                         loginButton.text(loginButtonOriginalText);
                         return;
                     }
 
-                    // remove element
-                    $(containerToRemove).remove();
+                    // hide deleted element
+                    $(containerToRemove).addClass('hide');
 
                     // @todo: 
                     $('<div><b>@todo: notify the user that the light has been removed successfully</b></div>').publish(2000);
 
-                    // showMoreLights(1); // 1 = quantity of elements that we've removed
-
-                    // showUserInformation(uid, accessToken, panel);
                 },
                 complete: function() {
 
@@ -408,29 +411,41 @@ $(document).ready(function() {
                 }   
 
                 if (is_new) {
-
                     // create a new light
                     var lights = $(lightsContainer).find('.light');
-
                     var component = $('<div class="light columns small-4 profile text-center float-left"></div>');
 
-                    console.log(component);
-
                     $(component).append(response);
-
-                    console.log(container);
-
-                    // put the result before the content
                     $(container).before(component);
                 } else {
                     // replace existing light
                     $(container).html(response);
                 }
 
-
-                $(document).foundation(); // reload tooltip's foundation to the document
+                // reload tooltip's foundation to the document
+                $(document).foundation(); 
 
             }, 'html');
+        }
+
+        function newLight(on) {
+            var formNewLight = $('#main_light_container').find('form');
+            var lightContainer = $('#main_light_container').find('.base');
+
+            if (on) {
+                // show container form
+                $(lightContainer).removeClass('hide');
+                // go top the form
+                goTopElement(formNewLight);
+                // focus text area
+                $(formNewLight).find('textarea').focus();
+            } else { 
+                // hide container form
+                $(lightContainer).addClass('hide');
+                // clear form
+                clearForm($(formNewLight));
+            }
+
         }
 
         function showLight(light_id) {
@@ -486,6 +501,15 @@ $(document).ready(function() {
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         // :::::::::::::::::::::::: utilities ::::::::::::::::::::::::::: 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        
+        function clearForm(form) {
+
+            if (!$(form).is('form')) {
+                return;
+            }
+
+            $(form).find('textarea').val('');
+        }
 
         function goTop(top) {
             $('html, body').animate({
@@ -495,6 +519,11 @@ $(document).ready(function() {
 
         function goTopElement(element, topless_pixels) {
             topless_pixels = topless_pixels ? topless_pixels : 30;
+
+            if (!element || element == undefined) {
+                alert('the element not exist');
+            }
+
             var position = $(element).offset();
             var position_final = ( position.top - topless_pixels);
 

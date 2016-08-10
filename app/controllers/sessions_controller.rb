@@ -9,16 +9,11 @@ class SessionsController < ApplicationController
     # @app_panel = render_to_string partial: 'app/light', locals: { light: light }  
 
     @from = 0
-    @limit = 5 # @todo: read from configuration (:per_page)
+    @limit = 6 # @todo: read from configuration (:per_page)
     @total_lights = Light.get_lights.count
     @paginated_lights = Light.get_paginated_lights @from, @limit
     @show_next_button = (@from + @limit) < @total_lights
     @app_panel = render_to_string partial: 'app/app_panel'
-
-    # abort @testing.inspect
-
-
-    # @todo: get panel with lights
     
     if request.xhr?
       render json: { 

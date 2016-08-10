@@ -9,7 +9,7 @@ class AppController < ApplicationController
     
     # initial lights loading
     @from = 0
-    @limit = 5 # @todo: read from configuration (:per_page)
+    @limit =  logged_in? ? 6 : 5 # @todo: read from configuration (:per_page)
     @total_lights = Light.get_lights.count
     @paginated_lights = Light.get_paginated_lights @from, @limit
     @show_next_button = (@from + @limit) < @total_lights

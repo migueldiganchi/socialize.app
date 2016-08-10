@@ -23,18 +23,21 @@
         </button>
 
         <% if logged_in? %>
-            <button type="button"
-                class="button face icn icn-32 lamp only-icon init-new-light">
-            </button>
-
             <%= link_to '', 
                 logout_path, 
                 method: 'delete', 
                 id: 'logout_button', 
                 class: 'button face icn icn-32 shutdown only-icon',
                 data: { confirm: '¿Está seguro que desea salir del juego?' } %>
-        <% end %>
 
+            <button type="button"
+                data-tooltip
+                title="Enciende una nueva luz para la humanidad"
+                id="init_new_light"
+                class="button face icn icn-32 lamp only-icon init-new-light top">
+            </button>
+        <% end %>
+        
     </div>
 
     <div class="columns small-11 small-centered">
