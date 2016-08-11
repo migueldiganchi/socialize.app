@@ -16,18 +16,18 @@
 //= require foundation
 //= require_tree .
 
+var _currentScrollTop = null;
+
 $(document).foundation();
 
 $(document).ready(function() {
 
     // controls
     var dynamicContainer = $('#dynamic_container');
-    var mainLightContainer = $('#main_light_container');
     var appContainer = $('main');
     var logoutButton = $('#logout_button');
     var loginButton = $('#login_button');
     var loginButtonOriginalText = loginButton.text();
-    var lightsContainer = $('#lights_container');
     var inviteButton = $('#invite_button');
     var userNameBolder = $('#user_name');
     var modalLightContainer = $('#floating_light');
@@ -132,6 +132,9 @@ $(document).ready(function() {
                 // load app panel
                  $(appContainer).html(panel);
 
+                 // reload foundation to the document
+                $(document).foundation(); 
+
             }, { 
                 access_token: accessToken, 
                 fields: "id, name, email" 
@@ -198,7 +201,7 @@ $(document).ready(function() {
         }
 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        // :::::::::::::::::::::::::: handlers :::::::::::::::::::::::::: 
+        // :::::::::::::::: facebook handlers ::::::::::::::::::::::::::: 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         
         loginButton.click(function() {
@@ -212,7 +215,10 @@ $(document).ready(function() {
             return false;
         });
 
-        // native events
+        // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        // :::::::::::::::: application handlers :::::::::::::::::::::::: 
+        // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
         $(document).on('click', '.button.icn.positive', function(e) {
             // @todo: post positive votation service
             alert('positive votation :)');
@@ -248,6 +254,10 @@ $(document).ready(function() {
             showMoreLights();
         });
 
+        $(document).on('click', '.go.top', function() {
+            goTop();
+        });
+
         $(document).on('click', '.init-new-light', function() {
             newLight(true);
         });
@@ -273,7 +283,8 @@ $(document).ready(function() {
 
                 $(light_container).html(response);
 
-                $(document).foundation(); // reload tooltip's foundation to the document
+                // reload foundation to the document
+                $(document).foundation(); 
 
             }, 'html');
                         
@@ -283,20 +294,28 @@ $(document).ready(function() {
         $(document).on('click', '.cancel-light-form', function() {
 
             var url = $(this).data('light-url');
-            var parents = $(this).parents();
-            var light_container = parents[1];
+            // var parents = $(this).parents('.base');
+            // var light_container = parents[1];
+            var light_container = $(this).parents('.light');
+            var wrap_light = false;
 
-            $.get(url, null, function(response) {
+            console.log(light_container);
+
+            $.get(url, { wrap: wrap_light } , function(response) {
 
                 if (!isValidResponse(response)) {
                     return false;
                 }
 
+                // alert(response);
+                console.log($(light_container));
+
                 $('.tooltip.top').remove();
 
                 $(light_container).html(response);
 
-                $(document).foundation(); // reload tooltip's foundation to the document
+                // reload foundation to the document
+                $(document).foundation(); 
 
             }, 'html');
 
@@ -304,30 +323,19 @@ $(document).ready(function() {
 
         // @todo: save light
         $(document).on('click', '.save-light', function() {
-
             var parents = $(this).parents();
             var container = parents[1]; 
             var current_form = $(container).find('form.light-form');
 
             $(current_form).submit();
-
         });
 
         // login handlers
         $(document).on('submit', 'form.light-form', function() {
-
             var url = $(this).attr('action');
             var data = $(this).serialize();
-            var parents = $(this).parents();
-            var lightContainer = null;
+            var lightContainer = $(this).parents('div.light');
             var submittedForm = $(this);
-
-            for (var i = 0; i < parents.length; i++) {
-                var container = $(parents[i]);
-                if ($(container).is('div.light')) {
-                    lightContainer = $(container);
-                }
-            }
 
             $.post(url, data, function(response) {
 
@@ -338,14 +346,9 @@ $(document).ready(function() {
                 $('<div><b>@todo: notify the user that the light has been saved successfully</b></div>').publish(2000);
 
                 var light = jQuery.parseJSON(response.light);
+                var rendered_light = response.light_view;
 
-                lightACandle(light, lightContainer, response.is_new);
-
-                clearForm(submittedForm);
-
-                var baseParent = $(submittedForm).parents('.base:first');
-
-                // $(baseParent).addClass('hide');
+                lightACandle(rendered_light, lightContainer, response.is_new);
 
             }, 'json');
 
@@ -394,200 +397,251 @@ $(document).ready(function() {
 
         });
 
-        // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        // :::::::::::::::::::::::::  methods ::::::::::::::::::::::::::: 
-        // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    });
+
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    // :::::::::::::::::: application methods :::::::::::::::::::::::
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    
+    function showRanking() {
         
-        function lightACandle(light, container, is_new) {
+        var url = $('#__ranking_url').val();
+        var rankingContainer = $('#ranking_container');
 
-            var url = lightsUrl + '/' + light.id;
-            var lights_on = $(lightsContainer).find('div.light').not('.new');
-            var first_light_on = lights_on.length > 0 ? lights_on[0] : null;
+        $(rankingContainer).html('Cargando ranking de luces más votadas...');
 
-            $.get(url, null, function(response) {
+        $.get(url, null, function(response) {
 
-                if (!isValidResponse(response)) {
-                    return false;
-                }   
+            // clear container
+            $(rankingContainer).html('');
 
-                if (is_new) {
-                    // create a new light
-                    var lights = $(lightsContainer).find('.light');
-                    var component = $('<div class="light columns small-4 profile text-center float-left"></div>');
-
-                    $(component).append(response);
-                    $(container).before(component);
-                } else {
-                    // replace existing light
-                    $(container).html(response);
-                }
-
-                // reload tooltip's foundation to the document
-                $(document).foundation(); 
-
-            }, 'html');
-        }
-
-        function newLight(on) {
-            var formNewLight = $('#main_light_container').find('form');
-            var lightContainer = $('#main_light_container').find('.base');
-
-            if (on) {
-                // show container form
-                $(lightContainer).removeClass('hide');
-                // go top the form
-                goTopElement(formNewLight);
-                // focus text area
-                $(formNewLight).find('textarea').focus();
-            } else { 
-                // hide container form
-                $(lightContainer).addClass('hide');
-                // clear form
-                clearForm($(formNewLight));
-            }
-
-        }
-
-        function showLight(light_id) {
-            // console.log($(modalLightContainer).html());
-
-            // $(modalLightContainer).html('Loading light...');
-
-            // $.get(lightsUrl + '/' + light_id, null, function(response) {
-
-            //     if (!isValidResponse(response)) {
-            //         alert('@todo: close modal');
-            //         return false;
-            //     }
-
-            //     // @todo: show light into the container
-            //     modalLightContainer.html(response);
-
-            // }, 'html');
-            
-            console.log('@todo: show light number: ' + light_id);
-        }
-        
-        function showMoreLights(quantity) {
-
-            var url = lightsUrl;
-            var lights_on = lightsContainer.find('.light');
-            var from = lights_on.length - 1;
-            var limit = quantity ? quantity : null;
-            var buttonToRemove = $('#btn_more_lights');
-            var original_text = $(buttonToRemove).text();
-
-            console.log(buttonToRemove);
-
-            // ajax-loading
-            $(buttonToRemove).text('Cargando más luces...');
-
-            $.get(url, { from: from, limit: limit }, function(app_response) {
-
-                $(buttonToRemove).text(original_text);
-
-                // check for errors
-                if (!isValidResponse(app_response)) {
-                    return false;
-                }
-
-                $(buttonToRemove).parent().remove(); 
-                $(lightsContainer).prepend(app_response);
-
-            }, 'html');
-
-        }
-
-        // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        // :::::::::::::::::::::::: utilities ::::::::::::::::::::::::::: 
-        // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        
-        function clearForm(form) {
-
-            if (!$(form).is('form')) {
+            if (!isValidResponse(response)) {
+                alert('Ha ocurrido un inconveniente al cargar el ranking');
                 return;
             }
 
-            $(form).find('textarea').val('');
+            $(rankingContainer).html(response);
+
+        }, 'html')
+    }
+    
+    function lightACandle(rendered_light, container, is_new) {
+
+        if (is_new) {
+            // show rendered light before the new light element
+            (container).before(rendered_light);
+
+            // offer the user to turn on a new light
+            newLight(true);
+        } else {
+            $(container).html(rendered_light);
         }
 
-        function goTop(top) {
-            $('html, body').animate({
-                scrollTop : top
-            }, 'slow');
-        }
+        // var url = lightsUrl + '/' + light.id;
 
-        function goTopElement(element, topless_pixels) {
-            topless_pixels = topless_pixels ? topless_pixels : 30;
+        // $.get(url, null, function(response) {
 
-            if (!element || element == undefined) {
-                alert('the element not exist');
-            }
+        //     if (!isValidResponse(response)) {
+        //         return false;
+        //     }
 
-            var position = $(element).offset();
-            var position_final = ( position.top - topless_pixels);
+        //     if (is_new) {
+        //         // create a new light
+        //         var lights = $(lightsContainer).find('.light');
+                
+        //         // append before the new form the created light
+        //         $(container).before(response);
 
-            goTop(position_final);
-        }
+        //         // show another light to turn on
+        //         newLight(true);
+        //     } else {
 
+        //         // replace existing light
+        //         $(container).html(response);
+        //     }
+
+        //     // reload tooltip's foundation to the document
+        //     $(document).foundation(); 
+
+        // }, 'html');
+    }
+
+    function newLight(on) {
+        var formNewLight = $('#main_light_container').find('form');
+        var lightContainer = $('#main_light_container').find('.base');
         
-        function isValidResponse(response) {
+        // clear form
+        clearForm($(formNewLight));
 
-            var json_data = getJSON(response);
+        if (on) {
 
-            if (json_data) {
+            _currentScrollTop = $('body').scrollTop();
 
-                var message = null;
+            console.info('getting the top');
+            console.log(_currentScrollTop);
 
-                // check for errors 
-                if (json_data.error) {
+            // show container form
+            $(lightContainer).removeClass('hide');
+            // go top the form
+            goTopElement(formNewLight);
+            // focus text area
+            $(formNewLight).find('textarea').focus();
+        } else { 
+            // hide container form
+            $(lightContainer).addClass('hide');
 
-                    message = json_data.message ? json_data.message : 'Ha ocurrido un error en el servidor';
+            goTop(_currentScrollTop);
 
-                    showFlashMessage(true, message, "info", false);
-                    
-                    return false            
+            _currentScrollTop = null;
 
-                }
-
-                // check for expired session
-                if (json_data.session_expired) {
-
-                    message = json_data.message ? json_data.message : 'Debe iniciar sesión para continuar';
-
-                    $('div#session_expired_message').find('.modal-body #title').text(message);
-
-                    $('div#session_expired_message').modal('show');
-
-                    return false
-
-                } 
-
-            }
-            
-            return true;
+            console.info('cleaning the top?');
+            console.log(_currentScrollTop);
         }
 
-        function getJSON(data) {
+    }
 
-            try {
+    function showLight(light_id) {
+        // console.log($(modalLightContainer).html());
 
-                if (typeof data == 'object') {
-                    return data;
-                }
+        // $(modalLightContainer).html('Loading light...');
 
-                var json = jQuery.parseJSON(data);
+        // $.get(lightsUrl + '/' + light_id, null, function(response) {
 
-                return json;
+        //     if (!isValidResponse(response)) {
+        //         alert('@todo: close modal');
+        //         return false;
+        //     }
 
-            } catch (e) {
+        //     // @todo: show light into the container
+        //     modalLightContainer.html(response);
 
+        // }, 'html');
+        
+        console.log('@todo: show light number: ' + light_id);
+    }
+    
+    function showMoreLights(quantity) {
+
+        var url = lightsUrl;
+        var lightsContainer = $('#lights_container');
+        var lights_on = lightsContainer.find('.light');
+        var from = lights_on.length - 1;
+        var limit = quantity ? quantity : null;
+        var buttonToRemove = $('#btn_more_lights');
+        var original_text = $(buttonToRemove).text();
+
+        console.log(buttonToRemove);
+
+        // ajax-loading
+        $(buttonToRemove).text('Cargando más luces...');
+
+        $.get(url, { from: from, limit: limit }, function(app_response) {
+
+            $(buttonToRemove).text(original_text);
+
+            // check for errors
+            if (!isValidResponse(app_response)) {
                 return false;
+            }
+
+            $(buttonToRemove).parent().remove(); 
+            $(lightsContainer).prepend(app_response);
+
+        }, 'html');
+    }
+    
+
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    // :::::::::::::::::::::::: utilities ::::::::::::::::::::::::::: 
+    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    
+    function clearForm(form) {
+
+        if (!$(form).is('form')) {
+            return;
+        }
+
+        $(form).find('textarea').val('');
+    }
+
+    function goTop(top) {
+
+        top = top ? top : 0;
+
+        $('html, body').animate({
+            scrollTop : top
+        }, 'slow');
+    }
+
+    function goTopElement(element, topless_pixels) {
+        topless_pixels = topless_pixels ? topless_pixels : 30;
+
+        if (!element || element == undefined) {
+            alert('the element not exist');
+        }
+
+        var position = $(element).offset();
+        var position_final = ( position.top - topless_pixels);
+
+        goTop(position_final);
+    }
+
+    
+    function isValidResponse(response) {
+
+        var json_data = getJSON(response);
+
+        if (json_data) {
+
+            var message = null;
+
+            // check for errors 
+            if (json_data.error) {
+
+                message = json_data.message ? json_data.message : 'Ha ocurrido un error en el servidor';
+
+                showFlashMessage(true, message, "info", false);
+                
+                return false            
 
             }
 
+            // check for expired session
+            if (json_data.session_expired) {
+
+                message = json_data.message ? json_data.message : 'Debe iniciar sesión para continuar';
+
+                $('div#session_expired_message').find('.modal-body #title').text(message);
+
+                $('div#session_expired_message').modal('show');
+
+                return false
+
+            } 
+
+        }
+        
+        return true;
+    }
+
+    function getJSON(data) {
+
+        try {
+
+            if (typeof data == 'object') {
+                return data;
+            }
+
+            var json = jQuery.parseJSON(data);
+
+            return json;
+
+        } catch (e) {
+
+            return false;
+
         }
 
-    });
-
+    }
+    
 });

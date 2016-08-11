@@ -2,6 +2,7 @@
     disable_button = light && !light.description.blank?
     is_light_owner = light && logged_in? && current_user.id == light.user_id
     is_changing = defined?(changing) ? changing : false
+    ranked ||= false
     picture_url = light && light.user ? 
         facebook_picture_url(light.user.uid) : 
         facebook_picture_url 
@@ -10,7 +11,13 @@
 
 <div class="base on <%= light.id ? '' : 'new' + ( logged_in? ? ' hide' : '' ) %>">
 
-    <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
+    <% if ranked %>
+        <b>ranked light :D</b>
+    <% end %>
+
+    <div class="profile-img-container">
+        <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
+    </div>
 
     <% if light && light.id %> 
 
@@ -122,18 +129,15 @@
 
 
         <% if logged_in? %>
-
             <h6 style="line-height: 30px;">
                 Aporta una <i>buena idea</i> para mejorar el mundo
             </h6>
-
             <div class="light-form-container">
                 <%= render partial: 'app/light_form', locals: { light: light, submit_button: true } %>
             </div>
-
         <% else %>
 
-            <h6 style="line-height: 30px;">
+            <!-- <h6 style="line-height: 30px;">
                 Construye los cimientos de una <i>buena sociedad</i>
                 aportando <i>ideas</i> para mejorar el mundo
             </h6>
@@ -143,7 +147,7 @@
                 '/auth/facebook', 
                 id: 'login_button', 
                 class: 'button face icn icn-24 facebook'
-            ) %>
+            ) %> -->
 
         <% end %>
        

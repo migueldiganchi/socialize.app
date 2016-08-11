@@ -1,5 +1,8 @@
+<% col_reference ||= 6 %>
+<% ranked ||= false %>
+
 <!-- next page indicator -->
-<% if @show_next_button %>
+<% if show_next_button %>
 
     <div class="columns small-12">
         <button id="btn_more_lights" 
@@ -11,8 +14,9 @@
 
 <% end %>
 
-<% @paginated_lights.reverse.each do |light| %>   
-    <div class="light columns small-4 profile text-center float-left">
-        <%= render partial: 'app/light', locals: { light: light } %>         
-    </div>
+<% paginated_lights.reverse.each do |light| %>   
+    <%= render partial: 'app/wrapped_light', locals: { 
+            light: light, 
+            col_reference: col_reference, 
+            ranked: ranked } %>
 <% end %>

@@ -1,0 +1,9 @@
+<% 
+    col_reference ||= 6 
+    ranked ||= false
+%>
+
+
+<div class="light columns small-<%= col_reference %> profile text-center float-left">
+    <%= render partial: 'app/light', locals: { light: light, ranked: ranked } %>
+</div>

@@ -25,19 +25,18 @@ main {
     @include opaqued;
 }
 
-.profile {
-    color: $white;
-    padding: 0.5em 0 1.9em;
-    margin: 0 auto;
-
-    img {
-        @include box_circle;
-        height: 5em;
-        width: 5em;
-    }
-
-    h3 {
-        margin-top: 0.9em;
+#fixed_panel {
+    @include transparency_background;
+    padding: 10px 15px;
+    max-width: 100px;
+    position: fixed;
+    bottom: 10px;
+    right: 30px;
+    button {
+        margin: 5px 0 10px;
+        &:last-child {
+            margin-bottom: 5px;
+        }
     }
 }
 
@@ -56,13 +55,6 @@ main {
                 }
             }
         }
-    }
-
-    &.init-new-light#init_new_light {
-        @include base_shadow_light;
-        position: fixed;
-        bottom: 10px;
-        right: 30px;
     }
 
     &.icn {
@@ -117,14 +109,15 @@ main {
             &.ranking { background-image: asset-url('icons/ranking-32.png'); }
             &.searcher { background-image: asset-url('icons/searcher-32.png'); }
             &.lamp { background-image: asset-url('icons/lamp-32.png'); }
+            &.up { background-image: asset-url('icons/up-32.png'); }
         }
     }
 }
 
 .invitations {
-    
-    padding: 0;
 
+    padding: 0;
+    
     .invitation {
 
         border: solid 3px;
@@ -169,8 +162,32 @@ main {
 
 }
 
+#ranking_container {
+    // border: solid 1px red;
+}
+
 #lights_container {
     // border: solid 1px red;
+}
+
+.profile {
+    color: $white;
+    text-align: center;
+
+    .profile-img-container {
+        @include box_circle;
+        display: block;
+        margin: 0 auto;
+        height: 6em;
+        width: 6em;
+        
+        img {
+            @include box_circle;
+            display: inline;
+            height: 100%;
+            width: 100%;
+        }
+    }
 }
 
 .light {
@@ -179,10 +196,16 @@ main {
 
     .light-description {
         padding: 10px 0;
-        min-height: 8em;
+        // min-height: 7em;
         margin-bottom: 10px;
         font-size: $small-font-size;
         border-bottom: solid 1px #555;
+    }
+
+    // override profile
+    .profile-img-container {
+        height: 3.5em;
+        width: 3.5em;
     }
 }
 

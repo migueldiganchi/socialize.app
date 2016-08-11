@@ -5,13 +5,12 @@ class SessionsController < ApplicationController
     light = user.lights.build
     session[:user_id] = user.id
 
-    @invitation_text_button = 'Invita una seca a tus amigos'
-    # @app_panel = render_to_string partial: 'app/light', locals: { light: light }  
-
+    @invitation_text_button = 'Invita a tus amigos a dar ideas para cambiar el mundo'
     @from = 0
-    @limit = 6 # @todo: read from configuration (:per_page)
+    @limit = 8 # @todo: read from configuration (:per_page)
     @total_lights = Light.get_lights.count
     @paginated_lights = Light.get_paginated_lights @from, @limit
+    @ranked_lights = Light.get_paginated_lights 0, 2
     @show_next_button = (@from + @limit) < @total_lights
     @app_panel = render_to_string partial: 'app/app_panel'
     
