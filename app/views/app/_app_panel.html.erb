@@ -111,11 +111,15 @@
                     paginated_lights: @paginated_lights
                 } %>
 
-            <div id="main_light_container">
-                <%= render partial: 'app/wrapped_light', locals: { 
-                    light: Light.new
-                } %> 
-            </div>
+
+            <% if logged_in? %>
+                <div id="main_light_container">
+                    <%= render partial: 'app/wrapped_light', locals: { 
+                        light: Light.new
+                    } %> 
+                </div>
+            <% end %>
+
         </div>
     </div>
 
