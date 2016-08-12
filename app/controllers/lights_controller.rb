@@ -97,7 +97,7 @@ class LightsController < ApplicationController
   def ranking
 
     # @todo: list of ranking items;
-    @ranked_lights = Light.get_paginated_lights 0, 2
+    @ranked_lights = Light.get_paginated_lights 0, 1
 
     if request.xhr?
       render partial: 'app/lights', locals: { 

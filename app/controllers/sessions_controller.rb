@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     @limit = 8 # @todo: read from configuration (:per_page)
     @total_lights = Light.get_lights.count
     @paginated_lights = Light.get_paginated_lights @from, @limit
-    @ranked_lights = Light.get_paginated_lights 0, 2
+    @ranked_lights = Light.get_paginated_lights 0, 1 # publishing?
     @show_next_button = (@from + @limit) < @total_lights
     @app_panel = render_to_string partial: 'app/app_panel'
     

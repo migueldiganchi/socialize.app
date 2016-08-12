@@ -18,6 +18,21 @@
 
 var _currentScrollTop = null;
 
+var _currentScrollTop = 0;
+$(window).scroll(function(event){
+   var st = $(this).scrollTop();
+   if (st > _currentScrollTop){
+        console.log('scrolling down');
+        $('button.go.up').removeClass('hide');
+        $('button.go.down').addClass('hide');
+   } else {
+        console.log('scrolling up');
+        $('button.go.down').removeClass('hide');
+        $('button.go.up').addClass('hide');
+   }
+   _currentScrollTop = st;
+});
+
 $(document).foundation();
 
 $(document).ready(function() {
@@ -237,13 +252,13 @@ $(document).ready(function() {
             return false;
         });
 
-        $(document).on('keyup', '#light_description', function(e){
-            var value = $(this).val();
-            var is_empty = $.trim(value).length < 1;
+        // $(document).on('keyup', '#light_description', function(e){
+        //     var value = $(this).val();
+        //     var is_empty = $.trim(value).length < 1;
 
-            $('form input[type=submit]').prop('disabled', is_empty);
-            $('form button.cancel-new-light').prop('disabled', is_empty);
-        });
+        //     $('form input[type=submit]').prop('disabled', is_empty);
+        //     $('form button.cancel-new-light').prop('disabled', is_empty);
+        // });
 
         $(document).on('click', '#light_a_candel', function(){
             console.log('@todo: handle this');
@@ -254,9 +269,17 @@ $(document).ready(function() {
             showMoreLights();
         });
 
-        $(document).on('click', '.go.top', function() {
+        $(document).on('click', '.go.up', function() {
             goTop();
         });
+
+        $(document).on('click', '.go.down', function() {
+            goTopElement('footer');
+        });
+
+        $(document).on('click', '.init-searcher', function() {
+            alert('init searcher');
+        })
 
         $(document).on('click', '.init-new-light', function() {
             newLight(true);
@@ -432,7 +455,7 @@ $(document).ready(function() {
             (container).before(rendered_light);
 
             // offer the user to turn on a new light
-            newLight(true);
+            newLight(false);
         } else {
             $(container).html(rendered_light);
         }
@@ -467,19 +490,16 @@ $(document).ready(function() {
     }
 
     function newLight(on) {
+        // read the current containers
         var formNewLight = $('#main_light_container').find('form');
         var lightContainer = $('#main_light_container').find('.base');
         
-        // clear form
+        // ensure form cleaning
         clearForm($(formNewLight));
 
         if (on) {
-
+            // get the current top of the body to return latter in the cancel
             _currentScrollTop = $('body').scrollTop();
-
-            console.info('getting the top');
-            console.log(_currentScrollTop);
-
             // show container form
             $(lightContainer).removeClass('hide');
             // go top the form
@@ -489,15 +509,11 @@ $(document).ready(function() {
         } else { 
             // hide container form
             $(lightContainer).addClass('hide');
-
+            // return to the saved top
             goTop(_currentScrollTop);
-
+            // reset the last position added
             _currentScrollTop = null;
-
-            console.info('cleaning the top?');
-            console.log(_currentScrollTop);
         }
-
     }
 
     function showLight(light_id) {

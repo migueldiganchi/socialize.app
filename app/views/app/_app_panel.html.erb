@@ -10,9 +10,8 @@
 
 <div class="row">
 
-
     <!-- left -->
-    <div class="columns small-5 small-centered float-left" style="text-align: center;">
+    <div class="columns small-4 small-centered float-left" style="text-align: center; position: relative; position: fixed; padding: 0; margin: 0;">
 
         <div class="profile">
             <h3>
@@ -28,6 +27,7 @@
                 aportando <i>ideas</i> para mejorar el mundo
             </h5>
         </div>
+
         <% if !logged_in? %>
 
             <div>
@@ -43,10 +43,6 @@
         <% end %>
 
         <div class="actions">
-            <button type="button" 
-                class="button face icn icn-32 searcher only-icon">
-            </button>
-
             <button type="button" 
                 id="invite_button"
                 class="button face icn icn-32 friends only-icon">
@@ -74,7 +70,22 @@
                     data-click-open="false"
                     title="Vamos arriba!"
                     id="init_new_light"
-                    class="button icn icn-32 up only-icon go top">
+                    class="button icn icn-32 only-icon go up left hide">
+                </button>
+
+                <button type="button"
+                    data-tooltip
+                    data-click-open="false"
+                    title="Vamos abajo"
+                    id="init_new_light"
+                    class="button icn icn-32 only-icon go down left">
+                </button>
+
+                <button type="button" 
+                    data-tooltip
+                    data-click-open="false"
+                    title="Busca en las publicaciones"
+                    class="button icn icn-32 searcher only-icon init-searcher left">
                 </button>
 
                 <% if logged_in? %>                
@@ -82,11 +93,11 @@
                         data-tooltip
                         title="Enciende una nueva luz para la humanidad"
                         id="init_new_light"
-                        class="button icn icn-32 lamp only-icon init-new-light top">
+                        class="button icn icn-32 lamp only-icon init-new-light left">
                     </button>
                 <% end %>
-
             </div>
+
         </div>
 
         <div id="ranking_container">
@@ -103,7 +114,7 @@
     </div>
 
     <!-- left -->
-    <div class="columns small-7 small-centered">
+    <div class="columns small-7 small-centered" style="padding: 0; margin: 0;">
         <div id="lights_container">
             <!-- dynamic loading of more lights -->
             <%= render partial: 'app/lights', locals: {

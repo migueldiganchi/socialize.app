@@ -13,7 +13,7 @@ class AppController < ApplicationController
     @paginated_lights = Light.get_paginated_lights @from, @limit
     @show_next_button = (@from + @limit) < @total_lights
     # @todo: get ranekd lights
-    @ranked_lights = Light.get_paginated_lights 0, 2 
+    @ranked_lights = Light.get_paginated_lights 0, 1
   end
 
 end
