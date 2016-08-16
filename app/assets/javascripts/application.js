@@ -22,11 +22,11 @@ var _currentScrollTop = 0;
 $(window).scroll(function(event){
    var st = $(this).scrollTop();
    if (st > _currentScrollTop){
-        console.log('scrolling down');
+        // console.log('scrolling down');
         $('button.go.up').removeClass('hide');
         $('button.go.down').addClass('hide');
    } else {
-        console.log('scrolling up');
+        // console.log('scrolling up');
         $('button.go.down').removeClass('hide');
         $('button.go.up').addClass('hide');
    }
@@ -310,7 +310,31 @@ $(document).ready(function() {
                 $(document).foundation(); 
 
             }, 'html');
-                        
+        });
+
+        $(document).on('click', '.show-light', function() {
+
+            var url = $(this).attr('href');
+            var modalContent = $('#modal_light #modal_content');
+
+            // ajax loading: on
+            $(modalContent).html('Cargando...');
+            $.get(url, null, function(app_response) {
+
+                // ajax-loading: off
+                $(modalContent).html('');
+
+                // validate response
+                if (!isValidResponse(app_response)) {
+                    return false;
+                }
+
+                // show the response
+                $(modalContent).html(app_response);
+            })
+
+            return false;
+
         });
 
         // cancel form button
@@ -371,7 +395,15 @@ $(document).ready(function() {
                 var light = jQuery.parseJSON(response.light);
                 var rendered_light = response.light_view;
 
-                lightACandle(rendered_light, lightContainer, response.is_new);
+                if (response.is_new) {
+                    // show rendered light before the new light element
+                    $('#main_light_container').before(rendered_light);
+                    // create a new light creator
+                    newLight(false); 
+                } else {
+                    // append the rendered light into the edited light
+                    $(lightContainer).html(rendered_light);
+                }
 
             }, 'json');
 
@@ -448,51 +480,12 @@ $(document).ready(function() {
         }, 'html')
     }
     
-    function lightACandle(rendered_light, container, is_new) {
-
-        if (is_new) {
-            // show rendered light before the new light element
-            (container).before(rendered_light);
-
-            // offer the user to turn on a new light
-            newLight(false);
-        } else {
-            $(container).html(rendered_light);
-        }
-
-        // var url = lightsUrl + '/' + light.id;
-
-        // $.get(url, null, function(response) {
-
-        //     if (!isValidResponse(response)) {
-        //         return false;
-        //     }
-
-        //     if (is_new) {
-        //         // create a new light
-        //         var lights = $(lightsContainer).find('.light');
-                
-        //         // append before the new form the created light
-        //         $(container).before(response);
-
-        //         // show another light to turn on
-        //         newLight(true);
-        //     } else {
-
-        //         // replace existing light
-        //         $(container).html(response);
-        //     }
-
-        //     // reload tooltip's foundation to the document
-        //     $(document).foundation(); 
-
-        // }, 'html');
-    }
-
     function newLight(on) {
         // read the current containers
         var formNewLight = $('#main_light_container').find('form');
         var lightContainer = $('#main_light_container').find('.base');
+
+        console.log(lightContainer);
         
         // ensure form cleaning
         clearForm($(formNewLight));
@@ -507,6 +500,9 @@ $(document).ready(function() {
             // focus text area
             $(formNewLight).find('textarea').focus();
         } else { 
+
+            console.log(lightContainer);
+
             // hide container form
             $(lightContainer).addClass('hide');
             // return to the saved top

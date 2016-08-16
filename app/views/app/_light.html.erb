@@ -36,9 +36,10 @@
                     <%= render partial: 'app/light_form', locals: { light: light, submit_button: false } %>
                 </div>
             <% else %>
-                <p>
+
+                <%= link_to light_url(id: light.id), class: "show-light", :'data-open' => "modal_light" do %>
                     <b><%= light.id.to_s %></b> <%= light.description %>
-                </p>
+                <% end %>
             <% end %>
         </div>
 

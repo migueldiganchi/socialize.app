@@ -27,11 +27,11 @@ class LightsController < ApplicationController
 
   def edit  
     # @todo: preconditions > check for params
-    light = Light.find params[:id]
+    @light = Light.find params[:id]
     if request.xhr?
       render partial: 'app/light', locals: { 
-        light: light,
-        changing: logged_in? && current_user.id == light.user.id
+        light: @light,
+        changing: logged_in? && current_user.id == @light.user.id
       }
     else
       redirect_to root_url
@@ -40,17 +40,16 @@ class LightsController < ApplicationController
 
   def show  
     # @todo: preconditions > check for params
-    light = Light.find params[:id]
+    @light = Light.find params[:id]
     if request.xhr?
       wrap_light = params.has_key?(:wrap) ? params[:wrap] == 'true' : true
       if wrap_light
-        render partial: 'app/wrapped_light', locals: { light: light }
+        render partial: 'app/wrapped_light', locals: { light: @light }
       else
-        render partial: 'app/light', locals: { light: light }
+        render partial: 'app/light', locals: { light: @light }
       end
-    else
-      redirect_to root_url
     end
+    # @todo: handle errors here
   end
 
   def new

@@ -11,7 +11,7 @@
 <div class="row">
 
     <!-- left -->
-    <div class="columns small-4 small-centered float-left" style="text-align: center; position: relative; position: fixed; padding: 0; margin: 0;">
+    <div class="columns small-3 small-centered float-left">
 
         <div class="profile">
             <h3>
@@ -102,19 +102,22 @@
 
         <div id="ranking_container">
             <h4 style="text-align: center; border-bottom: dashed 1px #444; padding: 10px; margin: 15px 30px;">
-                Ideas más votadas
+                Selecciona fanpage
             </h4>
-            <%= render partial: 'app/lights', locals: {
-                    show_next_button: false, 
-                    paginated_lights: @ranked_lights, 
-                    col_reference: 12, 
-                    ranked: true
-                } %>
+            <div style="border: solid 1px violet;">
+                fanpage 1
+            </div>
+            <div style="border: solid 1px violet;">
+                fanpage 2
+            </div>
+            <div style="border: solid 1px violet;">
+                fanpage 3
+            </div>
         </div>  
     </div>
 
     <!-- left -->
-    <div class="columns small-7 small-centered" style="padding: 0; margin: 0;">
+    <div class="columns small-9 small-centered" style="padding: 0; margin: 0;">
         <div id="lights_container">
             <!-- dynamic loading of more lights -->
             <%= render partial: 'app/lights', locals: {
