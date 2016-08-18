@@ -1,18 +1,24 @@
 <% col_reference ||= 6 %>
 <% ranked ||= false %>
 
-<div style="border: solid 1px blue; display: inline-blocK; padding: 10px; position: fixed;">
+<div style="border: solid 1px blue; display: inline-block; padding: 10px; position: absolute; top: 10px; left: 10px;">
     <div style="border: solid 1px green; display: inline-block;">
-        selector
+        LOGO DE LA APP
     </div>
     <div style="border: solid 1px green; display: inline-block;">
-        selector
+        CATEGORÍA NIVEL 1
     </div>
     <div style="border: solid 1px green; display: inline-block;">
-        selector
+        CATEGORÍA NIVEL 2
     </div>
     <div style="border: solid 1px green; display: inline-block;">
-        selector
+        Publicaciones desde el comienzo
+    </div>
+    <div style="border: solid 1px green; display: inline-block;">
+        <input type="text" name="searcher_input" value="searcher">
+    </div>
+    <div style="border: solid 1px green; display: inline-block;">
+        (lupa)
     </div>
 </div>
 
@@ -51,8 +57,8 @@
 
         </div>
 
-        <button id="btn_more_lights" 
-            class="button expanded btn-more-lights" 
+        <button id="btn_more_posts" 
+            class="button expanded btn-more-posts" 
             style="margin: 0;">
             Ver más luces encendidas
         </button>
@@ -62,9 +68,10 @@
 <% end %>
 
 
-<% paginated_lights.reverse.each do |light| %>   
-    <%= render partial: 'app/wrapped_light', locals: { 
-            light: light, 
+<% paginated_posts.reverse.each do |post| %>   
+    <%= render partial: 'app/wrapped_post', locals: { 
+            post: post, 
             col_reference: col_reference, 
-            ranked: ranked } %>
+            ranked: ranked 
+    } %>
 <% end %>

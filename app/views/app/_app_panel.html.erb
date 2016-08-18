@@ -1,7 +1,7 @@
 <% picture_url = logged_in? ? facebook_picture_url(current_user.uid) : facebook_picture_url  %>
 
 <%= hidden_field_tag :__invitations_url, invitations_url %>
-<%= hidden_field_tag :__lights_url, lights_url %>
+<%= hidden_field_tag :__posts_url, posts_url %>
 <%= hidden_field_tag :__login_url, login_url(provider: 'facebook') %>
 <%= hidden_field_tag :__ranking_url, ranking_url %>
 <%= hidden_field_tag :__facebook_app_id, ENV['FACEBOOK_KEY'] %>
@@ -18,7 +18,8 @@
 <div class="row">
 
     <!-- left -->
-    <div class="columns small-3 small-centered float-left">
+    <!-- <div class="columns small-3 small-centered float-left"> -->
+    <div class="columns small-12 small-centered float-left">
 
         <div class="profile">
             <h3>
@@ -30,8 +31,8 @@
             </div>
 
             <h5 style="line-height: 30px;">
-                Construye los cimientos de una <i>buena sociedad</i>
-                aportando <i>ideas</i> para mejorar el mundo
+                <b>Organiza</b> y  <b>dale vida</b>
+                a tus perfiles de facebook y compartelas con el mundo
             </h5>
         </div>
 
@@ -39,7 +40,7 @@
 
             <div>
                 <%= link_to(
-                    'Iniciar sesión con facebook', 
+                    'Comenzar con facebook', 
                     '/auth/facebook', 
                     id: 'login_button', 
                     class: 'button face icn icn-24 facebook'
@@ -75,7 +76,7 @@
                     data-tooltip
                     data-click-open="false"
                     title="Vamos arriba!"
-                    id="init_new_light"
+                    id="init_new_post"
                     class="button icn icn-32 only-icon go up left hide">
                 </button>
 
@@ -83,7 +84,7 @@
                     data-tooltip
                     data-click-open="false"
                     title="Vamos abajo"
-                    id="init_new_light"
+                    id="init_new_post"
                     class="button icn icn-32 only-icon go down left">
                 </button>
 
@@ -98,8 +99,8 @@
                     <button type="button"
                         data-tooltip
                         title="Enciende una nueva luz para la humanidad"
-                        id="init_new_light"
-                        class="button icn icn-32 lamp only-icon init-new-light left">
+                        id="init_new_post"
+                        class="button icn icn-32 lamp only-icon init-new-post left">
                     </button>
                 <% end %>
             </div>
@@ -135,19 +136,20 @@
     </div>
 
     <!-- left -->
-    <div class="columns small-9 small-centered" style="padding: 0; margin: 0;">
-        <div id="lights_container">
-            <!-- dynamic loading of more lights -->
-            <%= render partial: 'app/lights', locals: {
+    <!-- <div class="columns small-9 small-centered" style="padding: 0; margin: 0;"> -->
+    <div class="columns small-12 small-centered" style="padding: 0; margin: 0;">
+        <div id="posts_container">
+            <!-- dynamic loading of more posts -->
+            <%= render partial: 'app/posts', locals: {
                     show_next_button: @show_next_button, 
-                    paginated_lights: @paginated_lights
+                    paginated_posts: @paginated_posts
                 } %>
 
 
             <% if logged_in? %>
-                <div id="main_light_container">
-                    <%= render partial: 'app/wrapped_light', locals: { 
-                        light: Light.new
+                <div id="main_post_container">
+                    <%= render partial: 'app/wrapped_post', locals: { 
+                        post: Post.new
                     } %> 
                 </div>
             <% end %>

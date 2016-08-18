@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :lights
+  has_many :posts
   has_many :pages
 
   def self.from_omniauth(auth)

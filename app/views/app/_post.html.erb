@@ -1,12 +1,12 @@
 <% 
     # abort theather_mode.inspect
     theather_mode ||= false
-    disable_button = light && !light.description.blank?
-    is_light_owner = light && logged_in? && current_user.id == light.user_id
+    disable_button = post && !post.description.blank?
+    is_post_owner = post && logged_in? && current_user.id == post.user_id
     is_changing = defined?(changing) ? changing : false
     ranked ||= false
-    picture_url = light && light.user ? 
-        facebook_picture_url(light.user.uid) : 
+    picture_url = post && post.user ? 
+        facebook_picture_url(post.user.uid) : 
         facebook_picture_url 
 
 %>
@@ -18,55 +18,55 @@
         <img src="" alt="Image in case exists">
 
         <h2>
-            @todo: Title nº #<%= @light.id.to_s %>
+            @todo: Title nº #<%= @post.id.to_s %>
         </h2>
 
         <p>
-            <%= @light.description %>
+            <%= @post.description %>
         </p>
             
     </div>
 
 <% else # listing_mode %>
     
-    <div class="base on <%= light.id ? '' : 'new' + ( logged_in? ? ' hide' : '' ) %>">
+    <div class="base on <%= post.id ? '' : 'new' + ( logged_in? ? ' hide' : '' ) %>">
 
         <% if ranked %>
-            <b>ranked light :D</b>
+            <b>ranked post :D</b>
         <% end %>
 
         <div class="profile-img-container">
             <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
         </div>
 
-        <% if light && light.id %> 
+        <% if post && post.id %> 
 
             <label>
                 <b>
-                    <%= is_light_owner ? 'Tu' : light.user.name %>
+                    <%= is_post_owner ? 'Tu' : post.user.name %>
                 </b> 
                 <i>
-                    <%= is_light_owner ? 'dijiste' : 'dijo' %>: 
+                    <%= is_post_owner ? 'dijiste' : 'dijo' %>: 
                 </i>
             </label>
 
-            <div class="light-description">
+            <div class="post-description">
                 <% if is_changing %>
-                    <div class="light-form-container">
-                        <%= render partial: 'app/light_form', locals: { light: light, submit_button: false } %>
+                    <div class="post-form-container">
+                        <%= render partial: 'app/post_form', locals: { post: post, submit_button: false } %>
                     </div>
                 <% else %>
 
-                    <%= link_to light_url(id: light.id), class: "show-light", :'data-open' => "modal_light" do %>
-                        <b><%= light.id.to_s %></b> <%= light.description %>
+                    <%= link_to post_url(id: post.id), class: "show-post", :'data-open' => 'modal' do %>
+                        <b><%= post.id.to_s %></b> <%= post.description %>
                     <% end %>
                 <% end %>
             </div>
 
             <% if is_changing %>
 
-                <button type="button" class="success button icn icn-24 plant only-icon top save-light"
-                    data-edit-light-url="<%= edit_light_url id: light.id %>"
+                <button type="button" class="success button icn icn-24 plant only-icon top save-post"
+                    data-edit-post-url="<%= edit_post_url id: post.id %>"
                     data-tooltip 
                     aria-haspopup="true" 
                     data-click-open="false" 
@@ -74,8 +74,8 @@
                     tabindex="0" 
                     title="Guardar"></button>
 
-                <button type="button" class="secondary button icn icn-24 cancel only-icon top cancel-light-form"
-                    data-light-url="<%= light_url id: light.id %>"
+                <button type="button" class="secondary button icn icn-24 cancel only-icon top cancel-post-form"
+                    data-post-url="<%= post_url id: post.id %>"
                     data-tooltip 
                     aria-haspopup="true" 
                     data-click-open="false" 
@@ -117,11 +117,11 @@
                     tabindex="2" 
                     title="Comentario"></button>
 
-                <% if is_light_owner %>
+                <% if is_post_owner %>
 
-                    <button type="button" class="button icn icn-24 pencil only-icon top edit-light"
-                        data-light-id="<%= light.id %>" 
-                        data-edit-light-url="<%= edit_light_url id: light.id %>"
+                    <button type="button" class="button icn icn-24 pencil only-icon top edit-post"
+                        data-post-id="<%= post.id %>" 
+                        data-edit-post-url="<%= edit_post_url id: post.id %>"
                         data-tooltip 
                         aria-haspopup="true" 
                         data-click-open="false" 
@@ -129,8 +129,8 @@
                         tabindex="2" 
                         title="Editar"></button>
 
-                    <button type="button" class="button icn icn-24 trash only-icon top remove-light"
-                        data-light-url="<%= light_url id: light.id %>"
+                    <button type="button" class="button icn icn-24 trash only-icon top remove-post"
+                        data-post-url="<%= post_url id: post.id %>"
                         data-tooltip 
                         aria-haspopup="true" 
                         data-click-open="false" 
@@ -148,8 +148,8 @@
                 <h6 style="line-height: 30px;">
                     Aporta una <i>buena idea</i> para mejorar el mundo
                 </h6>
-                <div class="light-form-container">
-                    <%= render partial: 'app/light_form', locals: { light: light, submit_button: true } %>
+                <div class="post-form-container">
+                    <%= render partial: 'app/post_form', locals: { post: post, submit_button: true } %>
                 </div>
             <% end %>
            

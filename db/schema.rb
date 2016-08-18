@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160818065915) do
+ActiveRecord::Schema.define(version: 20160818094737) do
 
   create_table "invitations", force: :cascade do |t|
     t.string   "origin_fb_uid"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20160818065915) do
     t.integer  "user_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "status"
   end
 
   add_index "pages", ["category_id"], name: "index_pages_on_category_id"

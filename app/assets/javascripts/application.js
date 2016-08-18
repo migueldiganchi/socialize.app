@@ -11,14 +11,16 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.history
 //= require jquery_ujs
 //= require turbolinks
 //= require foundation
 //= require_tree .
 
 var _currentScrollTop = null;
-
 var _currentScrollTop = 0;
+
+// window scrolling
 $(window).scroll(function(event){
    var st = $(this).scrollTop();
    if (st > _currentScrollTop){
@@ -33,9 +35,123 @@ $(window).scroll(function(event){
    _currentScrollTop = st;
 });
 
+// basic setups
+(function($) {
+    // ajax configurations
+    $.ajaxSetup({ 
+        cache : false,
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        } 
+    });
+});
+
 $(document).foundation();
 
+$(function() {
+
+    // Prepare ajax routing
+    var History = window.History;
+
+    // if ( typeof History.Adapter !== 'undefined' ) {
+    //     //throw new Error('History.js Adapter has already been loaded...');
+        
+    //     console.log(History.Adapter);
+
+    //     alert('undefined detected?');
+    //     console.log('here?');
+    //     return;
+    // }
+
+    if (!History.enabled) {
+        return false;
+    }
+
+
+    // Bind to StateChange Event
+    History.Adapter.bind(window, 'statechange', function() {
+        var state = History.getState();
+        var url = state ? state.url : '/';
+        var title = state && state.title ? state.title : '';
+        var target = state && state.data ? state.data.target : null;
+        var params = state && state.data && state.data.params ? state.data.params : null;
+
+        switch(target) {
+            case 'post': 
+                showPost(url);
+                break;
+            case 'page': 
+                showPage(url);
+                break;
+            case 'close-modal': 
+                alert(target);
+                break;
+            default:
+                alert('reload all app_panel');
+                break;
+        }
+
+            // @todo. handle each ajax request
+
+            // @handle ajax requests
+    });
+
+    function showPost(url) {
+
+        var modalContent = $('#modal #modal_content');
+
+        // ajax loading: on
+        $(modalContent).html('Cargando...');
+
+        // go get the post on server
+        $.get(url, {
+            wrap: false, 
+            theather: true
+        }, function(app_response) {
+
+            // ajax-loading: off
+            $(modalContent).html('');
+
+            // validate response
+            if (!isValidResponse(app_response)) {
+                return false;
+            }
+
+            // show the response
+            $(modalContent).html(app_response);
+        })
+    }
+
+    function showPage(url) {
+
+        alert('going get this page at: ' + url);
+
+        var modalContent = $('#modal #modal_content');
+
+        // ajax loading: on
+        $(modalContent).html('Cargando...');
+
+        // go get the post on server
+        $.get(url, null, function(app_response) {
+
+            // ajax-loading: off
+            $(modalContent).html('');
+
+            // validate response
+            if (!isValidResponse(app_response)) {
+                return false;
+            }
+
+            // show the response
+            $(modalContent).html(app_response);
+        })   
+
+    }
+
+});
+    
 $(document).ready(function() {
+    // ajax-routing
 
     // controls
     var dynamicContainer = $('#dynamic_container');
@@ -45,8 +161,7 @@ $(document).ready(function() {
     var loginButtonOriginalText = loginButton.text();
     var inviteButton = $('#invite_button');
     var userNameBolder = $('#user_name');
-    var modalLightContainer = $('#floating_light');
-    var lightsUrl = $('#__lights_url').val();
+    var postsUrl = $('#__posts_url').val();
     var hdnLoggedIn = $('#__logged_in');
     var loggedIn = $(hdnLoggedIn).length > 0 && $(hdnLoggedIn).val() == 'true';
 
@@ -301,21 +416,9 @@ $(document).ready(function() {
             return false;
         });
 
-        // $(document).on('keyup', '#light_description', function(e){
-        //     var value = $(this).val();
-        //     var is_empty = $.trim(value).length < 1;
-
-        //     $('form input[type=submit]').prop('disabled', is_empty);
-        //     $('form button.cancel-new-light').prop('disabled', is_empty);
-        // });
-
-        $(document).on('click', '#light_a_candel', function(){
-            console.log('@todo: handle this');
-        });
-
         // always handlers
-        $(document).on('click', '#btn_more_lights', function() {
-            showMoreLights();
+        $(document).on('click', '#btn_more_posts', function() {
+            showMorePosts();
         });
 
         $(document).on('click', '.go.up', function() {
@@ -330,22 +433,22 @@ $(document).ready(function() {
             alert('init searcher');
         })
 
-        $(document).on('click', '.init-new-light', function() {
-            newLight(true);
+        $(document).on('click', '.init-new-post', function() {
+            newPost(true);
         });
 
-        $(document).on('click', '.cancel-new-light', function() {
-            newLight(false);
+        $(document).on('click', '.cancel-new-post', function() {
+            newPost(false);
         });
 
-        $(document).on('click', '.edit-light', function() {
+        $(document).on('click', '.edit-post', function() {
 
-            var light_id = $(this).data('light-id');
-            var url = $(this).data('edit-light-url');
+            var post_id = $(this).data('post-id');
+            var url = $(this).data('edit-post-url');
             var parents = $(this).parents();
-            var light_container = parents[1];
+            var post_container = parents[1];
 
-            // go get the light
+            // go get the post
             $.get(url, null, function(response) {
                 if (!isValidResponse(response)) { 
                     return false;
@@ -353,7 +456,7 @@ $(document).ready(function() {
 
                 $('.tooltip.top').remove();
 
-                $(light_container).html(response);
+                $(post_container).html(response);
 
                 // reload foundation to the document
                 $(document).foundation(); 
@@ -361,57 +464,57 @@ $(document).ready(function() {
             }, 'html');
         });
 
-        $(document).on('click', '.show-light', function() {
+        $(document).on('click', '.show-post', function(e) {
 
             var url = $(this).attr('href');
-            var modalContent = $('#modal_light #modal_content');
+            var title = "show post";
 
-            // ajax loading: on
-            $(modalContent).html('Cargando...');
-            $.get(url, {
-                wrap: false, 
-                theather: true
-            }, function(app_response) {
+            History.pushState({
+                url : url,
+                target : 'post', 
+                params: { wrap: false, theather: true }
+            }, title, url);
 
-                // ajax-loading: off
-                $(modalContent).html('');
-
-                // validate response
-                if (!isValidResponse(app_response)) {
-                    return false;
-                }
-
-                // show the response
-                $(modalContent).html(app_response);
-            })
-
+            e.preventDefault();
             return false;
-
         });
 
+        $(document).on('click', '.show-page', function(e) {
+
+            var url = $(this).attr('href');
+            var title = $(this).text();
+
+            History.pushState({
+                url : url,
+                target : 'page'
+            }, title, url);
+
+            e.preventDefault();
+            return false;
+        });
+
+
         // cancel form button
-        $(document).on('click', '.cancel-light-form', function() {
+        $(document).on('click', '.cancel-post-form', function() {
 
-            var url = $(this).data('light-url');
-            // var parents = $(this).parents('.base');
-            // var light_container = parents[1];
-            var light_container = $(this).parents('.light');
-            var wrap_light = false;
+            var url = $(this).data('post-url');
+            var post_container = $(this).parents('.post');
+            var wrap_post = false;
 
-            console.log(light_container);
+            console.log(post_container);
 
-            $.get(url, { wrap: wrap_light } , function(response) {
+            $.get(url, { wrap: wrap_post } , function(response) {
 
                 if (!isValidResponse(response)) {
                     return false;
                 }
 
                 // alert(response);
-                console.log($(light_container));
+                console.log($(post_container));
 
                 $('.tooltip.top').remove();
 
-                $(light_container).html(response);
+                $(post_container).html(response);
 
                 // reload foundation to the document
                 $(document).foundation(); 
@@ -420,20 +523,20 @@ $(document).ready(function() {
 
         });
 
-        // @todo: save light
-        $(document).on('click', '.save-light', function() {
+        // @todo: save post
+        $(document).on('click', '.save-post', function() {
             var parents = $(this).parents();
             var container = parents[1]; 
-            var current_form = $(container).find('form.light-form');
+            var current_form = $(container).find('form.post-form');
 
             $(current_form).submit();
         });
 
         // login handlers
-        $(document).on('submit', 'form.light-form', function() {
+        $(document).on('submit', 'form.post-form', function() {
             var url = $(this).attr('action');
             var data = $(this).serialize();
-            var lightContainer = $(this).parents('div.light');
+            var postContainer = $(this).parents('div.post');
             var submittedForm = $(this);
 
             $.post(url, data, function(response) {
@@ -442,19 +545,19 @@ $(document).ready(function() {
                     return false;
                 }
 
-                $('<div><b>@todo: notify the user that the light has been saved successfully</b></div>').publish(2000);
+                $('<div><b>@todo: Notify the user: Guardado exitosamente</b></div>').publish(2000);
 
-                var light = jQuery.parseJSON(response.light);
-                var rendered_light = response.light_view;
+                var post = jQuery.parseJSON(response.post);
+                var rendered_post = response.post_view;
 
                 if (response.is_new) {
-                    // show rendered light before the new light element
-                    $('#main_light_container').before(rendered_light);
-                    // create a new light creator
-                    newLight(false); 
+                    // show rendered post before the new post element
+                    $('#main_post_container').before(rendered_post);
+                    // create a new post creator
+                    newPost(false); 
                 } else {
-                    // append the rendered light into the edited light
-                    $(lightContainer).html(rendered_light);
+                    // append the rendered post into the edited post
+                    $(postContainer).html(rendered_post);
                 }
 
             }, 'json');
@@ -463,9 +566,9 @@ $(document).ready(function() {
         });
 
          // @todo: check behavior
-        $(document).on('click', '.remove-light', function() {
+        $(document).on('click', '.remove-post', function() {
 
-            var url = $(this).data('light-url');
+            var url = $(this).data('post-url');
             var parents = $(this).parents();
             var containerToRemove = parents[1];
 
@@ -489,7 +592,7 @@ $(document).ready(function() {
                     $(containerToRemove).addClass('hide');
 
                     // @todo: 
-                    $('<div><b>@todo: notify the user that the light has been removed successfully</b></div>').publish(2000);
+                    $('<div><b>@todo: notify the user that the post has been removed successfully</b></div>').publish(2000);
 
                 },
                 complete: function() {
@@ -515,11 +618,54 @@ $(document).ready(function() {
             }
         }
 
+        // modal closed event
+        $(document).on('closed.zf.reveal', '[data-reveal]', function(){
+            closeUrlModal();
+        });
     });
+
 
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     // :::::::::::::::::: application methods :::::::::::::::::::::::
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    
+    function closeUrlModal() {
+        // @todo: get from configuration server (root_url)
+        var url = '/'; 
+        // @todo: get from configuration server
+        var title = 'BubblePages'; 
+        // push fake state
+        History.pushState({ 
+            url : url, 
+            target: 'close-modal' 
+        }, title, url);
+    }
+
+    // function showPost(url) {
+
+    //     var modalContent = $('#modal #modal_content');
+
+    //     // ajax loading: on
+    //     $(modalContent).html('Cargando...');
+
+    //     // go get the post on server
+    //     $.get(url, {
+    //         wrap: false, 
+    //         theather: true
+    //     }, function(app_response) {
+
+    //         // ajax-loading: off
+    //         $(modalContent).html('');
+
+    //         // validate response
+    //         if (!isValidResponse(app_response)) {
+    //             return false;
+    //         }
+
+    //         // show the response
+    //         $(modalContent).html(app_response);
+    //     })
+    // }
     
     function showRanking() {
         
@@ -543,31 +689,31 @@ $(document).ready(function() {
         }, 'html')
     }
     
-    function newLight(on) {
+    function newPost(on) {
         // read the current containers
-        var formNewLight = $('#main_light_container').find('form');
-        var lightContainer = $('#main_light_container').find('.base');
+        var formNewPost = $('#main_post_container').find('form');
+        var postContainer = $('#main_post_container').find('.base');
 
-        console.log(lightContainer);
+        console.log(postContainer);
         
         // ensure form cleaning
-        clearForm($(formNewLight));
+        clearForm($(formNewPost));
 
         if (on) {
             // get the current top of the body to return latter in the cancel
             _currentScrollTop = $('body').scrollTop();
             // show container form
-            $(lightContainer).removeClass('hide');
+            $(postContainer).removeClass('hide');
             // go top the form
-            goTopElement(formNewLight);
+            goTopElement(formNewPost);
             // focus text area
-            $(formNewLight).find('textarea').focus();
+            $(formNewPost).find('textarea').focus();
         } else { 
 
-            console.log(lightContainer);
+            console.log(postContainer);
 
             // hide container form
-            $(lightContainer).addClass('hide');
+            $(postContainer).addClass('hide');
             // return to the saved top
             goTop(_currentScrollTop);
             // reset the last position added
@@ -575,17 +721,15 @@ $(document).ready(function() {
         }
     }
 
-    function showMoreLights(quantity) {
+    function showMorePosts(quantity) {
 
-        var url = lightsUrl;
-        var lightsContainer = $('#lights_container');
-        var lights_on = lightsContainer.find('.light');
-        var from = lights_on.length - 1;
+        var url = postsUrl;
+        var postsContainer = $('#posts_container');
+        var posts_on = postsContainer.find('.post');
+        var from = posts_on.length - 1;
         var limit = quantity ? quantity : null;
-        var buttonToRemove = $('#btn_more_lights');
+        var buttonToRemove = $('#btn_more_posts');
         var original_text = $(buttonToRemove).text();
-
-        console.log(buttonToRemove);
 
         // ajax-loading
         $(buttonToRemove).text('Cargando más luces...');
@@ -600,103 +744,9 @@ $(document).ready(function() {
             }
 
             $(buttonToRemove).parent().remove(); 
-            $(lightsContainer).prepend(app_response);
+            $(postsContainer).prepend(app_response);
 
         }, 'html');
     }
-    
 
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    // :::::::::::::::::::::::: utilities ::::::::::::::::::::::::::: 
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    
-    function clearForm(form) {
-
-        if (!$(form).is('form')) {
-            return;
-        }
-
-        $(form).find('textarea').val('');
-    }
-
-    function goTop(top) {
-
-        top = top ? top : 0;
-
-        $('html, body').animate({
-            scrollTop : top
-        }, 'slow');
-    }
-
-    function goTopElement(element, topless_pixels) {
-        topless_pixels = topless_pixels ? topless_pixels : 30;
-
-        if (!element || element == undefined) {
-            alert('the element not exist');
-        }
-
-        var position = $(element).offset();
-        var position_final = ( position.top - topless_pixels);
-
-        goTop(position_final);
-    }
-
-    
-    function isValidResponse(response) {
-
-        var json_data = getJSON(response);
-
-        if (json_data) {
-
-            var message = null;
-
-            // check for errors 
-            if (json_data.error) {
-
-                message = json_data.message ? json_data.message : 'Ha ocurrido un error en el servidor';
-
-                showFlashMessage(true, message, "info", false);
-                
-                return false            
-
-            }
-
-            // check for expired session
-            if (json_data.session_expired) {
-
-                message = json_data.message ? json_data.message : 'Debe iniciar sesión para continuar';
-
-                $('div#session_expired_message').find('.modal-body #title').text(message);
-
-                $('div#session_expired_message').modal('show');
-
-                return false
-
-            } 
-
-        }
-        
-        return true;
-    }
-
-    function getJSON(data) {
-
-        try {
-
-            if (typeof data == 'object') {
-                return data;
-            }
-
-            var json = jQuery.parseJSON(data);
-
-            return json;
-
-        } catch (e) {
-
-            return false;
-
-        }
-
-    }
-    
 });

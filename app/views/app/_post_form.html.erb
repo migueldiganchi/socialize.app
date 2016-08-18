@@ -1,18 +1,16 @@
-<% 
-    submit_button ||= false
-%>
+<% submit_button ||= false %>
 
-<%= form_for light, html: { class: 'light-form' } do |f| %>
+<%= form_for post, html: { class: 'post-form' } do |f| %>
     <%= f.hidden_field :id %>      
     <%= f.text_area :description, placeholder: '¿Qué harías para mejorar la humandidad?' %>
 
     <% if submit_button %>
         <%= f.submit "Publicar idea", class: "button radius" %>
         <button type="button" 
-            class="secondary button radius cancel-new-light">
+            class="secondary button radius cancel-new-post">
             
                 Cancelar
         </button>
     <% end %>
 
-<% end if light %>
+<% end %>

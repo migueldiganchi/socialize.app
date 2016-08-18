@@ -8,11 +8,11 @@ Rails.application.routes.draw do
   match 'auth/:provider/callback',  to: 'sessions#create',      as: 'login',        via: 'get'
   match 'auth/failure',             to: redirect('/'),                              via: 'get' # @todo: check for errors
   match 'logout',                   to: 'sessions#destroy',     as: 'logout',       via: 'delete'
-  match 'ranking',                  to: 'lights#ranking',                           via: 'get'
+  match 'ranking',                  to: 'posts#ranking',                            via: 'get'
   match 'pages',                    to: 'pages#index',                              via: 'post'
 
   resources :invitations, only: [:create, :update, :destroy]
-  resources :lights
+  resources :posts
   resources :pages, only: [:index]
 
   resources :users do
