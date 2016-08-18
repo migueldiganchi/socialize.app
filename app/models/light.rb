@@ -1,14 +1,11 @@
 class Light < ActiveRecord::Base
   belongs_to :user
+  has_many :pages
 
   validates(:description, length: { maximum: 300 })
 
   def self.get_lights(from = 0, limit = nil)
-
-    lights = Light.all.order('lights.id desc').where({ deleted_at: nil })
-
-    return lights
-
+    Light.all.order('lights.id desc').where({ deleted_at: nil })
   end
 
   def self.get_paginated_lights(from = 0, limit = nil)
@@ -17,9 +14,7 @@ class Light < ActiveRecord::Base
       limit = 3 # @todo: get from configuration
     end
 
-    lights = self.get_lights.offset(from).limit(limit)
-
-    return lights
+    self.get_lights.offset(from).limit(limit)
 
   end
 

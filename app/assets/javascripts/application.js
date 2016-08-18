@@ -47,6 +47,8 @@ $(document).ready(function() {
     var userNameBolder = $('#user_name');
     var modalLightContainer = $('#floating_light');
     var lightsUrl = $('#__lights_url').val();
+    var hdnLoggedIn = $('#__logged_in');
+    var loggedIn = $(hdnLoggedIn).length > 0 && $(hdnLoggedIn).val() == 'true';
 
     $.ajaxSetup({ cache: true });
 
@@ -87,6 +89,8 @@ $(document).ready(function() {
         // request the login status
         function requestLogin() {
             var scope = $('#__facebook_scope').val();
+
+            alert(scope);
             FB.login(function(response) {
                 if (response.authResponse) {
                     handleFacebookResponse(response);
@@ -129,6 +133,7 @@ $(document).ready(function() {
                     var panel = app_response.app_panel;
 
                     showUserInformation(uid, accessToken, panel);
+
                 },
                 complete: function() {
                     console.log('@todo: ajax-off');
@@ -150,9 +155,53 @@ $(document).ready(function() {
                  // reload foundation to the document
                 $(document).foundation(); 
 
+                // go register or recover pages
+                showFacebookPages();
             }, { 
                 access_token: accessToken, 
                 fields: "id, name, email" 
+            });
+        }
+
+        function showUserPages(fpagesToCheck) {
+
+            var url = $('#__user_pages_url').val(); 
+            var data = null;
+
+            if (fpagesToCheck) {
+                data = { fpages: fpagesToCheck };
+            }
+            // @todo: check for valid url
+            
+            // @todo: handle ajax-loading: on
+            $.get(url, data, function(app_response) {
+
+                // @todo: handle ajax-loading: off
+
+                // validate response
+                if (!isValidResponse(app_response)) {
+                    return false;
+                }
+
+                // render content
+                $('.user-pages-container').html(app_response);
+
+            }, 'html');            
+        }
+
+        function showFacebookPages() {
+
+            FB.api('/me/accounts', function(fb_response) {
+
+                // read data of pages from facebook response
+                var fpages = [];
+
+                // prepare data to go check if the user has
+                for (var i = 0; i < fb_response.data.length; i++) {
+                    fpages.push(fb_response.data[i]);
+                }
+
+                showUserPages(fpages);
             });
         }
 
@@ -319,7 +368,10 @@ $(document).ready(function() {
 
             // ajax loading: on
             $(modalContent).html('Cargando...');
-            $.get(url, null, function(app_response) {
+            $.get(url, {
+                wrap: false, 
+                theather: true
+            }, function(app_response) {
 
                 // ajax-loading: off
                 $(modalContent).html('');
@@ -452,6 +504,17 @@ $(document).ready(function() {
 
         });
 
+        // if user dont have pages, we are going to check in facebook
+        if (loggedIn) {
+            // check if user has pages
+            hdnUserHasPages = $('#__user_has_pages');
+            userHasPages = ($(hdnUserHasPages).length > 0 && $(hdnUserHasPages).val() == 'true')
+            // if user has page, go get and show them
+            if (userHasPages) {
+                showUserPages();
+            }
+        }
+
     });
 
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -512,26 +575,6 @@ $(document).ready(function() {
         }
     }
 
-    function showLight(light_id) {
-        // console.log($(modalLightContainer).html());
-
-        // $(modalLightContainer).html('Loading light...');
-
-        // $.get(lightsUrl + '/' + light_id, null, function(response) {
-
-        //     if (!isValidResponse(response)) {
-        //         alert('@todo: close modal');
-        //         return false;
-        //     }
-
-        //     // @todo: show light into the container
-        //     modalLightContainer.html(response);
-
-        // }, 'html');
-        
-        console.log('@todo: show light number: ' + light_id);
-    }
-    
     function showMoreLights(quantity) {
 
         var url = lightsUrl;

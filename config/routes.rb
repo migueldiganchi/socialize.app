@@ -9,9 +9,15 @@ Rails.application.routes.draw do
   match 'auth/failure',             to: redirect('/'),                              via: 'get' # @todo: check for errors
   match 'logout',                   to: 'sessions#destroy',     as: 'logout',       via: 'delete'
   match 'ranking',                  to: 'lights#ranking',                           via: 'get'
+  match 'pages',                    to: 'pages#index',                              via: 'post'
 
   resources :invitations, only: [:create, :update, :destroy]
   resources :lights
+  resources :pages, only: [:index]
+
+  resources :users do
+    resources :pages
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

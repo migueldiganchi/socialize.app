@@ -1,0 +1,11 @@
+<script type="text/javascript">
+    console.log('@todo: load script for only this page that go get info of the page?');
+    alert('@todo: load script for only this page that go get info of the page?');
+</script>
+
+<h1>
+    <%= @page.title %>
+</h1>
+<p>
+    <%= @page.description unless @page.description.nil? || @page.description.strip.blank? %>
+</p>

@@ -20,14 +20,47 @@
 <% if show_next_button %>
 
     <div class="columns small-12">
+    
+        <div id="theather_container">
+            <div id="theather" class="theather">
+                <div id="cover">
+                    <div class=""> <!-- image container -->
+                        <img src="" alt="[title page]">
+                    </div>
+                </div>
+                    
+                <div> <!-- title & description container -->
+                    <h2>
+                        @todo: Title thing
+                    </h2>
+                    <p>
+                        profile description profile description profile description profile description profile description 
+                        profile description profile description profile description profile description profile description 
+                        profile description profile description profile description profile description profile description 
+                        profile description profile description profile description profile description profile description 
+                        profile description profile description profile description profile description profile description 
+                    </p>
+                </div>
+
+
+                <div style="border: solid 1px blue; color: red;">
+                    searcher filtered here
+                </div>
+
+            </div>
+
+        </div>
+
         <button id="btn_more_lights" 
             class="button expanded btn-more-lights" 
             style="margin: 0;">
             Ver más luces encendidas
         </button>
+
     </div>
 
 <% end %>
+
 
 <% paginated_lights.reverse.each do |light| %>   
     <%= render partial: 'app/wrapped_light', locals: { 

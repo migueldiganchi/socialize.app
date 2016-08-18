@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803074800) do
+ActiveRecord::Schema.define(version: 20160817102301) do
 
   create_table "invitations", force: :cascade do |t|
     t.string   "origin_fb_uid"
@@ -37,9 +37,35 @@ ActiveRecord::Schema.define(version: 20160803074800) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.integer  "page_id"
   end
 
+  add_index "lights", ["page_id"], name: "index_lights_on_page_id"
   add_index "lights", ["user_id"], name: "index_lights_on_user_id"
+
+  create_table "pages", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "geo"
+    t.string   "addresses"
+    t.string   "mobiles"
+    t.string   "url"
+    t.string   "fb_access_token"
+    t.string   "fb_category"
+    t.string   "fb_id"
+    t.string   "fb_url"
+    t.string   "fb_cover"
+    t.string   "fb_logo"
+    t.integer  "category_id"
+    t.integer  "user_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "pages", ["category_id"], name: "index_pages_on_category_id"
+  add_index "pages", ["fb_id"], name: "index_pages_on_fb_id"
+  add_index "pages", ["title", "description"], name: "index_pages_on_title_and_description"
+  add_index "pages", ["user_id"], name: "index_pages_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "provider"

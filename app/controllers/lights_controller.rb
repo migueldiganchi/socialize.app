@@ -41,12 +41,17 @@ class LightsController < ApplicationController
   def show  
     # @todo: preconditions > check for params
     @light = Light.find params[:id]
+    
     if request.xhr?
       wrap_light = params.has_key?(:wrap) ? params[:wrap] == 'true' : true
+      theather_mode = params.has_key?(:theather) ? params[:theather] == 'true' : false
       if wrap_light
         render partial: 'app/wrapped_light', locals: { light: @light }
       else
-        render partial: 'app/light', locals: { light: @light }
+        render partial: 'app/light', locals: { 
+          light: @light, 
+          theather_mode: theather_mode 
+        }
       end
     end
     # @todo: handle errors here

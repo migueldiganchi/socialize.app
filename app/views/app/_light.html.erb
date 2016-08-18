@@ -1,4 +1,6 @@
 <% 
+    # abort theather_mode.inspect
+    theather_mode ||= false
     disable_button = light && !light.description.blank?
     is_light_owner = light && logged_in? && current_user.id == light.user_id
     is_changing = defined?(changing) ? changing : false
@@ -9,130 +11,150 @@
 
 %>
 
-<div class="base on <%= light.id ? '' : 'new' + ( logged_in? ? ' hide' : '' ) %>">
 
-    <% if ranked %>
-        <b>ranked light :D</b>
-    <% end %>
+<% if theather_mode %>
 
-    <div class="profile-img-container">
-        <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
+    <div class="theather" style="border: solid 1px red;">
+        <img src="" alt="Image in case exists">
+
+        <h2>
+            @todo: Title nº #<%= @light.id.to_s %>
+        </h2>
+
+        <p>
+            <%= @light.description %>
+        </p>
+            
     </div>
 
-    <% if light && light.id %> 
+<% else # listing_mode %>
+    
+    <div class="base on <%= light.id ? '' : 'new' + ( logged_in? ? ' hide' : '' ) %>">
 
-        <label>
-            <b>
-                <%= is_light_owner ? 'Tu' : light.user.name %>
-            </b> 
-            <i>
-                <%= is_light_owner ? 'dijiste' : 'dijo' %>: 
-            </i>
-        </label>
+        <% if ranked %>
+            <b>ranked light :D</b>
+        <% end %>
 
-        <div class="light-description">
-            <% if is_changing %>
-                <div class="light-form-container">
-                    <%= render partial: 'app/light_form', locals: { light: light, submit_button: false } %>
-                </div>
-            <% else %>
-
-                <%= link_to light_url(id: light.id), class: "show-light", :'data-open' => "modal_light" do %>
-                    <b><%= light.id.to_s %></b> <%= light.description %>
-                <% end %>
-            <% end %>
+        <div class="profile-img-container">
+            <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
         </div>
 
-        <% if is_changing %>
+        <% if light && light.id %> 
 
-            <button type="button" class="success button icn icn-24 plant only-icon top save-light"
-                data-edit-light-url="<%= edit_light_url id: light.id %>"
-                data-tooltip 
-                aria-haspopup="true" 
-                data-click-open="false" 
-                data-disable-hover="false" 
-                tabindex="0" 
-                title="Guardar"></button>
+            <label>
+                <b>
+                    <%= is_light_owner ? 'Tu' : light.user.name %>
+                </b> 
+                <i>
+                    <%= is_light_owner ? 'dijiste' : 'dijo' %>: 
+                </i>
+            </label>
 
-            <button type="button" class="secondary button icn icn-24 cancel only-icon top cancel-light-form"
-                data-light-url="<%= light_url id: light.id %>"
-                data-tooltip 
-                aria-haspopup="true" 
-                data-click-open="false" 
-                data-disable-hover="false" 
-                tabindex="0" 
-                title="Cancelar"></button>
+            <div class="light-description">
+                <% if is_changing %>
+                    <div class="light-form-container">
+                        <%= render partial: 'app/light_form', locals: { light: light, submit_button: false } %>
+                    </div>
+                <% else %>
 
-        <% else %>
+                    <%= link_to light_url(id: light.id), class: "show-light", :'data-open' => "modal_light" do %>
+                        <b><%= light.id.to_s %></b> <%= light.description %>
+                    <% end %>
+                <% end %>
+            </div>
 
-            <button type="button" class="button face icn icn-24 share only-icon top"
-                data-tooltip 
-                aria-haspopup="true" 
-                data-click-open="false" 
-                data-disable-hover="false" 
-                tabindex="2" 
-                title="Compartir esta idea en facebook"></button>
+            <% if is_changing %>
 
-            <button type="button" class="button icn icn-24 positive only-icon top"
-                data-tooltip 
-                aria-haspopup="true" 
-                data-click-open="false" 
-                data-disable-hover="false" 
-                tabindex="2" 
-                title="Voto positivo"></button>
-
-            <button type="button" class="button icn icn-24 negative only-icon top"
-                data-tooltip 
-                aria-haspopup="true" 
-                data-click-open="false" 
-                data-disable-hover="false" 
-                tabindex="2" 
-                title="Voto negativo"></button>
-
-            <button type="button" class="button icn icn-24 comment only-icon top"
-                data-tooltip 
-                aria-haspopup="true" 
-                data-click-open="false" 
-                data-disable-hover="false" 
-                tabindex="2" 
-                title="Comentario"></button>
-
-            <% if is_light_owner %>
-
-                <button type="button" class="button icn icn-24 pencil only-icon top edit-light"
-                    data-light-id="<%= light.id %>" 
+                <button type="button" class="success button icn icn-24 plant only-icon top save-light"
                     data-edit-light-url="<%= edit_light_url id: light.id %>"
                     data-tooltip 
                     aria-haspopup="true" 
                     data-click-open="false" 
                     data-disable-hover="false" 
-                    tabindex="2" 
-                    title="Editar"></button>
+                    tabindex="0" 
+                    title="Guardar"></button>
 
-                <button type="button" class="button icn icn-24 trash only-icon top remove-light"
+                <button type="button" class="secondary button icn icn-24 cancel only-icon top cancel-light-form"
                     data-light-url="<%= light_url id: light.id %>"
                     data-tooltip 
                     aria-haspopup="true" 
                     data-click-open="false" 
-                    data-disable-hover="false"  
+                    data-disable-hover="false" 
+                    tabindex="0" 
+                    title="Cancelar"></button>
+
+            <% else %>
+
+                <button type="button" class="button face icn icn-24 share only-icon top"
+                    data-tooltip 
+                    aria-haspopup="true" 
+                    data-click-open="false" 
+                    data-disable-hover="false" 
                     tabindex="2" 
-                    title="Eliminar"></button>
+                    title="Compartir esta idea en facebook"></button>
+
+                <button type="button" class="button icn icn-24 positive only-icon top"
+                    data-tooltip 
+                    aria-haspopup="true" 
+                    data-click-open="false" 
+                    data-disable-hover="false" 
+                    tabindex="2" 
+                    title="Voto positivo"></button>
+
+                <button type="button" class="button icn icn-24 negative only-icon top"
+                    data-tooltip 
+                    aria-haspopup="true" 
+                    data-click-open="false" 
+                    data-disable-hover="false" 
+                    tabindex="2" 
+                    title="Voto negativo"></button>
+
+                <button type="button" class="button icn icn-24 comment only-icon top"
+                    data-tooltip 
+                    aria-haspopup="true" 
+                    data-click-open="false" 
+                    data-disable-hover="false" 
+                    tabindex="2" 
+                    title="Comentario"></button>
+
+                <% if is_light_owner %>
+
+                    <button type="button" class="button icn icn-24 pencil only-icon top edit-light"
+                        data-light-id="<%= light.id %>" 
+                        data-edit-light-url="<%= edit_light_url id: light.id %>"
+                        data-tooltip 
+                        aria-haspopup="true" 
+                        data-click-open="false" 
+                        data-disable-hover="false" 
+                        tabindex="2" 
+                        title="Editar"></button>
+
+                    <button type="button" class="button icn icn-24 trash only-icon top remove-light"
+                        data-light-url="<%= light_url id: light.id %>"
+                        data-tooltip 
+                        aria-haspopup="true" 
+                        data-click-open="false" 
+                        data-disable-hover="false"  
+                        tabindex="2" 
+                        title="Eliminar"></button>
+
+                <% end %>
 
             <% end %>
 
-        <% end %>
+        <% else %>
 
-    <% else %>
+            <% if logged_in? %>
+                <h6 style="line-height: 30px;">
+                    Aporta una <i>buena idea</i> para mejorar el mundo
+                </h6>
+                <div class="light-form-container">
+                    <%= render partial: 'app/light_form', locals: { light: light, submit_button: true } %>
+                </div>
+            <% end %>
+           
+        <% end %> 
 
-        <% if logged_in? %>
-            <h6 style="line-height: 30px;">
-                Aporta una <i>buena idea</i> para mejorar el mundo
-            </h6>
-            <div class="light-form-container">
-                <%= render partial: 'app/light_form', locals: { light: light, submit_button: true } %>
-            </div>
-        <% end %>
-       
-    <% end %> 
+    </div>
 
-</div>
+<% end %>
