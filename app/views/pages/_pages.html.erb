@@ -1,4 +1,4 @@
 <!-- @todo: get profile page too -->
 <% @pages.each do |page| %>
-    <%= link_to page.title, user_page_url(id: page.id), class:"button face icn icn-24 facebook" %>
+    <%= link_to page.name, user_page_url(id: page.id), class:"button face icn icn-24 facebook" %>
 <% end %>

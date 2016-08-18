@@ -27,7 +27,7 @@ class PagesController < ApplicationController
           page = current_user.pages.build
 
           # set basic values
-          page.title = fpage[:name]
+          page.name = fpage[:name]
           page.fb_category = fpage[:category]
           page.fb_access_token = fpage[:access_token]
           page.fb_id = fpage[:id]
