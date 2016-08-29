@@ -171,23 +171,26 @@ main {
     // border: solid 1px red;
 }
 
+.circular-image {
+    @include box_circle;
+    border: solid 3px red;
+    height: 5em;
+    width: 5em;
+    img {
+        @include box_circle;
+        display: inline;
+        height: 100%;
+        width: 100%;
+    }
+}
+
 .profile {
     color: $white;
     text-align: center;
 
-    .profile-img-container {
-        @include box_circle;
-        display: block;
-        margin: 0 auto;
+    .circular-image {
         height: 6em;
         width: 6em;
-        
-        img {
-            @include box_circle;
-            display: inline;
-            height: 100%;
-            width: 100%;
-        }
     }
 }
 
@@ -209,7 +212,7 @@ main {
     }
 
     // override profile
-    .profile-img-container {
+    .circular-image {
         height: 3.5em;
         width: 3.5em;
     }

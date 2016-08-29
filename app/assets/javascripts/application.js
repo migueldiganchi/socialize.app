@@ -84,7 +84,6 @@ $(function() {
                 showPage(url);
                 break;
             case 'close-modal': 
-                alert(target);
                 break;
             default:
                 alert('reload all app_panel');
@@ -151,8 +150,6 @@ $(function() {
 });
     
 $(document).ready(function() {
-    // ajax-routing
-
     // controls
     var dynamicContainer = $('#dynamic_container');
     var appContainer = $('main');
@@ -196,16 +193,16 @@ $(document).ready(function() {
         // check for login status
         function checkLoginState() {
             loginButton.text('Verificando conexión con facebook...');
-            FB.getLoginStatus(function(response) {
-                handleFacebookResponse(response);
+            FB.getLoginStatus(function(fb_response) {
+                handleFacebookResponse(fb_response);
             });
         }
 
         // request the login status
         function requestLogin() {
+
             var scope = $('#__facebook_scope').val();
 
-            alert(scope);
             FB.login(function(response) {
                 if (response.authResponse) {
                     handleFacebookResponse(response);
@@ -271,7 +268,7 @@ $(document).ready(function() {
                 $(document).foundation(); 
 
                 // go register or recover pages
-                showFacebookPages();
+                showFacebookPages(accessToken);
             }, { 
                 access_token: accessToken, 
                 fields: "id, name, email" 
@@ -304,9 +301,16 @@ $(document).ready(function() {
             }, 'html');            
         }
 
-        function showFacebookPages() {
+        function showFacebookPages(accessToken) {
 
             FB.api('/me/accounts', function(fb_response) {
+
+                console.log(fb_response);
+                if (fb_response.error) {
+                    console.info('facebook response error: ' + fb_response.error.message);
+                    showMessage('Error al obtener las páginas');
+                    return;
+                }
 
                 // read data of pages from facebook response
                 var fpages = [];
@@ -317,6 +321,8 @@ $(document).ready(function() {
                 }
 
                 showUserPages(fpages);
+            }, { 
+                access_token: accessToken
             });
         }
 
@@ -545,7 +551,8 @@ $(document).ready(function() {
                     return false;
                 }
 
-                $('<div><b>@todo: Notify the user: Guardado exitosamente</b></div>').publish(2000);
+                showMessage();
+                // $('<div><b>@todo: Notify the user: Guardado exitosamente</b></div>').publish(2000);
 
                 var post = jQuery.parseJSON(response.post);
                 var rendered_post = response.post_view;
@@ -608,27 +615,31 @@ $(document).ready(function() {
         });
 
         // if user dont have pages, we are going to check in facebook
-        if (loggedIn) {
-            // check if user has pages
-            hdnUserHasPages = $('#__user_has_pages');
-            userHasPages = ($(hdnUserHasPages).length > 0 && $(hdnUserHasPages).val() == 'true')
-            // if user has page, go get and show them
-            if (userHasPages) {
-                showUserPages();
-            }
-        }
+        // if (loggedIn) {
+
+        //     // check if user has pages
+        //     showFacebookPages();
+        //     // hdnUserHasPages = $('#__user_has_pages');
+        //     // userHasPages = ($(hdnUserHasPages).length > 0 && $(hdnUserHasPages).val() == 'true')
+        //     // // if user has page, go get and show them
+        //     // if (userHasPages) {
+        //     //     showUserPages();
+        //     // }
+        // }
 
         // modal closed event
         $(document).on('closed.zf.reveal', '[data-reveal]', function(){
             closeUrlModal();
         });
+
+        checkLoginState();
     });
 
 
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     // :::::::::::::::::: application methods :::::::::::::::::::::::
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    
+   
     function closeUrlModal() {
         // @todo: get from configuration server (root_url)
         var url = '/'; 
@@ -747,6 +758,10 @@ $(document).ready(function() {
             $(postsContainer).prepend(app_response);
 
         }, 'html');
+    }
+
+    function showMessage(message) {
+        $('<div><b>' + message + '</b></div>').publish(2000);
     }
 
 });

@@ -15,18 +15,88 @@
 
 <% content_for(:title) do "Enciende una luz por la humanidad" end %>
 
+<!-- top searcher (floating?) -->
+<div style="border: solid 1px blue; display: inline-block; padding: 10px;/* position: absolute; top: 10px; left: 10px;*/">
+    <div style="border: solid 1px green; display: inline-block; text-align: center;">
+        <div class="circular-image">
+            <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
+        </div>
+    </div>
+    <div style="border: solid 1px green; display: inline-block;">
+        Todas las categorías
+    </div>
+    <div style="border: solid 1px green; display: inline-block;">
+        Todas las subcategorías
+    </div>
+    <div style="border: solid 1px green; display: inline-block;">
+        Ubicación
+    </div>
+    <div style="border: solid 1px green; display: inline-block;">
+        Publicaciones desde el comienzo
+    </div>
+    <div style="border: solid 1px green; display: inline-block;">
+        <input type="text" name="searcher_input" value="searcher">
+    </div>
+    <div style="border: solid 1px green; display: inline-block;">
+        (lupa)
+    </div>
+</div>
+
 <div class="row">
 
-    <!-- left -->
-    <!-- <div class="columns small-3 small-centered float-left"> -->
-    <div class="columns small-12 small-centered float-left">
+    <!-- main toolbar -->
+    <div class="toolbar clearfix" style="border: solid 2px orange;">
+        <div class="columns small-5 float-left">
 
-        <div class="profile">
+            <button type="button" 
+                id="invite_button"
+                class="button face icn icn-32 friends only-icon">
+            </button>
+
+            <button type="button" 
+                class="button face icn icn-32 ranking only-icon">
+            </button>
+
+            <% if logged_in? %>
+
+                <%= link_to '', 
+                    logout_path, 
+                    method: 'delete', 
+                    id: 'logout_button', 
+                    class: 'button face icn icn-32 shutdown only-icon',
+                    data: { confirm: '¿Está seguro que desea salir del juego?' } %>
+            <% end %>
+        </div>
+        <div class="columns small-2 float-left">
+            <div class="profile-img-container circular-image">
+                <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
+            </div>
+        </div>
+        <div class="columns small-5 float-right">
+            <ul class="dropdown menu" data-dropdown-menu>
+              <li>
+                    <a href="#">Item 1</a>
+                    <ul class="menu">
+                        <li>
+                            <a href="#">Item 1A</a>
+                        </li>
+                        <!-- ... -->
+                    </ul>
+                </li>
+                <li><a href="#">Item 2</a></li>
+                <li><a href="#">Item 3</a></li>
+                <li><a href="#">Item 4</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="columns small-12 small-centered" style="border: solid 1px violet;">
+        <div class="profile" style="border: solid 1px blue;">
             <h3>
                 Hola<%= " #{current_user.name}" if current_user %>!
             </h3>
 
-            <div class="profile-img-container">
+            <div class="profile-img-container circular-image">
                 <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
             </div>
 
@@ -50,16 +120,16 @@
         <% end %>
 
         <div class="actions">
-            <button type="button" 
+            <!-- <button type="button" 
                 id="invite_button"
                 class="button face icn icn-32 friends only-icon">
             </button>
 
             <button type="button" 
                 class="button face icn icn-32 ranking only-icon">
-            </button>
+            </button> -->
 
-            <% if logged_in? %>
+<!--             <% if logged_in? %>
 
                 <%= link_to '', 
                     logout_path, 
@@ -69,7 +139,7 @@
                     data: { confirm: '¿Está seguro que desea salir del juego?' } %>
 
             <% end %>
-
+ -->
             <div id="fixed_panel">
 
                 <button type="button"
@@ -120,7 +190,7 @@
 
                 <%= link_to(
                         'Publicaciones de tu perfil', 
-                        '#', 
+                        user_url(id: current_user.id), 
                         class: 'button face icn icn-24 facebook init-profile',
                         style: 'width: 100%;'
                     ) %>
@@ -135,8 +205,6 @@
         </div>  
     </div>
 
-    <!-- left -->
-    <!-- <div class="columns small-9 small-centered" style="padding: 0; margin: 0;"> -->
     <div class="columns small-12 small-centered" style="padding: 0; margin: 0;">
         <div id="posts_container">
             <!-- dynamic loading of more posts -->

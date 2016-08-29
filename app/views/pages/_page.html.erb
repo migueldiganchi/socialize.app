@@ -3,9 +3,25 @@
     alert('@todo: load script for only this page that go get info of the page?');
 </script>
 
-<h1>
-    <%= @page.name %>
-</h1>
-<p>
-    <%= @page.description unless @page.description.nil? || @page.description.strip.blank? %>
-</p>
+<div class="user-page" id="user_page_<%= @page.id %>">
+
+    <!-- header page container(?) -->
+    <div>
+        <h1>
+            <%= @page.name %>
+        </h1>
+        <p>
+            <%= @page.description unless @page.description.nil? || @page.description.strip.blank? %>
+        </p>
+    </div>
+
+    <!-- all posts of this page container -->
+    <div>
+        <div>
+            columns of user tags (@tooo: each tag, diferent colors)
+        </div>
+        <div>
+            all posts of the pages
+        </div>
+    </div>
+</div>
