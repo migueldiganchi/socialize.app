@@ -66,8 +66,7 @@ $red: #ea4335;
 $green: #34a853;
 $blue-face: #3b5998;
 $blue-face-light: scale-color($blue-face, $lightness: -15%);
-$green-faso: #49a942;
-$green-faso-light: scale-color($green-faso, $lightness: -15%);
+$sky: #6178A7;
 $body-background: $blue-face;
 $body-font-color: $white;
 $body-font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
@@ -589,10 +588,22 @@ $topbar-unstack-breakpoint: medium;
     opacity: 0.50;
 }
 
+@mixin no_radius {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
 @mixin box_radius_5 {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+}
+
+@mixin no_shadow {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 @mixin base_shadow {
@@ -607,7 +618,13 @@ $topbar-unstack-breakpoint: medium;
   box-shadow: 0px -2px 29px 6px rgba(248,255,36,1);
 }
 
-@mixin base_shadow_level_1 {
+@mixin shadow_level_1 {
+  -webkit-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 4px 4px 5px 0px rgba(0,0,0,0.75);
+}
+
+@mixin shadow_level_2 {
   -webkit-box-shadow: 5px 5px 18px -1px rgba(0,0,0,0.75);
   -moz-box-shadow: 5px 5px 18px -1px rgba(0,0,0,0.75);
   box-shadow: 5px 5px 18px -1px rgba(0,0,0,0.75);

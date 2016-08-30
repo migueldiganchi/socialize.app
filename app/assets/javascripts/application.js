@@ -35,8 +35,11 @@ $(window).scroll(function(event){
    _currentScrollTop = st;
 });
 
-// basic setups
-(function($) {
+$(document).foundation();
+
+/* <document.init> */
+$(function() {
+
     // ajax configurations
     $.ajaxSetup({ 
         cache : false,
@@ -44,11 +47,6 @@ $(window).scroll(function(event){
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
         } 
     });
-});
-
-$(document).foundation();
-
-$(function() {
 
     // Prepare ajax routing
     var History = window.History;
@@ -148,9 +146,13 @@ $(function() {
     }
 
 });
-    
+/*</document.init>*/
+
+/* <document.ready> */
 $(document).ready(function() {
+
     // controls
+    
     var dynamicContainer = $('#dynamic_container');
     var appContainer = $('main');
     var logoutButton = $('#logout_button');
@@ -162,8 +164,12 @@ $(document).ready(function() {
     var hdnLoggedIn = $('#__logged_in');
     var loggedIn = $(hdnLoggedIn).length > 0 && $(hdnLoggedIn).val() == 'true';
 
+    // app handlers: handlers that should request the app database
+    
+
     $.ajaxSetup({ cache: true });
 
+    /* <facebook.scripts> */
     $.getScript('//connect.facebook.net/en_US/sdk.js', function() {
 
         var facebook_app_id = $('#__facebook_app_id').val();
@@ -403,6 +409,28 @@ $(document).ready(function() {
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         // :::::::::::::::: application handlers :::::::::::::::::::::::: 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        
+
+        $(document).on('click', '#filter_categories', function() {
+            alert('@todo: init categories filter');
+        });
+
+        $(document).on('click', '#filter_location', function() {
+            alert('@todo: init location filter');
+        });
+
+        $(document).on('click', '#filter_time', function() {
+            alert('@todo: init time fukter');
+        });
+
+        $(document).on('click', '#filter_entity', function() {
+            alert('@todo: init entity filter');
+        });
+
+        $(document).on('submit', 'form#searcher_form', function() {
+            alert('@todo: do the search');
+            return false; // avoid callback
+        });
 
         $(document).on('click', '.button.icn.positive', function(e) {
             // @todo: post positive votation service
@@ -631,8 +659,9 @@ $(document).ready(function() {
         $(document).on('closed.zf.reveal', '[data-reveal]', function(){
             closeUrlModal();
         });
+    }); 
+    /* </facebook.scripts> */
 
-    });
 
 
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -659,6 +688,7 @@ $(document).ready(function() {
     //     $(modalContent).html('Cargando...');
 
     //     // go get the post on server
+    //     
     //     $.get(url, {
     //         wrap: false, 
     //         theather: true
@@ -764,3 +794,4 @@ $(document).ready(function() {
     }
 
 });
+/* </document.ready> */

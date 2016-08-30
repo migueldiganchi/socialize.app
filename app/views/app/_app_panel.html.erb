@@ -16,12 +16,54 @@
 <% content_for(:title) do "Enciende una luz por la humanidad" end %>
 
 <div class="top-bar">
-    <div class="top-bar-title"></div>
+
+    <div class="top-bar-title">
+        <!-- icon app here -->
+        <h3>Clasifase.com</h3>
+    </div>
+
     <div>
+        <!-- left -->
         <div class="top-bar-left">
-            some content in the left
+            <form method="get" action="/searcher" id="searcher_form">
+
+                <div class="row">
+
+                    <div class="large-7 columns">
+                        <button type="button" 
+                            id="filter_categories"
+                            class="button face icn icn-24 categories only-icon">
+                        </button>
+                    
+                        <button type="button" 
+                            id="filter_location"
+                            class="button face icn icn-24 location only-icon">
+                        </button>
+
+                        <button type="button" 
+                            id="filter_time"
+                            class="button face icn icn-24 calendar only-icon">
+                        </button>
+
+                        <button type="button" 
+                            id="filter_entity"
+                            class="button face dropdown">
+                            Publicaciones
+                        </button>
+                    </div>
+
+                    <div class="large-5 columns">
+                        <input type="text" name="filter_text" id="filter_text" class="input-group">
+                    </div>
+                </div>
+                
+            </form>
+
         </div>
+
+        <!-- right -->
         <div class="top-bar-right">
+
             <% if logged_in? %>
 
                 <%= link_to '', 
@@ -55,7 +97,7 @@
     </div>
 </div>
 
-<div class="row" style="border: solid 1px green;">
+<div class="row" style="border: solid 1px red;">
     <div class="columns small-12 small-centered" style="border: solid 1px violet;">
         <div class="profile" style="border: solid 1px blue;">
             <h3>
