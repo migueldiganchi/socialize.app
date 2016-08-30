@@ -1,16 +1,16 @@
 @import 'settings';
 
-
 header {
     padding: 2em;
 }
 
 main {
-    padding: 1em
+    background: $blue-face;
 }
 
-#app_container {
-    border-left: solid 3px #c9c9c9;
+.top-bar {
+    border: solid 1px blue;
+    padding: 0;
 }
 
 .radius-5 {
@@ -26,21 +26,11 @@ main {
 }
 
 #fixed_panel {
-    @include transparency_background;
-    padding: 10px 15px;
-    max-width: 100px;
-    position: fixed;
-    bottom: 10px;
-    right: 30px;
-    button {
-        margin: 5px 0 10px;
-        &:last-child {
-            margin-bottom: 5px;
-        }
-    }
+    // @todo
 }
 
 .button {
+    @include base_shadow;
 
     margin: 0;
 
@@ -58,6 +48,7 @@ main {
     }
 
     &.icn {
+        // border: solid 1px violet;
         
         background-repeat: no-repeat;
 
@@ -116,51 +107,7 @@ main {
 }
 
 .invitations {
-
-    padding: 0;
-    
-    .invitation {
-
-        border: solid 3px;
-
-        &.pending {
-            border-color: $medium-gray;
-        }
-
-        &.playing {
-            border-color: $blue;
-        }
-
-        &.accepted {
-            border-color:  $green;
-        }
-
-        &.rejected {
-            border-color: $red;
-        }
-
-        display: inline-block;
-        width: 9em;
-        height: 9em;
-        margin: 0.5em 0.2em;
-        position: relative;
-
-        img {
-            position: absolute;
-            margin: auto;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 8.6em;
-            height: 8.6em;
-
-            &.pending {
-                @include opaqued;
-            }
-        }
-    }
-
+    // @todo: rewrite
 }
 
 #ranking_container {
@@ -195,38 +142,15 @@ main {
 }
 
 .theather {
-    border: solid 1px blue;
-    color: blue;
+    // @todo
 }
 
 .post {
-
-    padding: 10px 0;
-
-    .post-description {
-        padding: 10px 0;
-        // min-height: 7em;
-        margin-bottom: 10px;
-        font-size: $small-font-size;
-        border-bottom: solid 1px #555;
-    }
-
-    // override profile
-    .circular-image {
-        height: 3.5em;
-        width: 3.5em;
-    }
+    // @todo
 }
 
 #btn_more_posts {
-    background-color: $dark_gray;
-    color: #e9e9e9;
-    @include base_shadow;
-
-    &:hover, &:focus {
-        color: #fff;
-        @include base_shadow_light;
-    }
+    // @todo
 }
 
 .post .base {
@@ -242,9 +166,8 @@ main {
     // &.off { @include base_shadow; }
 }
 
-
-
 footer {
+    border: solid 1px violet;
     padding: 50px;
     text-align: center;
 }

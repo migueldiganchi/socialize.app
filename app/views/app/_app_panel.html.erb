@@ -15,81 +15,47 @@
 
 <% content_for(:title) do "Enciende una luz por la humanidad" end %>
 
-<!-- top searcher (floating?) -->
-<div style="border: solid 1px blue; display: inline-block; padding: 10px;/* position: absolute; top: 10px; left: 10px;*/">
-    <div style="border: solid 1px green; display: inline-block; text-align: center;">
-        <div class="circular-image">
-            <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
+<div class="top-bar">
+    <div class="top-bar-title"></div>
+    <div>
+        <div class="top-bar-left">
+            some content in the left
         </div>
-    </div>
-    <div style="border: solid 1px green; display: inline-block;">
-        Todas las categorías
-    </div>
-    <div style="border: solid 1px green; display: inline-block;">
-        Todas las subcategorías
-    </div>
-    <div style="border: solid 1px green; display: inline-block;">
-        Ubicación
-    </div>
-    <div style="border: solid 1px green; display: inline-block;">
-        Publicaciones desde el comienzo
-    </div>
-    <div style="border: solid 1px green; display: inline-block;">
-        <input type="text" name="searcher_input" value="searcher">
-    </div>
-    <div style="border: solid 1px green; display: inline-block;">
-        (lupa)
-    </div>
-</div>
-
-<div class="row">
-
-    <!-- main toolbar -->
-    <div class="toolbar clearfix" style="border: solid 2px orange;">
-        <div class="columns small-5 float-left">
-
-            <button type="button" 
-                id="invite_button"
-                class="button face icn icn-32 friends only-icon">
-            </button>
-
-            <button type="button" 
-                class="button face icn icn-32 ranking only-icon">
-            </button>
-
+        <div class="top-bar-right">
             <% if logged_in? %>
 
                 <%= link_to '', 
                     logout_path, 
                     method: 'delete', 
                     id: 'logout_button', 
-                    class: 'button face icn icn-32 shutdown only-icon',
+                    class: 'button face icn icn-24 shutdown only-icon',
                     data: { confirm: '¿Está seguro que desea salir del juego?' } %>
+
+            <% else %>
+
+                <%= link_to(
+                    'Comenzar con facebook', 
+                    '/auth/facebook', 
+                    id: 'login_button', 
+                    class: 'button face icn icn-24 facebook'
+                ) %>
+
             <% end %>
-        </div>
-        <div class="columns small-2 float-left">
-            <div class="profile-img-container circular-image">
-                <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
-            </div>
-        </div>
-        <div class="columns small-5 float-right">
-            <ul class="dropdown menu" data-dropdown-menu>
-              <li>
-                    <a href="#">Item 1</a>
-                    <ul class="menu">
-                        <li>
-                            <a href="#">Item 1A</a>
-                        </li>
-                        <!-- ... -->
-                    </ul>
-                </li>
-                <li><a href="#">Item 2</a></li>
-                <li><a href="#">Item 3</a></li>
-                <li><a href="#">Item 4</a></li>
-            </ul>
+
+            <button type="button" 
+                id="invite_button"
+                class="button face icn icn-24 friends only-icon">
+            </button>
+
+            <button type="button" 
+                class="button face icn icn-24 ranking only-icon">
+            </button>
+
         </div>
     </div>
+</div>
 
+<div class="row" style="border: solid 1px green;">
     <div class="columns small-12 small-centered" style="border: solid 1px violet;">
         <div class="profile" style="border: solid 1px blue;">
             <h3>
@@ -106,40 +72,8 @@
             </h5>
         </div>
 
-        <% if !logged_in? %>
-
-            <div>
-                <%= link_to(
-                    'Comenzar con facebook', 
-                    '/auth/facebook', 
-                    id: 'login_button', 
-                    class: 'button face icn icn-24 facebook'
-                ) %>
-            </div>
-
-        <% end %>
-
         <div class="actions">
-            <!-- <button type="button" 
-                id="invite_button"
-                class="button face icn icn-32 friends only-icon">
-            </button>
-
-            <button type="button" 
-                class="button face icn icn-32 ranking only-icon">
-            </button> -->
-
-<!--             <% if logged_in? %>
-
-                <%= link_to '', 
-                    logout_path, 
-                    method: 'delete', 
-                    id: 'logout_button', 
-                    class: 'button face icn icn-32 shutdown only-icon',
-                    data: { confirm: '¿Está seguro que desea salir del juego?' } %>
-
-            <% end %>
- -->
+    
             <div id="fixed_panel">
 
                 <button type="button"
@@ -177,32 +111,6 @@
 
         </div>
 
-        <div id="ranking_container">
-
-            <%= link_to(
-                    'Todas', 
-                    '#', 
-                    class: 'button face icn icn-24 facebook init-all',
-                    style: 'width: 100%;'
-                ) %>
-
-            <% if logged_in? %>
-
-                <%= link_to(
-                        'Publicaciones de tu perfil', 
-                        user_url(id: current_user.id), 
-                        class: 'button face icn icn-24 facebook init-profile',
-                        style: 'width: 100%;'
-                    ) %>
-
-                <div class="user-pages-container">
-                    <!-- dynamic pages container -->
-                </div>
-
-            <% end %>
-
-
-        </div>  
     </div>
 
     <div class="columns small-12 small-centered" style="padding: 0; margin: 0;">

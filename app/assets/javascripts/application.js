@@ -632,7 +632,6 @@ $(document).ready(function() {
             closeUrlModal();
         });
 
-        checkLoginState();
     });
 
 
