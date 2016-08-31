@@ -1,0 +1,16 @@
+<!-- @todo: dynamic content -->
+<div>
+    <span class="selector-closer">
+        &times;
+    </span>
+
+    <h6>Seleccione una categoría</h6>
+
+    <% if @categories.count > 0 %>
+        <ul>
+            <% @categories.each do |category| %>
+                <li><%= category.name %></li>
+            <% end %>
+        </ul>
+    <% end %>
+</div>

@@ -32,28 +32,34 @@
                     <div class="large-7 columns">
                         <button type="button" 
                             id="filter_categories"
-                            class="button face icn icn-24 categories only-icon">
+                            class="button face icn icn-24 categories selector only-icon"
+                            data-selector-url="<%= categories_selector_url %>">
+                            <div class="selector-container shadow-level-1 opacity-face hide"></div>
                         </button>
                     
                         <button type="button" 
                             id="filter_location"
-                            class="button face icn icn-24 location only-icon">
+                            class="button face icn icn-24 location selector only-icon">
+                            <div class="selector-container shadow-level-1 opacity-face hide"></div>
                         </button>
 
                         <button type="button" 
                             id="filter_time"
-                            class="button face icn icn-24 calendar only-icon">
+                            class="button face icn icn-24 calendar selector only-icon"
+                            data-selector-url="<%= time_selector_url %>">
+                            <div class="selector-container shadow-level-1 opacity-face hide"></div>
                         </button>
 
                         <button type="button" 
                             id="filter_entity"
                             class="button face dropdown">
                             Publicaciones
+                            <!-- @todo -->
                         </button>
                     </div>
 
                     <div class="large-5 columns">
-                        <input type="text" name="filter_text" id="filter_text" class="input-group">
+                        <input type="text" name="filter_text" id="filter_text" class="input-group" placeholder="Buscar">
                     </div>
                 </div>
                 

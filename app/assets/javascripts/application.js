@@ -410,25 +410,80 @@ $(document).ready(function() {
         // :::::::::::::::: application handlers :::::::::::::::::::::::: 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         
+        function openSelector(openerButton) {
+            console.log('@todo: read position from html attribute');
+            console.log('@todo: read width from html attribute');
+            console.log('@todo: set left position as html attribute');
 
-        $(document).on('click', '#filter_categories', function() {
-            alert('@todo: init categories filter');
+
+            // close all previous selectors
+            closeSelectors();
+
+            // mark as pressed button
+            $(openerButton).addClass('pressed');
+
+            // get current container
+            var selectorContainer = $(openerButton).find('.selector-container');
+
+            // show container
+            $(selectorContainer).removeClass('hide');
+
+            // check if the selector is empty
+            if ($(selectorContainer).isEmpty()) {
+
+                var url = $(openerButton).data('selector-url');
+                var loadingMessage = 'Cargando filtro'; 
+                console.log('@todo: get loading message from html attribute');
+
+                if (url === undefined) {
+                    console.log('@todo: resolve this');
+                    return;
+                }
+                
+                $(selectorContainer).html(loadingMessage);
+
+                // go get selector to the server
+                $.get(url, null, function(app_response) {
+                    // validate response
+                    if (!isValidResponse(app_response)){
+                        // @todo: revert process
+                        return false;
+                    }
+
+                    $(selectorContainer).html(app_response);
+
+                }, 'html');
+            }
+        }
+        
+        function closeSelectors() {
+            $('.button').removeClass('pressed');
+            $('.selector-container').addClass('hide');
+        }
+
+        $(document).on('click', '.selector', function() {
+            openSelector(this);
         });
 
-        $(document).on('click', '#filter_location', function() {
-            alert('@todo: init location filter');
-        });
-
-        $(document).on('click', '#filter_time', function() {
-            alert('@todo: init time fukter');
+        $(document).on('click', '.selector-closer', function(e) {
+            closeSelectors();
+            e.preventDefault();
+            return false;
         });
 
         $(document).on('click', '#filter_entity', function() {
-            alert('@todo: init entity filter');
+            console.log('@todo: show selector');
+            console.log('@todo: check if the selector container is empty');
+            var selector_container = $(this).find('.selector_container');
+
+            console.log('@todo: if empty => go get content from server');
+            console.log('@todo: if not empty => just show it');
         });
 
+        console.log('@todo: any selectors when user clicks anywhere');
+
         $(document).on('submit', 'form#searcher_form', function() {
-            alert('@todo: do the search');
+            alert('@todo: go search');
             return false; // avoid callback
         });
 

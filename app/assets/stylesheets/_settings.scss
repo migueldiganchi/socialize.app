@@ -600,18 +600,6 @@ $topbar-unstack-breakpoint: medium;
   border-radius: 5px;
 }
 
-@mixin no_shadow {
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-@mixin base_shadow {
-  -moz-box-shadow:    0px 0px 3px 0px #c9c9c9;
-  -webkit-box-shadow: 0px 0px 3px 0px #c9c9c9;
-          box-shadow: 0px 0px 3px 0px #c9c9c9;
-}
-
 @mixin base_shadow_light {
   -webkit-box-shadow: 0px -2px 29px 6px rgba(248,255,36,1);
   -moz-box-shadow: 0px -2px 29px 6px rgba(248,255,36,1);
@@ -630,6 +618,12 @@ $topbar-unstack-breakpoint: medium;
   box-shadow: 5px 5px 18px -1px rgba(0,0,0,0.75);
 }
 
+@mixin no_shadow {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
 @mixin transparency_background {
   /* Fallback for web browsers that doesn't support RGBa */
   background: rgb(0, 0, 0) transparent;
@@ -639,6 +633,17 @@ $topbar-unstack-breakpoint: medium;
   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
   /* For IE 8*/
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+}
+
+@mixin transparency_background_face {
+    /* Fallback for web browsers that doesn't support RGBa */
+  background: rgb(59, 89, 152) transparent;
+  /* RGBa with 0.6 opacity */
+  background: rgba(59, 89, 152, 0.75);
+  /* For IE 5.5 - 7*/
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#3b5998, endColorstr=#3b5998);
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#3b5998, endColorstr=#3b5998)";
 }
 
 @mixin transparency_background_white {

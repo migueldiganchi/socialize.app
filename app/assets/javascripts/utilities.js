@@ -1,4 +1,14 @@
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+// :::::::::::::::::::: custom jquery ::::::::::::::::::::::::::: 
+// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+$.fn.isEmpty = function() {
+    var content = $(this).html();
+    // @todo: improve this, when the container has html comments, 
+    // these are detected as content
+    return isEmptyString(content);
+};
+
+// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // :::::::::::::::::::::::: utilities ::::::::::::::::::::::::::: 
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -89,4 +99,8 @@ function getJSON(data) {
 
     }
 
+}
+
+function isEmptyString(str) {
+    return (!str || 0 === str.length || /^\s*$/.test(str));
 }

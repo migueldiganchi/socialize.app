@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160818094737) do
+ActiveRecord::Schema.define(version: 20160831170654) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string  "name"
+    t.string  "description"
+    t.integer "parent_category_id"
+  end
 
   create_table "invitations", force: :cascade do |t|
     t.string   "origin_fb_uid"

@@ -16,4 +16,22 @@ class AppController < ApplicationController
     @ranked_posts = Post.get_paginated_posts 0, 1
   end
 
+  # searcher selectors
+  
+  def categories_selector
+    # validate request
+    redirect_to root_url unless request.xhr?
+
+    @categories = Category.all # order
+
+    render partial: 'app/categories_selector'
+  end
+
+  def time_selector
+    # validate request
+    redirect_to root_url unless request.xhr?
+
+    render partial: 'app/time_selector'  
+  end
+
 end
