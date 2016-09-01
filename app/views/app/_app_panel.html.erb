@@ -40,7 +40,16 @@
                         <button type="button" 
                             id="filter_location"
                             class="button face icn icn-24 location selector only-icon">
-                            <div class="selector-container shadow-level-1 opacity-face hide"></div>
+                            <!-- <div class="selector-container left shadow-level-1 opacity-face hide"></div> -->
+                            <!-- @todo -->
+                            <div class="selector-container shadow-level-1 opacity-face hide">
+                                <div>
+                                    <ul>
+                                        <li><a href="#">Santiago del Estero</a></li>
+                                        <li><a href="#">Tucumán</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </button>
 
                         <button type="button" 
@@ -52,9 +61,18 @@
 
                         <button type="button" 
                             id="filter_entity"
-                            class="button face dropdown">
+                            class="button face selector dropdown">
                             Publicaciones
                             <!-- @todo -->
+                            <div class="selector-container shadow-level-1 opacity-face hide">
+                                <div>
+                                    <ul>
+                                        <li><a href="#">Publicaciones</a></li>
+                                        <li><a href="#">Páginas</a></li>
+                                        <li><a href="#">Eventos</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </button>
                     </div>
 
@@ -104,7 +122,7 @@
 </div>
 
 <div class="row" style="border: solid 1px red;">
-    <div class="columns small-12 small-centered" style="border: solid 1px violet;">
+    <div class="columns small-12 small-centered">
         <div class="profile" style="border: solid 1px blue;">
             <h3>
                 Hola<%= " #{current_user.name}" if current_user %>!
@@ -119,46 +137,6 @@
                 a tus perfiles de facebook y compartelas con el mundo
             </h5>
         </div>
-
-        <div class="actions">
-    
-            <div id="fixed_panel">
-
-                <button type="button"
-                    data-tooltip
-                    data-click-open="false"
-                    title="Vamos arriba!"
-                    id="init_new_post"
-                    class="button icn icn-32 only-icon go up left hide">
-                </button>
-
-                <button type="button"
-                    data-tooltip
-                    data-click-open="false"
-                    title="Vamos abajo"
-                    id="init_new_post"
-                    class="button icn icn-32 only-icon go down left">
-                </button>
-
-                <button type="button" 
-                    data-tooltip
-                    data-click-open="false"
-                    title="Busca en las publicaciones"
-                    class="button icn icn-32 searcher only-icon init-searcher left">
-                </button>
-
-                <% if logged_in? %>                
-                    <button type="button"
-                        data-tooltip
-                        title="Enciende una nueva luz para la humanidad"
-                        id="init_new_post"
-                        class="button icn icn-32 lamp only-icon init-new-post left">
-                    </button>
-                <% end %>
-            </div>
-
-        </div>
-
     </div>
 
     <div class="columns small-12 small-centered" style="padding: 0; margin: 0;">
@@ -168,7 +146,6 @@
                     show_next_button: @show_next_button, 
                     paginated_posts: @paginated_posts
                 } %>
-
 
             <% if logged_in? %>
                 <div id="main_post_container">

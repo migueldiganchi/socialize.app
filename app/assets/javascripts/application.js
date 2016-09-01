@@ -409,60 +409,37 @@ $(document).ready(function() {
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         // :::::::::::::::: application handlers :::::::::::::::::::::::: 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        
-        function openSelector(openerButton) {
-            console.log('@todo: read position from html attribute');
-            console.log('@todo: read width from html attribute');
-            console.log('@todo: set left position as html attribute');
-
-
-            // close all previous selectors
-            closeSelectors();
-
-            // mark as pressed button
-            $(openerButton).addClass('pressed');
-
-            // get current container
-            var selectorContainer = $(openerButton).find('.selector-container');
-
-            // show container
-            $(selectorContainer).removeClass('hide');
-
-            // check if the selector is empty
-            if ($(selectorContainer).isEmpty()) {
-
-                var url = $(openerButton).data('selector-url');
-                var loadingMessage = 'Cargando filtro'; 
-                console.log('@todo: get loading message from html attribute');
-
-                if (url === undefined) {
-                    console.log('@todo: resolve this');
-                    return;
-                }
-                
-                $(selectorContainer).html(loadingMessage);
-
-                // go get selector to the server
-                $.get(url, null, function(app_response) {
-                    // validate response
-                    if (!isValidResponse(app_response)){
-                        // @todo: revert process
-                        return false;
-                    }
-
-                    $(selectorContainer).html(app_response);
-
-                }, 'html');
-            }
-        }
-        
-        function closeSelectors() {
-            $('.button').removeClass('pressed');
-            $('.selector-container').addClass('hide');
-        }
-
+      
         $(document).on('click', '.selector', function() {
             openSelector(this);
+        });
+
+        $(document).on('click', '.selector-container ul li a', function() {
+            console.log('@todo: set filter in the form || apply filter');
+
+            closeSelectors(); // this has to run after any task
+            return false;
+        });
+
+        $(document).mousedown(function(e) {
+            // handle exceptions 
+            var clickedElement = e.target ? $(e.target) : $(e.srcElement);
+            if (clickedElement.is('.selector-container ul li a')) {
+                return;
+            }
+
+            var selectorOpened = $('.selector-container').is(':visible');
+            if (selectorOpened) {
+                closeSelectors();
+            }
+        });
+
+        $(document).keydown(function(e) {
+            var code = e.keyCode ? e.keyCode : e.charCode;
+            var selectorOpened = $('.selector-container').is(':visible');
+            if (code == 27 && selectorOpened) {
+                closeSelectors();
+            }
         });
 
         $(document).on('click', '.selector-closer', function(e) {
@@ -470,20 +447,9 @@ $(document).ready(function() {
             e.preventDefault();
             return false;
         });
-
-        $(document).on('click', '#filter_entity', function() {
-            console.log('@todo: show selector');
-            console.log('@todo: check if the selector container is empty');
-            var selector_container = $(this).find('.selector_container');
-
-            console.log('@todo: if empty => go get content from server');
-            console.log('@todo: if not empty => just show it');
-        });
-
-        console.log('@todo: any selectors when user clicks anywhere');
-
+   
         $(document).on('submit', 'form#searcher_form', function() {
-            alert('@todo: go search');
+            alert('@todo: go search to server');
             return false; // avoid callback
         });
 
@@ -717,11 +683,60 @@ $(document).ready(function() {
     }); 
     /* </facebook.scripts> */
 
-
-
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     // :::::::::::::::::: application methods :::::::::::::::::::::::
     // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    
+    function openSelector(openerButton) {
+        console.log('@todo: read position from html attribute');
+        console.log('@todo: read width from html attribute');
+        console.log('@todo: set left position as html attribute');
+
+        // close all previous selectors
+        closeSelectors();
+
+        // mark as pressed button
+        $(openerButton).addClass('pressed');
+
+        // get current container
+        var selectorContainer = $(openerButton).find('.selector-container');
+
+        // show container
+        $(selectorContainer).removeClass('hide');
+
+        // check if the selector is empty
+        if ($(selectorContainer).isEmpty()) {
+
+            var url = $(openerButton).data('selector-url');
+            var loadingMessage = 'Cargando filtro'; 
+            console.log('@todo: get loading message from html attribute');
+
+            if (url === undefined) {
+                console.log('@todo: resolve this');
+                return;
+            }
+            
+            $(selectorContainer).html(loadingMessage);
+
+            // go get selector to the server
+            $.get(url, null, function(app_response) {
+                // validate response
+                if (!isValidResponse(app_response)){
+                    // @todo: revert process
+                    return false;
+                }
+
+                $(selectorContainer).html(app_response);
+
+            }, 'html');
+        }
+    }
+    
+    function closeSelectors() {
+        $('.button').removeClass('pressed');
+        $('.selector-container').addClass('hide');
+    }
+
    
     function closeUrlModal() {
         // @todo: get from configuration server (root_url)

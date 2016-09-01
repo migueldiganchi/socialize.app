@@ -9,7 +9,7 @@
     <% if @categories.count > 0 %>
         <ul>
             <% @categories.each do |category| %>
-                <li><%= category.name %></li>
+                <li><a href="#"><%= category.name %></a></li>
             <% end %>
         </ul>
     <% end %>
