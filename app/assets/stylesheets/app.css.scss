@@ -16,10 +16,23 @@ ul {
     }
 }
 
+.circular-image {
+    @include box_circle;
+    height: 5em;
+    width: 5em;
+    img {
+        @include box_circle;
+        display: inline;
+        height: 100%;
+        width: 100%;
+    }
+}
+
 .top-bar {
     // border: solid 1px red;
     padding: 0;
 
+    // left settings
     input[type=text]#filter_text {
         @include no_shadow;
         @include no_radius;
@@ -35,6 +48,34 @@ ul {
 
         *:focus {
             outline: none;
+        }
+    }
+
+    // right settings
+    button.profile.selector {
+
+        // padding: 0.5em;
+
+        span {
+            // border: solid 1px orange;
+            padding-left: 2.3em;
+            float: left;
+            position: relative;
+            z-index: 0;
+
+            .circular-image {
+                // float: left;
+                left: -0.3em;
+                top: -0.55em;
+                position: absolute;
+                margin-right: 0.5em;
+                height: 2em;
+                width: 2em;
+                img {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
         }
     }
 }
@@ -229,28 +270,15 @@ ul {
     // border: solid 1px red;
 }
 
-.circular-image {
-    @include box_circle;
-    border: solid 3px red;
-    height: 5em;
-    width: 5em;
-    img {
-        @include box_circle;
-        display: inline;
-        height: 100%;
-        width: 100%;
-    }
-}
+// .profile {
+//     color: $white;
+//     text-align: center;
 
-.profile {
-    color: $white;
-    text-align: center;
-
-    .circular-image {
-        height: 6em;
-        width: 6em;
-    }
-}
+//     .circular-image {
+//         height: 6em;
+//         width: 6em;
+//     }
+// }
 
 .theather {
     // @todo

@@ -32,14 +32,14 @@
                     <div class="large-7 columns">
                         <button type="button" 
                             id="filter_categories"
-                            class="button face icn icn-24 categories selector only-icon"
+                            class="button face icn icn-24 categories filter selector only-icon"
                             data-selector-url="<%= categories_selector_url %>">
                             <div class="selector-container shadow-level-1 opacity-face hide"></div>
                         </button>
                     
                         <button type="button" 
                             id="filter_location"
-                            class="button face icn icn-24 location selector only-icon">
+                            class="button face icn icn-24 location filter selector only-icon">
                             <!-- <div class="selector-container left shadow-level-1 opacity-face hide"></div> -->
                             <!-- @todo -->
                             <div class="selector-container shadow-level-1 opacity-face hide">
@@ -54,14 +54,14 @@
 
                         <button type="button" 
                             id="filter_time"
-                            class="button face icn icn-24 calendar selector only-icon"
+                            class="button face icn icn-24 calendar filter selector only-icon"
                             data-selector-url="<%= time_selector_url %>">
                             <div class="selector-container shadow-level-1 opacity-face hide"></div>
                         </button>
 
                         <button type="button" 
                             id="filter_entity"
-                            class="button face selector dropdown">
+                            class="button face filter selector dropdown">
                             Publicaciones
                             <!-- @todo -->
                             <div class="selector-container shadow-level-1 opacity-face hide">
@@ -89,6 +89,26 @@
         <div class="top-bar-right">
 
             <% if logged_in? %>
+
+                <button type="button" class="button face dropdown profile selector">
+                    <span>
+                        <div class="circular-image">
+                            <%= image_tag picture_url, alt: 'Perfil del usuario', class: 'user-image' %>
+                        </div>
+                        <%= current_user.name %>
+                    </span>
+
+                    <div class="selector-container shadow-level-1 opacity-face hide">
+                        <div>
+                            <ul>
+                                <li><a href="#">Facebook page 1</a></li>
+                                <li><a href="#">Facebook page 2</a></li>
+                                <li><a href="#">Facebook page 3</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </button>
 
                 <%= link_to '', 
                     logout_path, 
@@ -123,20 +143,7 @@
 
 <div class="row" style="border: solid 1px red;">
     <div class="columns small-12 small-centered">
-        <div class="profile" style="border: solid 1px blue;">
-            <h3>
-                Hola<%= " #{current_user.name}" if current_user %>!
-            </h3>
-
-            <div class="profile-img-container circular-image">
-                <%= image_tag picture_url, alt: 'Perfil del usuario', id: 'user_image' %>
-            </div>
-
-            <h5 style="line-height: 30px;">
-                <b>Organiza</b> y  <b>dale vida</b>
-                a tus perfiles de facebook y compartelas con el mundo
-            </h5>
-        </div>
+        <h2>some content here</h2>
     </div>
 
     <div class="columns small-12 small-centered" style="padding: 0; margin: 0;">
