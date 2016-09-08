@@ -80,12 +80,50 @@ ul {
     }
 }
 
+.account-container {
+    border: solid 1px violet;
+    padding: 1em;
+
+    .info-container {
+
+        .profile.circular-image {
+            border: solid 1px violet;
+            float: left;
+        }
+
+        .info {
+            margin-left: 1em;
+            border: solid 1px red;
+            display: inline-block;
+            float: left;
+            max-width: 91%;
+
+            h2, h3, h4, h5, h6 {
+                border: solid 1px blue;
+            }
+
+            p {
+                border: solid 1px blue;
+            }
+        }
+
+    }
+
+    .cover-container {}
+
+    .posts-container {}
+}
+
 .radius-3 {
     @include radius_3;
 }
 
 .radius-5 {
     @include radius_5;
+}
+
+.radius-10 {
+    @include radius_10;
 }
 
 .circle {
@@ -104,12 +142,12 @@ ul {
     @include no_shadow;
 }
 
-.opacity-face {
-    @include transparency_background_face;
+.opacity {
+    @include transparency_background;
 }
 
-#fixed_panel {
-    // @todo
+.opacity-face {
+    @include transparency_background_face;
 }
 
 .button {

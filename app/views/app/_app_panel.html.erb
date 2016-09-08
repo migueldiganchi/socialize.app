@@ -19,7 +19,7 @@
 
     <div class="top-bar-title">
         <!-- icon app here -->
-        <h3>Clasifase.com</h3>
+        <h3>Clasiface.com</h3>
     </div>
 
     <div>
@@ -141,28 +141,20 @@
     </div>
 </div>
 
-<div class="row" style="border: solid 1px red;">
-    <div class="columns small-12 small-centered">
-        <h2>some content here</h2>
-    </div>
+<div id="app_dynamic" class="row" style="border: dashed 1px red;">
 
-    <div class="columns small-12 small-centered" style="padding: 0; margin: 0;">
-        <div id="posts_container">
-            <!-- dynamic loading of more posts -->
-            <%= render partial: 'app/posts', locals: {
-                    show_next_button: @show_next_button, 
-                    paginated_posts: @paginated_posts
-                } %>
+    <% if logged_in? %>
 
-            <% if logged_in? %>
-                <div id="main_post_container">
-                    <%= render partial: 'app/wrapped_post', locals: { 
-                        post: Post.new
-                    } %> 
-                </div>
-            <% end %>
+        <!-- dynamic panel -->
+        <%= render partial: 'app/account_holder' %>
 
+    <% else %>
+
+        <div>
+            <!-- @todo: home page  -->
+            public home page
         </div>
-    </div>
+
+    <% end %>
 
 </div>  

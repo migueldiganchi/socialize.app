@@ -159,7 +159,7 @@ $(document).ready(function() {
     var loginButton = $('#login_button');
     var loginButtonOriginalText = loginButton.text();
     var inviteButton = $('#invite_button');
-    var userNameBolder = $('#user_name');
+    // var userNameBolder = $('#user_name');
     var postsUrl = $('#__posts_url').val();
     var hdnLoggedIn = $('#__logged_in');
     var loggedIn = $(hdnLoggedIn).length > 0 && $(hdnLoggedIn).val() == 'true';
@@ -232,12 +232,11 @@ $(document).ready(function() {
                     signed_request: loggedInResponse.authResponse.signedRequest
                 },
                 beforeSend: function() {
-                    loginButton.text('Obteniendo datos de usuario...');
+                    loginButton.text('Obteniendo datos del usuario...'); // @todo: get from server settings
                 },
                 success : function(app_response) {
 
-                    if (!app_response || app_response.error) {
-                        // @todo: handle errors
+                    if (!isValidResponse(app_response)) {
                         loginButton.text(loginButtonOriginalText);
                         return;
                     }
@@ -261,30 +260,39 @@ $(document).ready(function() {
         }
 
         function showUserInformation(uid, accessToken, panel) {
+
             // show user picture & name  
             FB.api('/me', function(userInfo) {
 
-                // show user name
-                userNameBolder.text(' ' + userInfo.name);
+                if (!isValidFacebookResponse(userInfo)) { 
+                    // @todo: handle not valid facebook response
+                    return;
+                }
 
-                // load app panel
-                 $(appContainer).html(panel);
+                // load app panel in the main container
+                $(appContainer).html(panel);
 
-                 // reload foundation to the document
+                // @todo: show basic info
+                console.log(userInfo);
+                
+                // @todo: load user pages account to manage
+                console.log(userInfo.accounts);
+
+                // reload foundation to the document
                 $(document).foundation(); 
-
-                // go register or recover pages
-                showFacebookPages(accessToken);
             }, { 
                 access_token: accessToken, 
-                fields: "id, name, email" 
+                fields: "id, name, email, about, cover, gender, link, accounts" 
             });
         }
 
         function showUserPages(fpagesToCheck) {
 
             var url = $('#__user_pages_url').val(); 
+            var spanLoadingMessage = $('#loading_message');
             var data = null;
+
+            alert('showUserPages method: ' + url);
 
             if (fpagesToCheck) {
                 data = { fpages: fpagesToCheck };
@@ -292,14 +300,17 @@ $(document).ready(function() {
             // @todo: check for valid url
             
             // @todo: handle ajax-loading: on
+            console.log(spanLoadingMessage);
+            $(spanLoadingMessage).text('Cargando información del usuario');
             $.get(url, data, function(app_response) {
-
-                // @todo: handle ajax-loading: off
 
                 // validate response
                 if (!isValidResponse(app_response)) {
                     return false;
                 }
+
+                console.log('checking for app_response: ');
+                console.log(app_response);
 
                 // render content
                 $('.user-pages-container').html(app_response);
@@ -662,19 +673,6 @@ $(document).ready(function() {
             return false;
 
         });
-
-        // if user dont have pages, we are going to check in facebook
-        // if (loggedIn) {
-
-        //     // check if user has pages
-        //     showFacebookPages();
-        //     // hdnUserHasPages = $('#__user_has_pages');
-        //     // userHasPages = ($(hdnUserHasPages).length > 0 && $(hdnUserHasPages).val() == 'true')
-        //     // // if user has page, go get and show them
-        //     // if (userHasPages) {
-        //     //     showUserPages();
-        //     // }
-        // }
 
         // modal closed event
         $(document).on('closed.zf.reveal', '[data-reveal]', function(){

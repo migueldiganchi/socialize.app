@@ -81,6 +81,11 @@ function isValidResponse(response) {
     return true;
 }
 
+function isValidFacebookResponse(fb_response) {
+    // @todo: handle this (IMPORTANT)
+    return true;
+}
+
 function getJSON(data) {
 
     try {

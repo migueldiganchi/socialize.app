@@ -1,3 +1,3 @@
 FACEBOOK_KEY: "2082688085288893"
 FACEBOOK_SECRET: "076b2bb5a10bc9e024241d034a093adb"
-FACEBOOK_SCOPE: "public_profile, email, user_friends, publish_pages, publish_actions, manage_pages, pages_show_list"
+FACEBOOK_SCOPE: "public_profile, email, about, user_friends, publish_pages, publish_actions, manage_pages, pages_show_list"

@@ -606,6 +606,12 @@ $topbar-unstack-breakpoint: medium;
   border-radius: 5px;
 }
 
+@mixin radius_10 {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px; 
+}
+
 @mixin shadow_light {
   -webkit-box-shadow: 0px -2px 29px 6px rgba(248,255,36,1);
   -moz-box-shadow: 0px -2px 29px 6px rgba(248,255,36,1);

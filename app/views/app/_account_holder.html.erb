@@ -1,0 +1,39 @@
+<% picture_url = logged_in? ? facebook_picture_url(current_user.uid) : facebook_picture_url  %>
+
+<div class="account-container opacity radius-10">
+
+    <div class="info-container clearfix">
+
+        <div class="profile circular-image shadow-level-2">
+            <%= image_tag picture_url, alt: 'Perfil del usuario', class: 'user-image' %>
+        </div>
+
+        <div class="info">
+            <h3>
+                <%= current_user.name %>
+            </h3>
+
+           <!--  <p>
+                some description some description some description some description 
+                some description some description some description some description 
+                some description some description some description some description 
+                some description some description some description some description 
+                some description some description some description some description 
+                some description some description some description some description 
+                some description some description some description some description 
+                some description some description some description some description 
+                some description some description some description some description 
+                some description some description some description some description 
+            </p> -->
+        </div>
+    </div>
+
+    <div class="cover-container">
+        @todo: cover here
+    </div>
+
+    <div class="posts-container">
+        @todo: posts list here
+    </div>
+
+</div>
