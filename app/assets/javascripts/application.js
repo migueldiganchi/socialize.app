@@ -15,7 +15,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require foundation
-//= require_tree .
+//= require utilities
 
 var _currentScrollTop = null;
 var _currentScrollTop = 0;
@@ -159,13 +159,9 @@ $(document).ready(function() {
     var loginButton = $('#login_button');
     var loginButtonOriginalText = loginButton.text();
     var inviteButton = $('#invite_button');
-    // var userNameBolder = $('#user_name');
     var postsUrl = $('#__posts_url').val();
     var hdnLoggedIn = $('#__logged_in');
     var loggedIn = $(hdnLoggedIn).length > 0 && $(hdnLoggedIn).val() == 'true';
-
-    // app handlers: handlers that should request the app database
-    
 
     $.ajaxSetup({ cache: true });
 
@@ -245,11 +241,10 @@ $(document).ready(function() {
                     logoutButton.addClass('logged-in');
 
                     var user = app_response.user;
-                    var uid = user.uid;
                     var accessToken = loggedInResponse.authResponse.accessToken;
                     var panel = app_response.app_panel;
 
-                    showUserInformation(uid, accessToken, panel);
+                    showUserInformation(accessToken, panel);
 
                 },
                 complete: function() {
@@ -259,7 +254,7 @@ $(document).ready(function() {
             });
         }
 
-        function showUserInformation(uid, accessToken, panel) {
+        function showUserInformation(accessToken, panel) {
 
             // show user picture & name  
             FB.api('/me', function(userInfo) {

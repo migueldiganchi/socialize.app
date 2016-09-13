@@ -87,7 +87,6 @@ ul {
     .info-container {
 
         .profile.circular-image {
-            border: solid 1px violet;
             float: left;
         }
 
@@ -98,10 +97,12 @@ ul {
             float: left;
             max-width: 91%;
 
-            h2, h3, h4, h5, h6 {
+            // ref: account title
+            h2, h3, h4, h5, h6 { 
                 border: solid 1px blue;
             }
 
+            // ref: account description
             p {
                 border: solid 1px blue;
             }
@@ -109,7 +110,10 @@ ul {
 
     }
 
-    .cover-container {}
+    .cover-container {
+        border: solid 2px green;
+        padding: 1em;
+    }
 
     .posts-container {}
 }

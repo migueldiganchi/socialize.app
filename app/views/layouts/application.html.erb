@@ -31,3 +31,7 @@
 </html>
 
 <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+
+<% if logged_in? %>
+    <%= javascript_include_tag "application.session", 'data-turbolinks-track' => true %>
+<% end %>
