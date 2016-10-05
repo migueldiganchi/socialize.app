@@ -9,27 +9,20 @@
         </div>
 
         <div class="info">
+
             <h3>
                 <%= current_user.name %>
             </h3>
-           <!--  <p>
-                some description some description some description some description 
-                some description some description some description some description 
-                some description some description some description some description 
-                some description some description some description some description 
-                some description some description some description some description 
-                some description some description some description some description 
-                some description some description some description some description 
-                some description some description some description some description 
-                some description some description some description some description 
-                some description some description some description some description 
+
+            <!-- <p>
+                Get a little description here
             </p> -->
 
         </div>
     </div>
 
     <div class="cover-container">
-        @todo: cover here
+        <%= image_tag nil, alt: current_user.name, class: 'hide cover'  %>
     </div>
 
     <div class="posts-container">

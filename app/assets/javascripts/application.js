@@ -240,21 +240,23 @@ $(document).ready(function() {
                     loginButton.text('Usuario autenticado!').addClass('logged-in');
                     logoutButton.addClass('logged-in');
 
-                    var user = app_response.user;
                     var accessToken = loggedInResponse.authResponse.accessToken;
-                    var panel = app_response.app_panel;
+                    
+                    // load app panel in the main container
+                    $(appContainer).html(app_response);
 
-                    showUserInformation(accessToken, panel);
+                    // showUserInformation(accessToken);
 
                 },
                 complete: function() {
                     console.log('@todo: ajax-off');
                 },
-                dataType : 'json'
+                dataType : 'html'
             });
         }
 
-        function showUserInformation(accessToken, panel) {
+        // method: this method correspond to the user account
+        function showUserInformation(accessToken) {
 
             // show user picture & name  
             FB.api('/me', function(userInfo) {
@@ -263,14 +265,12 @@ $(document).ready(function() {
                     // @todo: handle not valid facebook response
                     return;
                 }
-
-                // load app panel in the main container
-                $(appContainer).html(panel);
-
-                // @todo: show basic info
-                console.log(userInfo);
+                
+                // show user cover 
+                $('img.cover').attr('src', userInfo.cover.source).removeClass('hide');
                 
                 // @todo: load user pages account to manage
+                console.info('user accounts...');
                 console.log(userInfo.accounts);
 
                 // reload foundation to the document
@@ -311,31 +311,6 @@ $(document).ready(function() {
                 $('.user-pages-container').html(app_response);
 
             }, 'html');            
-        }
-
-        function showFacebookPages(accessToken) {
-
-            FB.api('/me/accounts', function(fb_response) {
-
-                console.log(fb_response);
-                if (fb_response.error) {
-                    console.info('facebook response error: ' + fb_response.error.message);
-                    showMessage('Error al obtener las páginas');
-                    return;
-                }
-
-                // read data of pages from facebook response
-                var fpages = [];
-
-                // prepare data to go check if the user has
-                for (var i = 0; i < fb_response.data.length; i++) {
-                    fpages.push(fb_response.data[i]);
-                }
-
-                showUserPages(fpages);
-            }, { 
-                access_token: accessToken
-            });
         }
 
         function inviteFriends(invitationMessage) {

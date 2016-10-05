@@ -9,16 +9,15 @@ Rails.application.routes.draw do
   match 'auth/failure',             to: redirect('/'),                              via: 'get' # @todo: check for errors
   match 'logout',                   to: 'sessions#destroy',     as: 'logout',       via: 'delete'
   match 'ranking',                  to: 'posts#ranking',                            via: 'get'
-  match 'pages',                    to: 'pages#index',                              via: 'post'
+  match 'create_pages',             to: 'user#create_pages',                        via: 'post'
   match 'categories_selector',      to: 'app#categories_selector',                  via: 'get'
   match 'time_selector',            to: 'app#time_selector',                        via: 'get'
 
   resources :invitations, only: [:create, :update, :destroy]
   resources :posts
-  resources :pages, only: [:index]
-
+  resources :pages, only: [:create, :index, :show]
   resources :users do
-    resources :pages
+    resources :pages, only: [:index]
   end
 
   # Example of regular route:

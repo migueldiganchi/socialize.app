@@ -112,7 +112,10 @@ ul {
 
     .cover-container {
         border: solid 2px green;
-        padding: 1em;
+        padding: 0.5em 0;
+        img.cover {
+            width: 100%;
+        }
     }
 
     .posts-container {}

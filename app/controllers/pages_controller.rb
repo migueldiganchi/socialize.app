@@ -1,59 +1,63 @@
 class PagesController < ApplicationController
   # @todo: validate pages for certain users
+  
+  def create
 
-  def index
-    # @todo: IMPORTANT! > validate user is logged_in
     raise 'bad_request error' unless logged_in? && request.xhr?
+    # @todo: if it is the correct user
+    
+    # validate saving request
+    raise 'bad request' if !params.has_key(:fpages)
 
-    # @todo: pages list
     @pages = []
     errors = []
-    fpages = params.has_key?(:fpages) ? params[:fpages] : []
     fpage = nil
+    fpages = params[:fpages]
 
-    if params.has_key?(:fpages) # after register, facebook pages from the user
-      # read pages from facebook pages
-      fpages = params[:fpages]
+    # @todo: valdiate fpages structure
+    
+    fpages.each do |fpage_entry|
+      
+      # get facebook page entry
+      fpage = fpage_entry[1]
 
-      fpages.each do |fpage_entry|
-        # get facebook page entry
-        fpage = fpage_entry[1]
+      # check if page has already registered 
+      page = Page.find_by fb_id: fpage[:id].strip
 
-        # check if page has already registered 
-        page = Page.find_by fb_id: fpage[:id].strip
+      # if page exist we will not create it
+      unless page 
+        # we have to register by creating this page
+        page = current_user.pages.build
 
-        unless page 
-          # we have to register by creating this page
-          page = current_user.pages.build
+        # set basic values
+        page.name = fpage[:name]
+        page.fb_category = fpage[:category]
+        page.fb_access_token = fpage[:access_token]
+        page.fb_id = fpage[:id]
+        page.fb_url = '' # todo: this
 
-          # set basic values
-          page.name = fpage[:name]
-          page.fb_category = fpage[:category]
-          page.fb_access_token = fpage[:access_token]
-          page.fb_id = fpage[:id]
-          page.fb_url = '' # todo: this
-
-          # save
-          if !page.save
-            # @todo: log error
-            # @todo: consider rollback
-            errors.push({ message: 'Creating page error' })
-          end
+        # save
+        if !page.save
+          # @todo: log error
+          # @todo: consider rollback
+          errors.push({ message: 'Creating page error' })
         end
-
-        # push the page to show
-        @pages.push(page)
       end
-    else
-      @pages = current_user.pages
+
+      # push the page to show
+      @pages.push(page)
     end
 
+    # check for errors
     if errors.empty?
       render partial: 'pages/pages'
     else
       render json: { status: false, message: 'Error al crear la/s página/s del usuario' }
     end
+  end
 
+  def index
+    # @todo: list all pages
   end
 
   def show
