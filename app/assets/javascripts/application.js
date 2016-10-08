@@ -11,8 +11,8 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.history
 //= require jquery_ujs
+//= require jquery.history
 //= require turbolinks
 //= require foundation
 //= require utilities
@@ -35,6 +35,7 @@ $(window).scroll(function(event){
    _currentScrollTop = st;
 });
 
+/* <foundation.init> */
 $(document).foundation();
 
 /* <document.init> */
@@ -50,21 +51,10 @@ $(function() {
 
     // Prepare ajax routing
     var History = window.History;
-
-    // if ( typeof History.Adapter !== 'undefined' ) {
-    //     //throw new Error('History.js Adapter has already been loaded...');
-        
-    //     console.log(History.Adapter);
-
-    //     alert('undefined detected?');
-    //     console.log('here?');
-    //     return;
-    // }
-
     if (!History.enabled) {
+        console.log('some code here?');
         return false;
     }
-
 
     // Bind to StateChange Event
     History.Adapter.bind(window, 'statechange', function() {
@@ -78,20 +68,43 @@ $(function() {
             case 'post': 
                 showPost(url);
                 break;
+            case 'profile': 
+                showProfile(url);
+                break;
             case 'page': 
                 showPage(url);
                 break;
             case 'close-modal': 
                 break;
             default:
-                alert('reload all app_panel');
+                refreshApp();
                 break;
         }
 
-            // @todo. handle each ajax request
+        console.info('end of ajax routing...');
 
-            // @handle ajax requests
     });
+
+    function refreshApp() {
+
+        var url = $('#__main_url').val();
+
+        $.get(url, null, function(app_response) {
+
+            if (!isValidResponse(app_response)) {
+                return false;
+            }
+
+            // get app 
+            var main_container = $('main');
+
+            console.log(main_container);
+
+            // laod content into the container
+            $(app_dynamic).html(app_response);
+
+        });        
+    }
 
     function showPost(url) {
 
@@ -116,12 +129,10 @@ $(function() {
 
             // show the response
             $(modalContent).html(app_response);
-        })
+        });
     }
 
     function showPage(url) {
-
-        alert('going get this page at: ' + url);
 
         var modalContent = $('#modal #modal_content');
 
@@ -141,7 +152,26 @@ $(function() {
 
             // show the response
             $(modalContent).html(app_response);
-        })   
+        });
+
+    }
+
+    function showProfile(url) {
+
+        // @todo: ajax loading: on
+        $.get(url, null, function(app_response) {
+
+            // @todo: ajax loading: off
+            if (!isValidResponse(app_response)) {
+                return false;
+            }
+
+            var app_dynamic = $('#app_dynamic');
+
+            // laod content into the container
+            $(app_dynamic).html(app_response);
+
+        });        
 
     }
 
@@ -150,9 +180,7 @@ $(function() {
 
 /* <document.ready> */
 $(document).ready(function() {
-
     // controls
-    
     var dynamicContainer = $('#dynamic_container');
     var appContainer = $('main');
     var logoutButton = $('#logout_button');
@@ -359,8 +387,6 @@ $(document).ready(function() {
                             return;
                         }
 
-                        // alert(app_response);
-                        
                         dynamicContainer.html(app_response);
 
                     },
@@ -390,16 +416,38 @@ $(document).ready(function() {
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         // :::::::::::::::: application handlers :::::::::::::::::::::::: 
         // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        
+        // handler: ajax routing
+        $(document).on('click', 'a', function(e) {
+
+            closeSelectors(); // this has to run after any task
+
+            var url = $(this).attr('href');
+            var target = null; 
+            var title = null;
+            var params = null;
+
+            if ($(this).is('.selector-container ul li a')) {
+                target = 'profile';
+            } else if ($(this).is('.show-post')) {
+                target =  'post';
+                params = { wrap: false, theather: true };
+            } else if ($(this).is('.show-page')) {
+                target = 'page';
+            } 
+
+            History.pushState({
+                url: url,
+                target: target, 
+                params: params
+            }, null, url);
+
+            e.preventDefault();
+            return false;
+        });
       
         $(document).on('click', '.selector', function() {
             openSelector(this);
-        });
-
-        $(document).on('click', '.selector-container ul li a', function() {
-            console.log('@todo: set filter in the form || apply filter');
-
-            closeSelectors(); // this has to run after any task
-            return false;
         });
 
         $(document).mousedown(function(e) {
@@ -499,36 +547,6 @@ $(document).ready(function() {
 
             }, 'html');
         });
-
-        $(document).on('click', '.show-post', function(e) {
-
-            var url = $(this).attr('href');
-            var title = "show post";
-
-            History.pushState({
-                url : url,
-                target : 'post', 
-                params: { wrap: false, theather: true }
-            }, title, url);
-
-            e.preventDefault();
-            return false;
-        });
-
-        $(document).on('click', '.show-page', function(e) {
-
-            var url = $(this).attr('href');
-            var title = $(this).text();
-
-            History.pushState({
-                url : url,
-                target : 'page'
-            }, title, url);
-
-            e.preventDefault();
-            return false;
-        });
-
 
         // cancel form button
         $(document).on('click', '.cancel-post-form', function() {
@@ -716,55 +734,6 @@ $(document).ready(function() {
             url : url, 
             target: 'close-modal' 
         }, title, url);
-    }
-
-    // function showPost(url) {
-
-    //     var modalContent = $('#modal #modal_content');
-
-    //     // ajax loading: on
-    //     $(modalContent).html('Cargando...');
-
-    //     // go get the post on server
-    //     
-    //     $.get(url, {
-    //         wrap: false, 
-    //         theather: true
-    //     }, function(app_response) {
-
-    //         // ajax-loading: off
-    //         $(modalContent).html('');
-
-    //         // validate response
-    //         if (!isValidResponse(app_response)) {
-    //             return false;
-    //         }
-
-    //         // show the response
-    //         $(modalContent).html(app_response);
-    //     })
-    // }
-    
-    function showRanking() {
-        
-        var url = $('#__ranking_url').val();
-        var rankingContainer = $('#ranking_container');
-
-        $(rankingContainer).html('Cargando ranking de luces más votadas...');
-
-        $.get(url, null, function(response) {
-
-            // clear container
-            $(rankingContainer).html('');
-
-            if (!isValidResponse(response)) {
-                alert('Ha ocurrido un inconveniente al cargar el ranking');
-                return;
-            }
-
-            $(rankingContainer).html(response);
-
-        }, 'html')
     }
     
     function newPost(on) {

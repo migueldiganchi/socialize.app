@@ -1,5 +1,5 @@
-<% picture_url = logged_in? ? facebook_picture_url(current_user.uid) : facebook_picture_url  %>
-
+<%= hidden_field_tag :__root_url, root_url %>
+<%= hidden_field_tag :__main_url, main_url %>
 <%= hidden_field_tag :__invitations_url, invitations_url %>
 <%= hidden_field_tag :__posts_url, posts_url %>
 <%= hidden_field_tag :__login_url, login_url(provider: 'facebook') %>
@@ -15,137 +15,8 @@
 
 <% content_for(:title) do "ClasiFace.Com" end %>
 
-<div class="top-bar">
+<%= render 'layouts/header' %>
 
-    <div class="top-bar-title">
-        <!-- icon app here -->
-        <h3>Clasiface.com</h3>
-    </div>
-
-    <div>
-        <!-- left -->
-        <div class="top-bar-left">
-            <form method="get" action="/searcher" id="searcher_form">
-
-                <div class="row">
-
-                    <div class="large-7 columns">
-                        <button type="button" 
-                            id="filter_categories"
-                            class="button face icn icn-24 categories filter selector only-icon"
-                            data-selector-url="<%= categories_selector_url %>">
-                            <div class="selector-container shadow-level-1 opacity-face hide"></div>
-                        </button>
-                    
-                        <button type="button" 
-                            id="filter_location"
-                            class="button face icn icn-24 location filter selector only-icon">
-                            <!-- <div class="selector-container left shadow-level-1 opacity-face hide"></div> -->
-                            <!-- @todo -->
-                            <div class="selector-container shadow-level-1 opacity-face hide">
-                                <div>
-                                    <ul>
-                                        <li><a href="#">Santiago del Estero</a></li>
-                                        <li><a href="#">Tucumán</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </button>
-
-                        <button type="button" 
-                            id="filter_time"
-                            class="button face icn icn-24 calendar filter selector only-icon"
-                            data-selector-url="<%= time_selector_url %>">
-                            <div class="selector-container shadow-level-1 opacity-face hide"></div>
-                        </button>
-
-                        <button type="button" 
-                            id="filter_entity"
-                            class="button face filter selector dropdown">
-                            Publicaciones
-                            <!-- @todo -->
-                            <div class="selector-container shadow-level-1 opacity-face hide">
-                                <div>
-                                    <ul>
-                                        <li><a href="#">Publicaciones</a></li>
-                                        <li><a href="#">Páginas</a></li>
-                                        <li><a href="#">Eventos</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-
-                    <div class="large-5 columns">
-                        <input type="text" name="filter_text" id="filter_text" class="input-group" placeholder="Buscar">
-                    </div>
-                </div>
-                
-            </form>
-
-        </div>
-
-        <!-- right -->
-        <div class="top-bar-right">
-
-            <% if logged_in? %>
-
-                <button type="button" class="button face dropdown profile selector">
-                    <span>
-                        <div class="circular-image">
-                            <%= image_tag picture_url, alt: 'Perfil del usuario', class: 'user-image' %>
-                        </div>
-                        <%= current_user.name %>
-                    </span>
-
-                    <div class="selector-container shadow-level-1 opacity-face hide">
-                        <div>
-                            <ul>
-                                <li><a href="#">Mi perfil</a></li>
-                                <% current_user.pages.each do |page| %>
-                                    <li><a href="#"><%= page.name %></a></li>
-                                <% end %>
-                            </ul>
-                        </div>
-                    </div>
-
-                </button>
-
-                <%= link_to '', 
-                    logout_path, 
-                    method: 'delete', 
-                    id: 'logout_button', 
-                    class: 'button face icn icn-24 shutdown only-icon',
-                    data: { confirm: '¿Está seguro que desea salir del juego?' } %>
-
-            <% else %>
-
-                <%= link_to(
-                    'Comenzar con facebook', 
-                    '/auth/facebook', 
-                    id: 'login_button', 
-                    class: 'button face icn icn-24 facebook'
-                ) %>
-
-            <% end %>
-
-            <button type="button" 
-                id="invite_button"
-                class="button face icn icn-24 friends only-icon">
-            </button>
-
-            <button type="button" 
-                class="button face icn icn-24 ranking only-icon">
-            </button>
-
-        </div>
-    </div>
-</div>
-
-<div id="app_dynamic" class="row" style="border: dashed 1px red;">
-
-    <div>
-        public home page
-    </div>
-
+<div id="app_dynamic" class="row">
+    <%= render 'layouts/main' %>
 </div>  

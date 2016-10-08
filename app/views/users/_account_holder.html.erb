@@ -1,4 +1,6 @@
-<% picture_url = logged_in? ? facebook_picture_url(current_user.uid) : facebook_picture_url  %>
+<% picture_url = logged_in? ? facebook_picture_url(@user.uid) : facebook_picture_url  %>
+
+<!-- @todo: load profile/page javascript that will load all the profile information from facebook -->
 
 <div class="account-container opacity radius-10">
 

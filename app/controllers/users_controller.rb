@@ -6,7 +6,14 @@ class UsersController < ApplicationController
   end
   
   def show
-    # @todo: show a user
+    # @todo: validate params array
+
+    @user = User.find params[:id]
+
+    unless !request.xhr? 
+        render partial: 'users/account_holder'
+    end
+
   end
 
 end

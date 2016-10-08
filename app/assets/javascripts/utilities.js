@@ -8,6 +8,11 @@ $.fn.isEmpty = function() {
     return isEmptyString(content);
 };
 
+$.fn.hasAttr = function(attribute_name) {
+    var attr = $(this).attr(attribute_name);
+    return (typeof attr !== typeof undefined && attr !== false);
+};
+
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // :::::::::::::::::::::::: utilities ::::::::::::::::::::::::::: 
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
