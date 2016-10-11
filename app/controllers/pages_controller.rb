@@ -63,13 +63,12 @@ class PagesController < ApplicationController
   def show
     # @todo: check for correct user
     # @todo: show user
+    # @todo: handle errors
     page_id = params.has_key?(:id) ? params[:id] : 0
 
     @page = Page.find page_id
 
-    if request.xhr?
-      render partial: 'pages/page'
-    end
+    render partial: 'pages/page' if request.xhr?
 
   end
 

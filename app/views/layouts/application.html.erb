@@ -7,9 +7,46 @@
     <title><%= content_for?(:title) ? yield(:title) : "ClasiFace.Com" %></title>
     <%= stylesheet_link_tag "application" %>
     <%= csrf_meta_tags %>
+
+    <!-- independent facebook api -->
+    <script type="text/javascript">
+      window.fbAsyncInit = function() {
+        FB.init({
+            appId   : '<%= ENV['FACEBOOK_KEY'] %>',
+            cookie  : true,
+            version : 'v2.6'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {
+            return;
+          }
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/es_LA/sdk.js";
+          fjs.parentNode.insertBefore(js, fjs);
+      } (document, 'script', 'facebook-jssdk'));
+    </script>
+
   </head>
 
   <body>
+
+    <!-- ajax info -->
+    <%= hidden_field_tag :__root_url, root_url %>
+    <%= hidden_field_tag :__invitations_url, invitations_url %>
+    <%= hidden_field_tag :__posts_url, posts_url %>
+    <%= hidden_field_tag :__login_url, login_url(provider: 'facebook') %>
+    <%= hidden_field_tag :__ranking_url, ranking_url %>
+    <%= hidden_field_tag :__facebook_app_id, ENV['FACEBOOK_KEY'] %>
+    <%= hidden_field_tag :__facebook_scope, ENV['FACEBOOK_SCOPE'] %>
+
+    <% if logged_in? %>
+        <%= hidden_field_tag :__logged_in, true %>
+        <%= hidden_field_tag :__user_pages_url, user_pages_url(user_id: current_user.id) %>
+        <%= hidden_field_tag :__user_has_pages, (current_user.pages && current_user.pages.count > 0) %>
+    <% end %>
 
     <main>
       <%= yield %>

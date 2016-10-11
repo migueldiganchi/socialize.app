@@ -1,7 +1,13 @@
-<div>
-    <% if logged_in? %>
-        logged in home page
-    <% else %>
-        public home page
-    <% end %>
-</div>
+<% content_for(:title) do "ClasiFace.Com" end %>
+
+<%= render 'layouts/header' %>
+
+<div class="row app-dynamic">
+    <div>
+        <% if logged_in? %>
+            logged in home page
+        <% else %>
+            public home page
+        <% end %>
+    </div>
+</div>  

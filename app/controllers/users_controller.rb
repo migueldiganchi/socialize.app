@@ -10,9 +10,7 @@ class UsersController < ApplicationController
 
     @user = User.find params[:id]
 
-    unless !request.xhr? 
-        render partial: 'users/account_holder'
-    end
+    render partial: 'users/user' if request.xhr?
 
   end
 

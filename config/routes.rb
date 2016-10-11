@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   match 'logout',                   to: 'sessions#destroy',     as: 'logout',       via: 'delete'
   match 'ranking',                  to: 'posts#ranking',                            via: 'get'
   match 'create_pages',             to: 'user#create_pages',                        via: 'post'
-  match 'main',                     to: 'app#main',                                 via: 'get'
   match 'categories_selector',      to: 'app#categories_selector',                  via: 'get'
   match 'time_selector',            to: 'app#time_selector',                        via: 'get'
 

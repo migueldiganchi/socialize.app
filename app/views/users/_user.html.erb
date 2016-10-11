@@ -1,0 +1,10 @@
+<% logo_url = logged_in? ? facebook_picture_url(@user.uid) : facebook_picture_url %>
+
+<%= render partial: 'shared/theater', locals: { 
+    title: @user.name,  
+    description: 'Some description of the user. @todo: get description', 
+    logo_url: logo_url,
+    cover_url: nil
+} %>
+
+<%= javascript_include_tag "app.user" %>

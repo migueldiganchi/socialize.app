@@ -1,0 +1,35 @@
+<%
+    logo_url ||= nil # @todo: get default logo url?
+    cover_url ||= nil # @todo?: get default cover_url?
+%>
+
+<div class="account-container opacity radius-10">
+
+    <div class="info-container clearfix">
+
+        <div class="profile circular-image shadow-level-2">
+            <%= image_tag logo_url, alt: title, class: 'user-image ' + (logo_url ? '' : 'hide') %>
+        </div>
+
+        <div class="info">
+
+            <h3>
+                <%= title %>
+            </h3>
+
+            <p>
+                <%= description %>
+            </p>
+
+        </div>
+    </div>
+
+    <div class="cover-container">
+        <%= image_tag cover_url, alt: title, class: 'hide cover ' + (cover_url ? '' : 'hide')  %>
+    </div>
+
+    <div class="posts-container">
+        @todo: posts list here
+    </div>
+
+</div>

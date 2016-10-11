@@ -89,10 +89,12 @@
                         <div>
                             <ul>
                                 <li>
-                                    <%= link_to 'Mi perfil', current_user %>
+                                    <%= link_to 'Mi perfil', current_user, class: 'show-profile' %>
                                 </li>
                                 <% current_user.pages.each do |page| %>
-                                    <li><a href="#"><%= page.name %></a></li>
+                                    <li>
+                                        <%= link_to page.name, page_url(page.id), class: 'show-page' %>
+                                    </li>
                                 <% end %>
                             </ul>
                         </div>

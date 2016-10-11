@@ -6,21 +6,8 @@ class AppController < ApplicationController
 
     @title = 'ClasiFace.Com'
 
-    if request.xhr?
-      # check for json requet
-      render partial: 'app/app_panel'
-    end
-
-  end
-
-  def main
-    # @todo: improve this
-    
-    if request.xhr?
-      render partial: 'layouts/main'
-    else
-      redirect_to root_url
-    end
+    # check for json requet
+    render partial: 'layouts/main' if request.xhr?
   end
 
   # searcher selectors

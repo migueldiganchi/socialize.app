@@ -10,7 +10,6 @@ class SessionsController < ApplicationController
 
     # go home 
     redirect_to root_url
-
   end
 
   def destroy
