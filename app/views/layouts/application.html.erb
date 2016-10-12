@@ -18,13 +18,26 @@
             version : 'v2.7'
         });
         checkForFacebookLoading(FB);
+        alert('after all in fbAsyncInit');
       };
 
       // after loading page checking
       function checkForFacebookLoading(_FB) {
-        // @todo: check for some element to make some puntual facebook calls
-        console.info('facebook inspection...');
-        console.log(_FB);
+        var callTo = $('#__call_to').val();
+
+        switch(callTo) {
+          case 'fb_user': 
+            showFacebookUser(_FB); 
+            break;
+
+          case 'fb_page': 
+            showFacebookPage(_FB);
+            break;
+
+          default: {
+            console.log('bad call');
+          }
+        }
       }
       
       (function(d, s, id) {
@@ -35,8 +48,11 @@
           js = d.createElement(s); js.id = id;
           js.src = "//connect.facebook.net/es_LA/sdk.js";
           fjs.parentNode.insertBefore(js, fjs);
+
+          alert('after all in abstract function...');
+
       } (document, 'script', 'facebook-jssdk'));
-      
+
     </script>
     <!-- </facebook.api> -->
 

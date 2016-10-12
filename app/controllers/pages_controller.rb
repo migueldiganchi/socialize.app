@@ -66,6 +66,8 @@ class PagesController < ApplicationController
     # @todo: handle errors
     page_id = params.has_key?(:id) ? params[:id] : 0
 
+    # abort env['omniauth.auth'].inspect
+
     @page = Page.find page_id
 
     render partial: 'pages/page' if request.xhr?

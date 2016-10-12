@@ -147,6 +147,9 @@ $(function() {
 
             // show the response
             $(app_dynamic).html(app_response);
+
+            // get facebook page
+            showFacebookPage(FB);
         });
 
     }
@@ -165,6 +168,9 @@ $(function() {
 
             // laod content into the container
             $(app_dynamic).html(app_response);
+
+            // get facebook user
+            showFacebookUser(FB);
 
         });        
 
@@ -257,8 +263,6 @@ $(document).ready(function() {
                 
                 // load app panel in the main container
                 $(appContainer).html(app_response);
-
-                // showUserInformation(accessToken);
 
             },
             complete: function() {

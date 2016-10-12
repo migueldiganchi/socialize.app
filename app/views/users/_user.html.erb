@@ -1,5 +1,7 @@
 <% logo_url = logged_in? ? facebook_picture_url(@user.uid) : facebook_picture_url %>
 
+<%= hidden_field_tag :__call_to, 'fb_user' %>
+
 <%= render partial: 'shared/theater', locals: { 
     title: @user.name,  
     description: 'Some description of the user. @todo: get description', 

@@ -1,3 +1,7 @@
+<%= hidden_field_tag :__call_to, 'fb_page' %>
+
+<%= hidden_field_tag :__fb_page_id, @page.fb_id %>
+
 <%= render partial: 'shared/theater', locals: {
     title: @page.name,
     description: @page.description
