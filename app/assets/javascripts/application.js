@@ -191,9 +191,6 @@ $(document).ready(function() {
 
     function checkLoginState() {
 
-        console.info('FB debugging...');
-        console.log(FB);
-
         // @todo: check for FB var
 
         loginButton.text('Verificando conexión con facebook...');
