@@ -230,39 +230,6 @@ $(document).ready(function() {
             }
 
             createInvitations(fb_response);
-            
-            // @todo: check for errors
-            // var request = fb_response.request;
-            // var fb_invited_uids = fb_response.to;
-            // var url = $('#__invitations_url').val();
-
-            // $.ajax({
-            //     url : url,
-            //     type : 'post', 
-            //     data : {
-            //         fb_uids: fb_invited_uids
-            //     },
-            //     beforeSend: function() {
-            //         // @todo: ajax > on
-            //     },
-            //     success : function(app_response) {
-
-            //         var message = null;
-
-            //         if (!app_response || app_response.error) {
-            //             var message = 'Ha ocurrido un error en la invitación';
-            //             alert(message);
-            //             return;
-            //         }
-
-            //         dynamicContainer.html(app_response);
-
-            //     },
-            //     complete: function() {
-            //         console.log('@todo: ajax-off');
-            //     },
-            //     dataType : 'html'
-            // });
         });
     }
 
