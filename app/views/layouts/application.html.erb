@@ -8,54 +8,6 @@
     <%= stylesheet_link_tag "application" %>
     <%= csrf_meta_tags %>
 
-    <!-- <facebook.api> -->
-    <script type="text/javascript">
-
-      window.fbAsyncInit = function() {
-        FB.init({
-            appId   : '<%= ENV['FACEBOOK_KEY'] %>',
-            cookie  : true,
-            version : 'v2.7'
-        });
-        checkForFacebookLoading(FB);
-        alert('after all in fbAsyncInit');
-      };
-
-      // after loading page checking
-      function checkForFacebookLoading(_FB) {
-        var callTo = $('#__call_to').val();
-
-        switch(callTo) {
-          case 'fb_user': 
-            showFacebookUser(_FB); 
-            break;
-
-          case 'fb_page': 
-            showFacebookPage(_FB);
-            break;
-
-          default: {
-            console.log('bad call');
-          }
-        }
-      }
-      
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) {
-            return;
-          }
-          js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/es_LA/sdk.js";
-          fjs.parentNode.insertBefore(js, fjs);
-
-          alert('after all in abstract function...');
-
-      } (document, 'script', 'facebook-jssdk'));
-
-    </script>
-    <!-- </facebook.api> -->
-
   </head>
 
   <body>
@@ -73,6 +25,8 @@
         <%= hidden_field_tag :__user_pages_url, user_pages_url(user_id: current_user.id) %>
         <%= hidden_field_tag :__user_has_pages, (current_user.pages && current_user.pages.count > 0) %>
     <% end %>
+
+    <%= javascript_include_tag "application.facebook" %>
 
     <main>
       <%= yield %>

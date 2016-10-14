@@ -38,6 +38,17 @@ $(window).scroll(function(event){
 /* <foundation.init> */
 $(document).foundation();
 
+// controls
+var dynamicContainer = null;
+var appContainer = null;
+var logoutButton = null;
+var loginButton = null;
+var loginButtonOriginalText = null;
+var inviteButton = null;
+var postsUrl = null;
+var hdnLoggedIn = null;
+var loggedIn = null;
+
 /* <document.init> */
 $(function() {
 
@@ -183,152 +194,18 @@ $(function() {
 $(document).ready(function() {
 
     // controls
-    var dynamicContainer = $('#dynamic_container');
-    var appContainer = $('main');
-    var logoutButton = $('#logout_button');
-    var loginButton = $('#login_button');
-    var loginButtonOriginalText = loginButton.text();
-    var inviteButton = $('#invite_button');
-    var postsUrl = $('#__posts_url').val();
-    var hdnLoggedIn = $('#__logged_in');
-    var loggedIn = $(hdnLoggedIn).length > 0 && $(hdnLoggedIn).val() == 'true';
+    dynamicContainer = $('#dynamic_container');
+    appContainer = $('main');
+    logoutButton = $('#logout_button');
+    loginButton = $('#login_button');
+    loginButtonOriginalText = loginButton.text();
+    inviteButton = $('#invite_button');
+    postsUrl = $('#__posts_url').val();
+    hdnLoggedIn = $('#__logged_in');
+    loggedIn = $(hdnLoggedIn).length > 0 && $(hdnLoggedIn).val() == 'true';
 
     $.ajaxSetup({ cache: true });
 
-    function checkLoginState() {
-
-        // @todo: check for FB var
-
-        loginButton.text('Verificando conexión con facebook...');
-        FB.getLoginStatus(function(fb_response) {
-            handleFacebookResponse(fb_response);
-        });
-    }
-
-    // request the login status
-    function requestLogin() {
-
-        var scope = $('#__facebook_scope').val();
-
-        FB.login(function(response) {
-            if (response.authResponse) {
-                handleFacebookResponse(response);
-            } else {
-                // @todo: handle error
-                loginButton.text(loginButtonOriginalText);
-            }
-        }, { scope: scope }); // @todo: get scope from server
-    }
-
-    // status change callback
-    function handleFacebookResponse(response) {
-
-        if (response.status === 'connected') {
-            // the user is logged in and has authenticated your
-            connectApplication(response.authResponse.signedRequest);
-        } else {
-
-            if (response.status === 'not_authorized') {
-                console.log('application is not authorized');
-            }
-            // the user isn't logged in to Facebook 
-            requestLogin();
-        }
-    }
-
-    // go register or get user
-    function connectApplication(signedRequest) {
-
-        // @todo: check for possible errors in loggedInResponse
-        var url = $('#__login_url').val();
-
-        $.ajax({
-            url : url,
-            type : 'get', 
-            data : {
-                signed_request: signedRequest
-            },
-            beforeSend: function() {
-                loginButton.text('Obteniendo datos del usuario...'); // @todo: get from server settings
-            },
-            success : function(app_response) {
-
-                if (!isValidResponse(app_response)) {
-                    loginButton.text(loginButtonOriginalText);
-                    return;
-                }
-
-                loginButton.text('Usuario autenticado!').addClass('logged-in');
-                logoutButton.addClass('logged-in');
-                
-                // load app panel in the main container
-                $(appContainer).html(app_response);
-
-            },
-            complete: function() {
-                console.log('@todo: ajax-off');
-            },
-            dataType : 'html'
-        });
-    }
-
-    // method: this method correspond to the user account
-    function showUserInformation(accessToken) {
-
-        // show user picture & name  
-        FB.api('/me', function(userInfo) {
-
-            if (!isValidFacebookResponse(userInfo)) { 
-                // @todo: handle not valid facebook response
-                return;
-            }
-            
-            // show user cover 
-            $('img.cover').attr('src', userInfo.cover.source).removeClass('hide');
-            
-            // @todo: load user pages account to manage
-            console.info('user accounts...');
-            console.log(userInfo.accounts);
-
-            // reload foundation to the document
-            $(document).foundation(); 
-        }, { 
-            access_token: accessToken, 
-            fields: "id, name, email, about, cover, gender, link, accounts" 
-        });
-    }
-
-    function showUserPages(fpagesToCheck) {
-
-        var url = $('#__user_pages_url').val(); 
-        var spanLoadingMessage = $('#loading_message');
-        var data = null;
-
-        alert('showUserPages method: ' + url);
-
-        if (fpagesToCheck) {
-            data = { fpages: fpagesToCheck };
-        }
-        // @todo: check for valid url
-        
-        // @todo: handle ajax-loading: on
-        console.log(spanLoadingMessage);
-        $(spanLoadingMessage).text('Cargando información del usuario');
-        $.get(url, data, function(app_response) {
-
-            // validate response
-            if (!isValidResponse(app_response)) {
-                return false;
-            }
-
-            console.log('checking for app_response: ');
-            console.log(app_response);
-
-            // render content
-            $('.user-pages-container').html(app_response);
-
-        }, 'html');            
-    }
 
     function inviteFriends(invitationMessage) {
 
@@ -352,45 +229,43 @@ $(document).ready(function() {
                 return;
             }
 
+            createInvitations(fb_response);
+            
             // @todo: check for errors
-            var request = fb_response.request;
-            var fb_invited_uids = fb_response.to;
-            var url = $('#__invitations_url').val();
+            // var request = fb_response.request;
+            // var fb_invited_uids = fb_response.to;
+            // var url = $('#__invitations_url').val();
 
-            $.ajax({
-                url : url,
-                type : 'post', 
-                data : {
-                    fb_uids: fb_invited_uids
-                },
-                beforeSend: function() {
-                    
-                },
-                success : function(app_response) {
+            // $.ajax({
+            //     url : url,
+            //     type : 'post', 
+            //     data : {
+            //         fb_uids: fb_invited_uids
+            //     },
+            //     beforeSend: function() {
+            //         // @todo: ajax > on
+            //     },
+            //     success : function(app_response) {
 
-                    var message = null;
+            //         var message = null;
 
-                    if (!app_response || app_response.error) {
-                        var message = 'Ha ocurrido un error en la invitación';
-                        alert(message);
-                        return;
-                    }
+            //         if (!app_response || app_response.error) {
+            //             var message = 'Ha ocurrido un error en la invitación';
+            //             alert(message);
+            //             return;
+            //         }
 
-                    dynamicContainer.html(app_response);
+            //         dynamicContainer.html(app_response);
 
-                },
-                complete: function() {
-                    console.log('@todo: ajax-off');
-                },
-                dataType : 'html'
-            });
+            //     },
+            //     complete: function() {
+            //         console.log('@todo: ajax-off');
+            //     },
+            //     dataType : 'html'
+            // });
         });
     }
 
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    // :::::::::::::::: facebook handlers ::::::::::::::::::::::::::: 
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    
     loginButton.click(function() {
         checkLoginState();
         return false;
@@ -401,10 +276,6 @@ $(document).ready(function() {
         inviteFriends("Hooola! Vení a probar ésta app!");
         return false;
     });
-
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    // :::::::::::::::: application handlers :::::::::::::::::::::::: 
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     
     // handler: ajax routing
     $(document).on('click', 'a', function(e) {
@@ -658,136 +529,262 @@ $(document).ready(function() {
 
     /* </facebook.scripts> */
 
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    // :::::::::::::::::: application methods :::::::::::::::::::::::
-    // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    
-    function openSelector(openerButton) {
-        console.log('@todo: read position from html attribute');
-        console.log('@todo: read width from html attribute');
-        console.log('@todo: set left position as html attribute');
+});
+/* </document.ready> */
 
-        // close all previous selectors
-        closeSelectors();
+function createInvitations(fb_response) {
+    var request = fb_response.request;
+    var fb_invited_uids = fb_response.to;
+    var url = $('#__invitations_url').val();
 
-        // mark as pressed button
-        $(openerButton).addClass('pressed');
+    alert(url);
 
-        // get current container
-        var selectorContainer = $(openerButton).find('.selector-container');
+    $.ajax({
+        url : url,
+        type : 'post', 
+        data : {
+            fb_uids: fb_invited_uids
+        },
+        beforeSend: function() {
+            // @todo: ajax > on
+        },
+        success : function(app_response) {
 
-        // show container
-        $(selectorContainer).removeClass('hide');
+            var message = null;
 
-        // check if the selector is empty
-        if ($(selectorContainer).isEmpty()) {
-
-            var url = $(openerButton).data('selector-url');
-            var loadingMessage = 'Cargando filtro'; 
-            console.log('@todo: get loading message from html attribute');
-
-            if (url === undefined) {
-                console.log('@todo: resolve this');
+            if (!app_response || app_response.error) {
+                var message = 'Ha ocurrido un error en la invitación';
+                alert(message);
                 return;
             }
-            
-            $(selectorContainer).html(loadingMessage);
 
-            // go get selector to the server
-            $.get(url, null, function(app_response) {
-                // validate response
-                if (!isValidResponse(app_response)){
-                    // @todo: revert process
-                    return false;
-                }
+            dynamicContainer.html(app_response);
 
-                $(selectorContainer).html(app_response);
+        },
+        complete: function() {
+            console.log('@todo: ajax-off');
+        },
+        dataType : 'html'
+    });
+}
 
-            }, 'html');
-        }
-    }
-    
-    function closeSelectors() {
-        $('.button').removeClass('pressed');
-        $('.selector-container').addClass('hide');
-    }
+// go handle login application
+function connectApplication(signedRequest) {
 
-   
-    function closeUrlModal() {
-        // @todo: get from configuration server (root_url)
-        var url = '/'; 
-        // @todo: get from configuration server
-        var title = 'BubblePages'; 
-        // push fake state
-        History.pushState({ 
-            url : url, 
-            target: 'close-modal' 
-        }, title, url);
-    }
-    
-    function newPost(on) {
-        // read the current containers
-        var formNewPost = $('#main_post_container').find('form');
-        var postContainer = $('#main_post_container').find('.base');
+    // @todo: check for possible errors in loggedInResponse
+    var url = $('#__login_url').val();
 
-        console.log(postContainer);
-        
-        // ensure form cleaning
-        clearForm($(formNewPost));
+    $.ajax({
+        url : url,
+        type : 'get', 
+        data : {
+            signed_request: signedRequest
+        },
+        beforeSend: function() {
+            loginButton.text('Obteniendo datos del usuario...'); // @todo: get from server settings
+        },
+        success : function(app_response) {
 
-        if (on) {
-            // get the current top of the body to return latter in the cancel
-            _currentScrollTop = $('body').scrollTop();
-            // show container form
-            $(postContainer).removeClass('hide');
-            // go top the form
-            goTopElement(formNewPost);
-            // focus text area
-            $(formNewPost).find('textarea').focus();
-        } else { 
-
-            console.log(postContainer);
-
-            // hide container form
-            $(postContainer).addClass('hide');
-            // return to the saved top
-            goTop(_currentScrollTop);
-            // reset the last position added
-            _currentScrollTop = null;
-        }
-    }
-
-    function showMorePosts(quantity) {
-
-        var url = postsUrl;
-        var postsContainer = $('#posts_container');
-        var posts_on = postsContainer.find('.post');
-        var from = posts_on.length - 1;
-        var limit = quantity ? quantity : null;
-        var buttonToRemove = $('#btn_more_posts');
-        var original_text = $(buttonToRemove).text();
-
-        // ajax-loading
-        $(buttonToRemove).text('Cargando más luces...');
-
-        $.get(url, { from: from, limit: limit }, function(app_response) {
-
-            $(buttonToRemove).text(original_text);
-
-            // check for errors
             if (!isValidResponse(app_response)) {
+                loginButton.text(loginButtonOriginalText);
+                return;
+            }
+
+            loginButton.text('Usuario autenticado!').addClass('logged-in');
+            logoutButton.addClass('logged-in');
+            
+            // load app panel in the main container
+            $(appContainer).html(app_response);
+
+        },
+        complete: function() {
+            console.log('@todo: ajax-off');
+        },
+        dataType : 'html'
+    });
+}
+
+// method: this method correspond to the user account
+function showUserInformation(accessToken) {
+
+    // show user picture & name  
+    FB.api('/me', function(userInfo) {
+
+        if (!isValidFacebookResponse(userInfo)) { 
+            // @todo: handle not valid facebook response
+            return;
+        }
+        
+        // show user cover 
+        $('img.cover').attr('src', userInfo.cover.source).removeClass('hide');
+        
+        // @todo: load user pages account to manage
+        console.info('user accounts...');
+        console.log(userInfo.accounts);
+
+        // reload foundation to the document
+        $(document).foundation(); 
+    }, { 
+        access_token: accessToken, 
+        fields: "id, name, email, about, cover, gender, link, accounts" 
+    });
+}
+
+function showUserPages(fpagesToCheck) {
+
+    var url = $('#__user_pages_url').val(); 
+    var spanLoadingMessage = $('#loading_message');
+    var data = null;
+
+    alert('showUserPages method: ' + url);
+
+    if (fpagesToCheck) {
+        data = { fpages: fpagesToCheck };
+    }
+    // @todo: check for valid url
+    
+    // @todo: handle ajax-loading: on
+    console.log(spanLoadingMessage);
+    $(spanLoadingMessage).text('Cargando información del usuario');
+    $.get(url, data, function(app_response) {
+
+        // validate response
+        if (!isValidResponse(app_response)) {
+            return false;
+        }
+
+        console.log('checking for app_response: ');
+        console.log(app_response);
+
+        // render content
+        $('.user-pages-container').html(app_response);
+
+    }, 'html');            
+}
+
+function openSelector(openerButton) {
+    console.log('@todo: read position from html attribute');
+    console.log('@todo: read width from html attribute');
+    console.log('@todo: set left position as html attribute');
+
+    // close all previous selectors
+    closeSelectors();
+
+    // mark as pressed button
+    $(openerButton).addClass('pressed');
+
+    // get current container
+    var selectorContainer = $(openerButton).find('.selector-container');
+
+    // show container
+    $(selectorContainer).removeClass('hide');
+
+    // check if the selector is empty
+    if ($(selectorContainer).isEmpty()) {
+
+        var url = $(openerButton).data('selector-url');
+        var loadingMessage = 'Cargando filtro'; 
+        console.log('@todo: get loading message from html attribute');
+
+        if (url === undefined) {
+            console.log('@todo: resolve this');
+            return;
+        }
+        
+        $(selectorContainer).html(loadingMessage);
+
+        // go get selector to the server
+        $.get(url, null, function(app_response) {
+            // validate response
+            if (!isValidResponse(app_response)){
+                // @todo: revert process
                 return false;
             }
 
-            $(buttonToRemove).parent().remove(); 
-            $(postsContainer).prepend(app_response);
+            $(selectorContainer).html(app_response);
 
         }, 'html');
     }
+}
 
-    function showMessage(message) {
-        $('<div><b>' + message + '</b></div>').publish(2000);
+function closeSelectors() {
+    $('.button').removeClass('pressed');
+    $('.selector-container').addClass('hide');
+}
+
+
+function closeUrlModal() {
+    // @todo: get from configuration server (root_url)
+    var url = '/'; 
+    // @todo: get from configuration server
+    var title = 'BubblePages'; 
+    // push fake state
+    History.pushState({ 
+        url : url, 
+        target: 'close-modal' 
+    }, title, url);
+}
+
+function newPost(on) {
+    // read the current containers
+    var formNewPost = $('#main_post_container').find('form');
+    var postContainer = $('#main_post_container').find('.base');
+
+    console.log(postContainer);
+    
+    // ensure form cleaning
+    clearForm($(formNewPost));
+
+    if (on) {
+        // get the current top of the body to return latter in the cancel
+        _currentScrollTop = $('body').scrollTop();
+        // show container form
+        $(postContainer).removeClass('hide');
+        // go top the form
+        goTopElement(formNewPost);
+        // focus text area
+        $(formNewPost).find('textarea').focus();
+    } else { 
+
+        console.log(postContainer);
+
+        // hide container form
+        $(postContainer).addClass('hide');
+        // return to the saved top
+        goTop(_currentScrollTop);
+        // reset the last position added
+        _currentScrollTop = null;
     }
+}
 
-});
-/* </document.ready> */
+function showMorePosts(quantity) {
+
+    var url = postsUrl;
+    var postsContainer = $('#posts_container');
+    var posts_on = postsContainer.find('.post');
+    var from = posts_on.length - 1;
+    var limit = quantity ? quantity : null;
+    var buttonToRemove = $('#btn_more_posts');
+    var original_text = $(buttonToRemove).text();
+
+    // ajax-loading
+    $(buttonToRemove).text('Cargando más luces...');
+
+    $.get(url, { from: from, limit: limit }, function(app_response) {
+
+        $(buttonToRemove).text(original_text);
+
+        // check for errors
+        if (!isValidResponse(app_response)) {
+            return false;
+        }
+
+        $(buttonToRemove).parent().remove(); 
+        $(postsContainer).prepend(app_response);
+
+    }, 'html');
+}
+
+function showMessage(message) {
+    $('<div><b>' + message + '</b></div>').publish(2000);
+}
