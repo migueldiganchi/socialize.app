@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root 'app#index'
 
   match 'auth/:provider/callback',  to: 'sessions#create',      as: 'login',        via: 'get'
-  match 'auth/failure',             to: redirect('/'),                              via: 'get' # @todo: check for errors
+  match 'auth/failure',             to: redirect('/'),                              via: 'get' 
   match 'logout',                   to: 'sessions#destroy',     as: 'logout',       via: 'delete'
   match 'ranking',                  to: 'posts#ranking',                            via: 'get'
   match 'create_pages',             to: 'user#create_pages',                        via: 'post'

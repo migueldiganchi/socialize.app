@@ -541,6 +541,8 @@ function connectApplication(signedRequest) {
     // @todo: check for possible errors in loggedInResponse
     var url = $('#__login_url').val();
 
+    alert(signedRequest);
+
     $.ajax({
         url : url,
         type : 'get', 
@@ -593,7 +595,7 @@ function showUserInformation(accessToken) {
         $(document).foundation(); 
     }, { 
         access_token: accessToken, 
-        fields: "id, name, email, about, cover, gender, link, accounts" 
+        fields: "id, name, email, cover, gender, link, accounts" 
     });
 }
 

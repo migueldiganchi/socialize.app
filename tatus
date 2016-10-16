@@ -1,0 +1,35 @@
+[1;35;40mdiff --git a/app/assets/javascripts/application.js b/app/assets/javascripts/application.js[m
+[1;35;40mindex 20f69aa..9108c14 100644[m
+[1;35;40m--- a/app/assets/javascripts/application.js[m
+[1;35;40m+++ b/app/assets/javascripts/application.js[m
+[36m@@ -541,6 +541,8 @@[m [mfunction connectApplication(signedRequest) {[m
+     // @todo: check for possible errors in loggedInResponse[m
+     var url = $('#__login_url').val();[m
+ [m
+[32m+[m[32m    alert(signedRequest);[m
+[32m+[m
+     $.ajax({[m
+         url : url,[m
+         type : 'get', [m
+[36m@@ -593,7 +595,7 @@[m [mfunction showUserInformation(accessToken) {[m
+         $(document).foundation(); [m
+     }, { [m
+         access_token: accessToken, [m
+[31m-        fields: "id, name, email, about, cover, gender, link, accounts" [m
+[32m+[m[32m        fields: "id, name, email, cover, gender, link, accounts"[m[41m [m
+     });[m
+ }[m
+ [m
+[1;35;40mdiff --git a/config/routes.rb b/config/routes.rb[m
+[1;35;40mindex 122bf88..65ae749 100644[m
+[1;35;40m--- a/config/routes.rb[m
+[1;35;40m+++ b/config/routes.rb[m
+[36m@@ -6,7 +6,7 @@[m [mRails.application.routes.draw do[m
+   root 'app#index'[m
+ [m
+   match 'auth/:provider/callback',  to: 'sessions#create',      as: 'login',        via: 'get'[m
+[31m-  match 'auth/failure',             to: redirect('/'),                              via: 'get' # @todo: check for errors[m
+[32m+[m[32m  match 'auth/failure',             to: redirect('/'),                              via: 'get'[m[41m [m
+   match 'logout',                   to: 'sessions#destroy',     as: 'logout',       via: 'delete'[m
+   match 'ranking',                  to: 'posts#ranking',                            via: 'get'[m
+   match 'create_pages',             to: 'user#create_pages',                        via: 'post'[m
