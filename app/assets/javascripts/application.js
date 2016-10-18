@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.history
+//= require jquery.cookie
 //= require turbolinks
 //= require foundation
 //= require utilities
@@ -533,18 +534,37 @@ function createInvitations(fb_response) {
     });
 }
 
+decodeBase64 = function(s) {
+    var e={},i,b=0,c,x,l=0,a,r='',w=String.fromCharCode,L=s.length;
+    var A="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    for(i=0;i<64;i++){e[A.charAt(i)]=i;}
+    for(x=0;x<L;x++){
+        c=e[s.charAt(x)];b=(b<<6)+c;l+=6;
+        while(l>=8){((a=(b>>>(l-=8))&0xff)||(x<(L-2)))&&(r+=w(a));}
+    }
+    return r;
+};
+
 // go handle login application
-function connectApplication(signedRequest) {
+function connectApplication(fb_response) {
 
     // @todo: check for possible errors in loggedInResponse
     var url = $('#__login_url').val();
-
-    alert('connecting?');
+    var signedRequest = fb_response.authResponse.signedRequest;
+    var data = signedRequest.split('.')[1];
+    data = JSON.parse(decodeBase64(data));
+    var code = data.code;
+    
+    console.info('fb_response inspection...');
+    console.log(fb_response);
+    console.info('signedRequest.data inspection...');
+    console.log(data);
 
     $.ajax({
         url : url,
         type : 'get', 
         data : {
+            // code: code
             signed_request: signedRequest
         },
         beforeSend: function() {
@@ -569,7 +589,7 @@ function connectApplication(signedRequest) {
         },
         dataType : 'html',
         crossDomain: true,
-        xhrFields: { withCredentials: true },
+        xhrFields: { withCredentials: true }
     });
 }
 

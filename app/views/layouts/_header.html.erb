@@ -75,7 +75,12 @@
         <!-- right -->
         <div class="top-bar-right">
 
+            <script>alert('reloading...');</script>
+
             <% if logged_in? %>
+
+                <h2>logged in</h2>
+
 
                 <button type="button" class="button face dropdown profile selector">
                     <span>
@@ -110,6 +115,8 @@
                     data: { confirm: '¿Está seguro que desea salir del juego?' } %>
 
             <% else %>
+
+                <h2>NOT logged in</h2>
 
                 <%= link_to(
                     'Comenzar con facebook', 

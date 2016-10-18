@@ -1,10 +1,6 @@
 class SessionsController < ApplicationController
   # @todo: handle errors
   
-  def another
-    abort 'here'
-  end
-
   def create
 
     # begin session
@@ -18,6 +14,8 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
+    cookies.delete(:user_id)
+    
     redirect_to root_url
   end
 

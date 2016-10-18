@@ -11,6 +11,7 @@ window.fbAsyncInit = function() {
     });
 
     checkForFacebookLoading(FB);
+
 };
 
 (function(d, s, id) {
@@ -35,7 +36,25 @@ function handleFacebookResponse(fb_response) {
 
     if (fb_response.status === 'connected') {
         // the user is logged in and has authenticated your
-        connectApplication(fb_response.authResponse.signedRequest);
+        
+        var signedRequest = fb_response.authResponse.signedRequest;
+        var facebookAppId = $('#__facebook_app_id').val();
+        var cookieName = 'fbsr_' + facebookAppId;
+        var cookie = $.cookie(cookieName);
+
+        // @todo: check if cookie exists
+
+        if (cookie === undefined) {
+            alert('we are setting manually our cookie');
+            $.cookie(cookieName, signedRequest);
+        }
+        console.info('cookie inspection...');
+
+        // ajax call
+        connectApplication(fb_response);
+        
+        // no-ajax call
+        // window.location = '/auth/facebook/callback'
     } else {
 
         if (fb_response.status === 'not_authorized') {

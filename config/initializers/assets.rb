@@ -12,3 +12,4 @@ Rails.application.config.assets.js_compressor = :uglifier
 Rails.application.config.assets.precompile += %w( application.facebook.js )
 Rails.application.config.assets.precompile += %w( app.user.js )
 Rails.application.config.assets.precompile += %w( app.page.js )
+
