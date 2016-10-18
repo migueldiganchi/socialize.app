@@ -7,10 +7,11 @@
     <title><%= content_for?(:title) ? yield(:title) : "ClasiFace.Com" %></title>
     <%= stylesheet_link_tag "application" %>
     <%= csrf_meta_tags %>
-
+    <%= javascript_include_tag "application.facebook" %>
   </head>
 
   <body>
+    <div id="fb-root"></div>
     <!-- ajax info -->
     <%= hidden_field_tag :__root_url, root_url %>
     <%= hidden_field_tag :__invitations_url, invitations_url %>
@@ -26,7 +27,6 @@
         <%= hidden_field_tag :__user_has_pages, (current_user.pages && current_user.pages.count > 0) %>
     <% end %>
 
-    <%= javascript_include_tag "application.facebook" %>
 
     <main>
       <%= yield %>
@@ -50,7 +50,3 @@
 </html>
 
 <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
-
-<% if logged_in? %>
-    <%= javascript_include_tag "application.session", 'data-turbolinks-track' => true %>
-<% end %>

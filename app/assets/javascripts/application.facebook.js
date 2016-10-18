@@ -1,11 +1,13 @@
 window.fbAsyncInit = function() {
 
     var facebook_key = $('#__facebook_app_id').val();
-    
+
     FB.init({
         appId   : facebook_key,
         cookie  : true,
-        version : 'v2.7'
+        status  : true,
+        xfbml   : true,
+        version : 'v2.6'
     });
 
     checkForFacebookLoading(FB);
@@ -48,7 +50,7 @@ function requestLogin() {
 
     var scope = $('#__facebook_scope').val();
 
-    alert(scope);
+    // @todo: validate for scope value
 
     FB.login(function(response) {
         if (response.authResponse) {
@@ -76,8 +78,7 @@ function checkForFacebookLoading() {
             break;
 
         default: 
-            console.log('bad call');
-            break;
+            break; // no ajax call
         
     }
 }

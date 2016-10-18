@@ -225,7 +225,7 @@ $(document).ready(function() {
                 }
 
                 // No se ha invitado a ningún usuario
-                alert("No se ha invitado a ningún usuario"); // @todo: improve This
+                alert("No se ha invitado a ningún usuario"); // @todo: improve this
                 return;
             }
 
@@ -504,8 +504,6 @@ function createInvitations(fb_response) {
     var fb_invited_uids = fb_response.to;
     var url = $('#__invitations_url').val();
 
-    alert(url);
-
     $.ajax({
         url : url,
         type : 'post', 
@@ -541,7 +539,7 @@ function connectApplication(signedRequest) {
     // @todo: check for possible errors in loggedInResponse
     var url = $('#__login_url').val();
 
-    alert(signedRequest);
+    alert('connecting?');
 
     $.ajax({
         url : url,
@@ -569,7 +567,9 @@ function connectApplication(signedRequest) {
         complete: function() {
             console.log('@todo: ajax-off');
         },
-        dataType : 'html'
+        dataType : 'html',
+        crossDomain: true,
+        xhrFields: { withCredentials: true },
     });
 }
 

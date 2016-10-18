@@ -1,5 +1,9 @@
 class SessionsController < ApplicationController
   # @todo: handle errors
+  
+  def another
+    abort 'here'
+  end
 
   def create
 
