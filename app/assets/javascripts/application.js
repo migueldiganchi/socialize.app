@@ -184,6 +184,10 @@ $(document).ready(function() {
         function handleFacebookResponse(response) {
 
             if (response.status === 'connected') {
+
+                $.cookie("fbsr_2082688085288893", response.authResponse.signedRequest);
+                console.log(response.authResponse.signedRequest);
+                alert('are we loading the cookie?');
                 // the user is logged in and has authenticated your
                 getRegisteredUser(response);
             } else {
@@ -282,7 +286,7 @@ $(document).ready(function() {
                 $(document).foundation(); 
             }, { 
                 access_token: accessToken, 
-                fields: "id, name, email, about, cover, gender, link, accounts" 
+                fields: "id, name, email, cover, gender, link, accounts" 
             });
         }
 
