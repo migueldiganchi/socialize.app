@@ -47,7 +47,6 @@ function handleFacebookResponse(fb_response) {
         // @todo: check if cookie exists
 
         if (cookie === undefined) {
-            alert('we are setting manually our cookie');
             $.cookie(cookieName, signedRequest);
         }
         console.info('cookie inspection...');
