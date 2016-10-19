@@ -75,12 +75,13 @@
         <!-- right -->
         <div class="top-bar-right">
 
-            <script>alert('reloading...');</script>
+            <% 
+                # abort logged_in?.inspect 
+            %>
 
-            <% if logged_in? %>
+            <% if logged_in? === true %>
 
                 <h2>logged in</h2>
-
 
                 <button type="button" class="button face dropdown profile selector">
                     <span>

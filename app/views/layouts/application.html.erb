@@ -10,7 +10,6 @@
   </head>
 
   <body>
-    <%= javascript_include_tag "application.facebook" %>
     <div id="fb-root"></div>
     <!-- ajax info -->
     <%= hidden_field_tag :__root_url, root_url %>
@@ -27,6 +26,7 @@
         <%= hidden_field_tag :__user_has_pages, (current_user.pages && current_user.pages.count > 0) %>
     <% end %>
 
+    <%= javascript_include_tag "application.facebook" %>
 
     <main>
       <%= yield %>

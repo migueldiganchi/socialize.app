@@ -1,6 +1,8 @@
 window.fbAsyncInit = function() {
 
-    var facebook_key = $('#__facebook_app_id').val();
+    // var facebook_key = $('#__facebook_app_id').val();
+    
+    var facebook_key = '2082688085288893';
 
     FB.init({
         appId   : facebook_key,
@@ -83,7 +85,10 @@ function requestLogin() {
 
 
 // after loading page checking
-function checkForFacebookLoading() {
+function checkForFacebookLoading(FB) {
+
+    console.info('FB inspection...');
+    console.log(FB);
 
     var callTo = $('#__call_to').val();
 
