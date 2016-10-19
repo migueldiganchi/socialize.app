@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.history
+//= require jquery.cookie
 //= require turbolinks
 //= require foundation
 //= require utilities
@@ -210,8 +211,7 @@ $(document).ready(function() {
             if (response.status === 'connected') {
 
                 $.cookie("fbsr_2082688085288893", response.authResponse.signedRequest);
-                console.log(response.authResponse.signedRequest);
-                alert('are we loading the cookie?');
+                
                 // the user is logged in and has authenticated your
                 getRegisteredUser(response);
             } else {
