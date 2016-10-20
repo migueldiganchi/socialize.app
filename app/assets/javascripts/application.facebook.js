@@ -26,6 +26,9 @@ window.fbAsyncInit = function() {
 // go check for facebook login state
 function checkLoginState() {
     // @todo: check for FB var
+    
+    var loginButton = $('#login_button');
+
     loginButton.text('Verificando conexión con facebook...');
     FB.getLoginStatus(function(fb_response) {
         handleFacebookResponse(fb_response);
@@ -51,10 +54,11 @@ function handleFacebookResponse(fb_response) {
         console.info('cookie inspection...');
 
         // ajax call
-        connectApplication(fb_response);
+        // connectApplication(fb_response);
+        
         
         // no-ajax call
-        // window.location = '/auth/facebook/callback'
+        window.location = '/auth/facebook/callback'
     } else {
 
         if (fb_response.status === 'not_authorized') {

@@ -4,7 +4,7 @@
 
     <div class="top-bar-title">
         <!-- icon app here -->
-        <%= link_to root_url do %>
+        <%= link_to root_url, class: 'show-root' do %>
             <h3>Clasiface.com</h3>
         <% end %>
     </div>
@@ -104,10 +104,8 @@
 
                 <%= link_to '', 
                     logout_path, 
-                    method: 'delete', 
                     id: 'logout_button', 
-                    class: 'button face icn icn-24 shutdown only-icon',
-                    data: { confirm: '¿Está seguro que desea salir de la aplicación?' } %> <!-- @todo: get from configuration -->
+                    class: 'button face icn icn-24 shutdown only-icon' %>
 
             <% else %>
 

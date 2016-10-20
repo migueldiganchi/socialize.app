@@ -10,7 +10,6 @@
   </head>
 
   <body>
-    <div id="fb-root"></div>
     <!-- ajax info -->
     <%= hidden_field_tag :__root_url, root_url %>
     <%= hidden_field_tag :__invitations_url, invitations_url %>
@@ -19,6 +18,7 @@
     <%= hidden_field_tag :__ranking_url, ranking_url %>
     <%= hidden_field_tag :__facebook_app_id, ENV['FACEBOOK_KEY'] %>
     <%= hidden_field_tag :__facebook_scope, ENV['FACEBOOK_SCOPE'] %>
+    <%= hidden_field_tag :__closing_question, :'¿Está seguro que desea salir de la app?' %>
 
     <% if logged_in? %>
         <%= hidden_field_tag :__logged_in, true %>
