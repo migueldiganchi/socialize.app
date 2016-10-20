@@ -75,13 +75,7 @@
         <!-- right -->
         <div class="top-bar-right">
 
-            <% 
-                abort logged_in?.inspect 
-            %>
-
-            <% if logged_in? === true %>
-
-                <h2>logged in</h2>
+            <% if logged_in? %>
 
                 <button type="button" class="button face dropdown profile selector">
                     <span>
@@ -113,11 +107,9 @@
                     method: 'delete', 
                     id: 'logout_button', 
                     class: 'button face icn icn-24 shutdown only-icon',
-                    data: { confirm: '¿Está seguro que desea salir del juego?' } %>
+                    data: { confirm: '¿Está seguro que desea salir de la aplicación?' } %> <!-- @todo: get from configuration -->
 
             <% else %>
-
-                <h2>NOT logged in</h2>
 
                 <%= link_to(
                     'Comenzar con facebook', 

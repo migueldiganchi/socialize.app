@@ -6,8 +6,17 @@ class AppController < ApplicationController
 
     @title = 'ClasiFace.Com'
 
+    puts 'app_controller.index (checking session[:user_id]): ' << session[:user_id].inspect
+
     # check for json requet
     render partial: 'layouts/main' if request.xhr?
+
+  end
+
+  def static
+
+    puts 'static page'
+
   end
 
   # searcher selectors

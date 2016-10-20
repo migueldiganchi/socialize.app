@@ -1,22 +1,29 @@
 class SessionsController < ApplicationController
-  # @todo: handle errors
   
   def create
 
     # begin session
     user = User.from_omniauth(env['omniauth.auth']);
     post = user.posts.build
-    session[:user_id] = user.id
+    session[:app_user_id] = user.id
 
     # go home 
     redirect_to root_url
   end
 
   def destroy
-    session[:user_id] = nil
-    cookies.delete(:user_id)
-    
-    redirect_to root_url
+
+    session[:app_user_id] = nil
+
+    # IMPORTANT: this is made like this because the omniouth-facebook gem is not resolving
+    # fine the session cleaning. 
+   
+    if request.xhr?
+      render json: { status: true }
+    else
+      redirect_to '/' 
+    end
+
   end
 
 end

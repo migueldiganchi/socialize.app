@@ -239,6 +239,48 @@ $(document).ready(function() {
         return false;
     });
 
+    logoutButton.click(function() {
+
+        var question = $(this).data('confirm');
+
+        if (!confirm(question)) { 
+            // @todo: get from config
+            return false;
+        }
+
+        var url = $(this).attr('href');
+
+        $.ajax({
+            url : url,
+            type : 'delete',
+            beforeSend: function() {
+
+                console.log('@todo: ajax-on');
+
+            },
+            success : function(app_response) {
+
+                if (!app_response || app_response.error) {
+                    // @todo: handle errors                    
+                    return;
+                }
+
+                window.location = '/';
+
+
+            },
+            complete: function() {
+
+                console.log('@todo: ajax-off');
+
+            },
+            dataType : 'json'
+        });
+
+        return false;
+
+    });
+
     // native events
     $(document).on('click', '#invite_button', function(e) {
         inviteFriends("Hooola! Vení a probar ésta app!");

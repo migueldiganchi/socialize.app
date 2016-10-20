@@ -6,9 +6,8 @@ window.fbAsyncInit = function() {
 
     FB.init({
         appId   : facebook_key,
-        cookie  : true,
         status  : true,
-        xfbml   : true,
+        cookie  : true,
         version : 'v2.6'
     });
 
