@@ -1,4 +1,3 @@
-
 function showFacebookPage(_FB) {
 
     if (!_FB) {
@@ -6,21 +5,11 @@ function showFacebookPage(_FB) {
         return;
     }
 
-    var accessToken = _FB.getAccessToken();
-
-
-    console.log(_FB);
-    alert('in showFacebookPage');
-
-    var accessToken = null;
     var fbPageId = $('#__fb_page_id').val();
+    var fbUrlPage = '/' + fbPageId;
     // @todo: validate pageId content
     
-    var fbUrlPage = '/' + fbPageId;
-
-    _FB.api(
-        fbUrlPage,
-        function (fb_response) {
+    _FB.api(fbUrlPage, function (fb_response) {
             console.log(fb_response);
             alert('are we here with the facebook page information?');
             if (fb_response && !fb_response.error) {

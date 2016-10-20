@@ -117,37 +117,12 @@ $(document).ready(function() {
 
     $.ajaxSetup({ cache: true });
 
-    function inviteFriends(invitationMessage) {
-
-        // request app
-        FB.ui({
-            method: 'apprequests',
-            filters: ['app_non_users'], // @todo: review this
-            fields: "id, name, email",
-            message: invitationMessage
-
-        }, function(fb_response) {
-
-            if (!fb_response || fb_response.error_code) {
-
-                if (fb_response && fb_response.error_message) {
-                    console.log('Ha ocurrido el siguiente error: ' + fb_response.error_message);
-                }
-
-                // No se ha invitado a ningún usuario
-                alert("No se ha invitado a ningún usuario"); // @todo: improve this
-                return;
-            }
-
-            createInvitations(fb_response);
-        });
-    }
-
     $(document).on('click', '#login_button', function(e) {
 
-        checkLoginState();
+        checkFacebookLoginStatus();
 
         e.preventDefault();
+
         return false;
 
     });
@@ -319,8 +294,6 @@ $(document).ready(function() {
         var post_container = $(this).parents('.post');
         var wrap_post = false;
 
-        console.log(post_container);
-
         $.get(url, { wrap: wrap_post } , function(response) {
 
             if (!isValidResponse(response)) {
@@ -449,11 +422,8 @@ function refreshApp() {
         // get app 
         var main_container = $('main');
 
-        console.log(main_container);
-
         // laod content into the container
         $(main_container).html(app_response);
-
     });        
 }
 
@@ -579,7 +549,7 @@ function createInvitations(fb_response) {
                 return;
             }
 
-            dynamicContainer.html(app_response);
+            handleAf(app_response);
 
         },
         complete: function() {
@@ -588,17 +558,6 @@ function createInvitations(fb_response) {
         dataType : 'html'
     });
 }
-
-decodeBase64 = function(s) {
-    var e={},i,b=0,c,x,l=0,a,r='',w=String.fromCharCode,L=s.length;
-    var A="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    for(i=0;i<64;i++){e[A.charAt(i)]=i;}
-    for(x=0;x<L;x++){
-        c=e[s.charAt(x)];b=(b<<6)+c;l+=6;
-        while(l>=8){((a=(b>>>(l-=8))&0xff)||(x<(L-2)))&&(r+=w(a));}
-    }
-    return r;
-};
 
 // go handle login application
 function connectApplication(fb_response) {
@@ -623,84 +582,29 @@ function connectApplication(fb_response) {
         },
         success : function(app_response) {
 
+            // load app panel in the main container
+
             if (!isValidResponse(app_response)) {
                 loginButton.text(loginButtonOriginalText);
                 return;
             }
 
+
             loginButton.text('Usuario autenticado!').addClass('logged-in');
             logoutButton.addClass('logged-in');
+
+            // if (app_response.status) {
+            window.location = '/';
+            // }
             
-            // load app panel in the main container
-            console.log(app_response);
             // $(appContainer).html(app_response);
 
         },
         complete: function() {
             console.log('@todo: ajax-off');
         },
-        dataType : 'html',
-        crossDomain: true,
-        xhrFields: { withCredentials: true }
+        dataType : 'json'
     });
-}
-
-// method: this method correspond to the user account
-function showUserInformation(accessToken) {
-
-    // show user picture & name  
-    FB.api('/me', function(userInfo) {
-
-        if (!isValidFacebookResponse(userInfo)) { 
-            // @todo: handle not valid facebook response
-            return;
-        }
-        
-        // show user cover 
-        $('img.cover').attr('src', userInfo.cover.source).removeClass('hide');
-        
-        // @todo: load user pages account to manage
-        console.info('user accounts...');
-        console.log(userInfo.accounts);
-
-        // reload foundation to the document
-        $(document).foundation(); 
-    }, { 
-        access_token: accessToken, 
-        fields: "id, name, email, cover, gender, link, accounts" 
-    });
-}
-
-function showUserPages(fpagesToCheck) {
-
-    var url = $('#__user_pages_url').val(); 
-    var spanLoadingMessage = $('#loading_message');
-    var data = null;
-
-    alert('showUserPages method: ' + url);
-
-    if (fpagesToCheck) {
-        data = { fpages: fpagesToCheck };
-    }
-    // @todo: check for valid url
-    
-    // @todo: handle ajax-loading: on
-    console.log(spanLoadingMessage);
-    $(spanLoadingMessage).text('Cargando información del usuario');
-    $.get(url, data, function(app_response) {
-
-        // validate response
-        if (!isValidResponse(app_response)) {
-            return false;
-        }
-
-        console.log('checking for app_response: ');
-        console.log(app_response);
-
-        // render content
-        $('.user-pages-container').html(app_response);
-
-    }, 'html');            
 }
 
 function openSelector(openerButton) {

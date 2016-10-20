@@ -1,8 +1,6 @@
 window.fbAsyncInit = function() {
 
-    // var facebook_key = $('#__facebook_app_id').val();
-    
-    var facebook_key = '2082688085288893';
+    var facebook_key = document.getElementById("__facebook_app_id").value;
 
     FB.init({
         appId   : facebook_key,
@@ -15,7 +13,7 @@ window.fbAsyncInit = function() {
 
 };
 
-(function(d, s, id) {
+(function(d, s, id, FB) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) { return; }
     js = d.createElement(s); js.id = id;
@@ -23,13 +21,41 @@ window.fbAsyncInit = function() {
     fjs.parentNode.insertBefore(js, fjs);
 } (document, 'script', 'facebook-jssdk'));
 
+
+function inviteFriends(invitationMessage) {
+
+    // request app
+    FB.ui({
+        method: 'apprequests',
+        filters: ['app_non_users'], // @todo: review this
+        fields: "id, name, email",
+        message: invitationMessage
+
+    }, function(fb_response) {
+
+        if (!fb_response || fb_response.error_code) {
+
+            if (fb_response && fb_response.error_message) {
+                console.log('Ha ocurrido el siguiente error: ' + fb_response.error_message);
+            }
+
+            // No se ha invitado a ningún usuario
+            alert("No se ha invitado a ningún usuario"); // @todo: improve this
+            return;
+        }
+
+        createInvitations(fb_response);
+    });
+}
+
 // go check for facebook login state
-function checkLoginState() {
+function checkFacebookLoginStatus() {
     // @todo: check for FB var
     
     var loginButton = $('#login_button');
 
     loginButton.text('Verificando conexión con facebook...');
+
     FB.getLoginStatus(function(fb_response) {
         handleFacebookResponse(fb_response);
     });
@@ -47,18 +73,19 @@ function handleFacebookResponse(fb_response) {
         var cookie = $.cookie(cookieName);
 
         // @todo: check if cookie exists
-
         if (cookie === undefined) {
+            // create cookie
             $.cookie(cookieName, signedRequest);
         }
+
         console.info('cookie inspection...');
 
         // ajax call
-        // connectApplication(fb_response);
+        connectApplication(fb_response);
         
         
         // no-ajax call
-        window.location = '/auth/facebook/callback'
+        // window.location = '/auth/facebook/callback'
     } else {
 
         if (fb_response.status === 'not_authorized') {
@@ -72,8 +99,7 @@ function handleFacebookResponse(fb_response) {
 function requestLogin() {
 
     var scope = $('#__facebook_scope').val();
-
-    // @todo: validate for scope value
+    var loginButton = $('#login_button');
 
     FB.login(function(response) {
         if (response.authResponse) {
@@ -88,9 +114,6 @@ function requestLogin() {
 
 // after loading page checking
 function checkForFacebookLoading(FB) {
-
-    console.info('FB inspection...');
-    console.log(FB);
 
     var callTo = $('#__call_to').val();
 
