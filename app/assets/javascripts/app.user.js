@@ -1,14 +1,14 @@
-function showFacebookUser(_FB) {
+function showFacebookUser() {
 
-    if (!_FB) {
+    if (!FB) {
         console.info('Facebook plugin (FB) is not loaded...'); // @todo: handle this
         return;
     }
 
-    console.info('FB inspection in app.user.js file...');
-    console.log(_FB);
+    console.info('at this point FB global object has to exist to call the facebook user...');
+    console.log(FB);
 
-    _FB.api('/me', function(userInfo) {
+    FB.api('/me', function(userInfo) {
 
         if (!isValidFacebookResponse(userInfo)) { 
             // @todo: handle not valid facebook response
@@ -25,7 +25,6 @@ function showFacebookUser(_FB) {
         // reload foundation to the document
         $(document).foundation(); 
     }, { 
-        access_token: accessToken, 
         fields: "id, name, email, cover, gender, link, accounts" 
     });
 }

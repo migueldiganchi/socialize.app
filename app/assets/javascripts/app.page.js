@@ -1,17 +1,16 @@
-function showFacebookPage(_FB) {
+function showFacebookPage() {
 
-    if (!_FB) {
+    if (!FB) {
         console.info('Facebook plugin (FB) is not loaded...'); // @todo: handle this
         return;
     }
 
     var fbPageId = $('#__fb_page_id').val();
     var fbUrlPage = '/' + fbPageId;
-    // @todo: validate pageId content
-    
-    _FB.api(fbUrlPage, function (fb_response) {
+
+    FB.api(fbUrlPage, function (fb_response) {
             console.log(fb_response);
-            alert('are we here with the facebook page information?');
+            // alert('are we here with the facebook page information?');
             if (fb_response && !fb_response.error) {
                 /* handle the result */
             }

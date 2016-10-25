@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.history
-//= require jquery.cookie
 //= require turbolinks
 //= require foundation
 //= require utilities
@@ -147,14 +146,12 @@ $(document).ready(function() {
 
     // native events
     $(document).on('click', '#invite_button', function(e) {
-        inviteFriends("Hooola! Vení a probar ésta app!");
+        inviteFacebookFriends("Hooola! Vení a probar ésta app!");
         return false;
     });
     
     // handler: ajax routing
     $(document).on('click', 'a', function(e) {
-
-        closeSelectors(); // this has to run after any task
 
         var url = $(this).attr('href');
         var target = null; 
@@ -171,8 +168,9 @@ $(document).ready(function() {
         } else if ($(this).is('.show-root')) {
             target = 'root';
         } else {
+            // @todo: something here?
             // not ajax loader
-            return;
+            return false;
         }
 
         History.pushState({
@@ -180,8 +178,9 @@ $(document).ready(function() {
             target: target, 
             params: params
         }, null, url);
+        
 
-        e.preventDefault();
+        // e.preventDefault();
         return false;
     });
   
@@ -190,6 +189,7 @@ $(document).ready(function() {
     });
 
     $(document).mousedown(function(e) {
+
         // handle exceptions 
         var clickedElement = e.target ? $(e.target) : $(e.srcElement);
         if (clickedElement.is('.selector-container ul li a')) {
@@ -400,9 +400,9 @@ $(document).ready(function() {
     });
 
     // modal closed event
-    $(document).on('closed.zf.reveal', '[data-reveal]', function(){
-        closeUrlModal();
-    });
+    // $(document).on('closed.zf.reveal', '[data-reveal]', function(){
+    //     closeUrlModal();
+    // });
 
     /* </facebook.scripts> */
 
@@ -469,8 +469,8 @@ function showPage(url) {
         // show the response
         $(app_dynamic).html(app_response);
 
-        // get facebook page
-        showFacebookPage(FB);
+        // show facebook page
+        doFacebookCallback(showFacebookPage);
     });
 
 }
@@ -491,7 +491,7 @@ function showProfile(url) {
         $(app_dynamic).html(app_response);
 
         // get facebook user
-        showFacebookUser(FB);
+        doFacebookCallback(showFacebookUser);
 
     });        
 }
@@ -508,6 +508,10 @@ function closeApp(url) {
         },
         success : function(app_response) {
 
+            console.log(app_response);
+
+            alert(app_response);
+
             if (!app_response || app_response.error) {
                 // @todo: handle errors                    
                 return;
@@ -517,7 +521,8 @@ function closeApp(url) {
         },
         complete: function() {
 
-            console.log('@todo: ajax-off');
+            // alert('here?');
+            // console.log('@todo: ajax-off');
 
         },
         dataType : 'json'
@@ -565,15 +570,11 @@ function connectApplication(fb_response) {
     // @todo: check for possible errors in loggedInResponse
     var url = $('#__login_url').val();
     var signedRequest = fb_response.authResponse.signedRequest;
-    var data = signedRequest.split('.')[1];
-    data = JSON.parse(decodeBase64(data));
-    var code = data.code;
     
     $.ajax({
         url : url,
         type : 'get', 
         data : {
-            // code: code
             signed_request: signedRequest
         },
         beforeSend: function() {
@@ -585,19 +586,16 @@ function connectApplication(fb_response) {
             // load app panel in the main container
 
             if (!isValidResponse(app_response)) {
-                loginButton.text(loginButtonOriginalText);
+
+                alert('not valid?');
+                // loginButton.text(loginButtonOriginalText);
                 return;
             }
 
-
-            loginButton.text('Usuario autenticado!').addClass('logged-in');
-            logoutButton.addClass('logged-in');
-
-            // if (app_response.status) {
-            window.location = '/';
-            // }
+            // loginButton.text('Usuario autenticado!').addClass('logged-in');
             
-            // $(appContainer).html(app_response);
+            console.log(app_response);
+            window.location = '/';
 
         },
         complete: function() {
@@ -658,17 +656,17 @@ function closeSelectors() {
 }
 
 
-function closeUrlModal() {
-    // @todo: get from configuration server (root_url)
-    var url = '/'; 
-    // @todo: get from configuration server
-    var title = 'BubblePages'; 
-    // push fake state
-    History.pushState({ 
-        url : url, 
-        target: 'close-modal' 
-    }, title, url);
-}
+// function closeUrlModal() {
+//     // @todo: get from configuration server (root_url)
+//     var url = '/'; 
+//     // @todo: get from configuration server
+//     var title = 'BubblePages'; 
+//     // push fake state
+//     History.pushState({ 
+//         url : url, 
+//         target: 'close-modal' 
+//     }, title, url);
+// }
 
 function newPost(on) {
     // read the current containers

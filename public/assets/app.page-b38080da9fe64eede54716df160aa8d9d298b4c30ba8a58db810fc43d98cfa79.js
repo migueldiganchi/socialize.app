@@ -1,0 +1,1 @@
+function showFacebookPage(){if(!FB)return void console.info("Facebook plugin (FB) is not loaded...");console.info("at this point FB global object has to exist..."),console.log(FB);var o=$("#__fb_page_id").val(),e="/"+o;FB.api(e,function(o){console.log(o),alert("are we here with the facebook page information?"),o&&!o.error})}

@@ -2,6 +2,8 @@ window.fbAsyncInit = function() {
 
     var facebook_key = document.getElementById("__facebook_app_id").value;
 
+    // alert('app id: ' + facebook_key);
+
     FB.init({
         appId   : facebook_key,
         status  : true,
@@ -9,7 +11,7 @@ window.fbAsyncInit = function() {
         version : 'v2.6'
     });
 
-    checkForFacebookLoading(FB);
+    checkForFacebookCallbacks();
 
 };
 
@@ -22,7 +24,7 @@ window.fbAsyncInit = function() {
 } (document, 'script', 'facebook-jssdk'));
 
 
-function inviteFriends(invitationMessage) {
+function inviteFacebookFriends(invitationMessage) {
 
     // request app
     FB.ui({
@@ -48,12 +50,25 @@ function inviteFriends(invitationMessage) {
     });
 }
 
+// ensures logged in facebook calls
+function doFacebookCallback(callback) {
+
+    if (typeof callback != 'function') {
+        // method is not defined
+        return;
+    }
+
+    // check the facebook status before do some facebook call
+    FB.getLoginStatus(function(fb_response) {
+        handleFacebookResponse(fb_response, callback);
+    });
+}
+
 // go check for facebook login state
 function checkFacebookLoginStatus() {
     // @todo: check for FB var
     
     var loginButton = $('#login_button');
-
     loginButton.text('Verificando conexión con facebook...');
 
     FB.getLoginStatus(function(fb_response) {
@@ -62,48 +77,45 @@ function checkFacebookLoginStatus() {
 }
 
 // status change callback
-function handleFacebookResponse(fb_response) {
+function handleFacebookResponse(fb_response, callback) {
 
-    if (fb_response.status === 'connected') {
-        // the user is logged in and has authenticated your
-        
-        var signedRequest = fb_response.authResponse.signedRequest;
-        var facebookAppId = $('#__facebook_app_id').val();
-        var cookieName = 'fbsr_' + facebookAppId;
-        var cookie = $.cookie(cookieName);
+    try {
+        if (fb_response.status === 'connected') {
 
-        // @todo: check if cookie exists
-        if (cookie === undefined) {
-            // create cookie
-            $.cookie(cookieName, signedRequest);
+            if (!callback) {
+                connectApplication(fb_response);
+                return;
+            } else if (typeof callback != 'function') {
+                return;
+            }
+
+            // do callback
+            callback();
+
+        } else {
+
+            if (fb_response.status === 'not_authorized') {
+                console.log('application is not authorized');
+            }
+
+            // the user isn't logged in to Facebook 
+            requestFacebookLogin();
         }
 
-        console.info('cookie inspection...');
-
-        // ajax call
-        connectApplication(fb_response);
-        
-        
-        // no-ajax call
-        // window.location = '/auth/facebook/callback'
-    } else {
-
-        if (fb_response.status === 'not_authorized') {
-            console.log('application is not authorized');
-        }
-        // the user isn't logged in to Facebook 
-        requestLogin();
+    } catch (e) {
+        // @todo: handle error response...
+        console.log('error while check facebook user status...');
     }
 }
 // request the login status
-function requestLogin() {
+function requestFacebookLogin() {
 
     var scope = $('#__facebook_scope').val();
     var loginButton = $('#login_button');
 
-    FB.login(function(response) {
-        if (response.authResponse) {
-            handleFacebookResponse(response);
+    FB.login(function(fb_response) {
+        if (fb_response.authResponse) {
+            handleFacebookResponse(fb_response);
         } else {
             // @todo: handle error
             loginButton.text(loginButtonOriginalText);
@@ -112,22 +124,17 @@ function requestLogin() {
 }
 
 
-// after loading page checking
-function checkForFacebookLoading(FB) {
+// Call facebook methods if they were defined
+function checkForFacebookCallbacks() {
 
-    var callTo = $('#__call_to').val();
-
-    switch(callTo) {
-        case 'fb_user': 
-            showFacebookUser(FB); 
-            break;
-
-        case 'fb_page': 
-            showFacebookPage(FB);
-            break;
-
-        default: 
-            break; // no ajax call
-        
+    // if function is defined it will be called
+    if (typeof showFacebookUser == 'function') {
+        doFacebookCallback(showFacebookUser); 
     }
+
+    // if function is defined it will be called
+    if (typeof showFacebookPage == 'function') {
+        doFacebookCallback(showFacebookPage);
+    }
+
 }
