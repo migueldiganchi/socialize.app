@@ -2,8 +2,6 @@ window.fbAsyncInit = function() {
 
     var facebook_key = document.getElementById("__facebook_app_id").value;
 
-    // alert('app id: ' + facebook_key);
-
     FB.init({
         appId   : facebook_key,
         status  : true,
