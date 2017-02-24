@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-  # before_filter :pirulo
   
   def create
 
@@ -29,13 +28,5 @@ class SessionsController < ApplicationController
     end
 
   end
-
-  private
-
-  # def pirulo
-
-  #   abort 'pirulin'
-    
-  # end
 
 end
