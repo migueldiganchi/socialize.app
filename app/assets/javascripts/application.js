@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.history
+//= require bootstrap-sprockets
 //= require turbolinks
-//= require foundation
 //= require utilities
 
 var _currentScrollTop = null;
@@ -34,9 +34,6 @@ $(window).scroll(function(event){
    }
    _currentScrollTop = st;
 });
-
-/* <foundation.init> */
-$(document).foundation();
 
 // controls
 var dynamicContainer = null;
@@ -281,9 +278,6 @@ $(document).ready(function() {
 
             $(post_container).html(response);
 
-            // reload foundation to the document
-            $(document).foundation(); 
-
         }, 'html');
     });
 
@@ -306,9 +300,6 @@ $(document).ready(function() {
             $('.tooltip.top').remove();
 
             $(post_container).html(response);
-
-            // reload foundation to the document
-            $(document).foundation(); 
 
         }, 'html');
 

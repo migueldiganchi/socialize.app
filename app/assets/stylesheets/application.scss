@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
- *= require foundation_and_overrides
- *= require foundation
  */
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";

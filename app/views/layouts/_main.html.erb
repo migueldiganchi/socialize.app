@@ -2,12 +2,14 @@
 
 <%= render 'layouts/header' %>
 
-<div class="row app-dynamic">
-    <div>
+<div class="row" style="border: solid 5px red;">
+    <div class="col-md-12 p-15">
         <% if logged_in? %>
             <h1>Logged in user</h1>
         <% else %>
-            public home page
+            <h3 class="m-0">
+                <b>Clasiface.com</b>
+            </h3>
         <% end %>
     </div>
 </div>  

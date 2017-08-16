@@ -26,10 +26,18 @@
         <%= hidden_field_tag :__user_has_pages, (current_user.pages && current_user.pages.count > 0) %>
     <% end %>
 
+    <!-- Include in <head> to load fonts from Google -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
+
     <%= javascript_include_tag "application.facebook" %>
 
     <main>
-      <%= yield %>
+      <div class="row">
+        <div class="col-md-12 center-block no-float border-blue">
+          <%= yield %>
+        </div>
+      </div>
     </main>
 
     <!-- @todo: footer -->
@@ -45,8 +53,9 @@
 
   </body>
 
-  <footer style="padding: 0; margin: 0;"></footer>
+  <footer style="m-0 p-0"></footer>
   
 </html>
 
-<%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+<%= javascript_include_tag "application", 
+  'data-turbolinks-track' => true %>

@@ -1,22 +1,16 @@
 <% picture_url = logged_in? ? facebook_picture_url(current_user.uid) : facebook_picture_url  %>
 
-<div class="top-bar">
-
-    <div class="top-bar-title">
-        <!-- icon app here -->
-        <%= link_to root_url, class: 'show-root' do %>
-            <h3>Clasiface.com</h3>
-        <% end %>
-    </div>
+<div class="top-bar clearfix" style="border: solid 1px violet;">
 
     <div>
         <!-- left -->
-        <div class="top-bar-left">
+        <div class="top-bar-left pull-left" style="border: solid 1px violet;">
             <form method="get" action="/searcher" id="searcher_form">
 
                 <div class="row">
 
-                    <div class="large-7 columns">
+                    <div class="filters pull-left" 
+                        style="border: solid 1px green;">
                         <button type="button" 
                             id="filter_categories"
                             class="button face icn icn-24 categories filter selector only-icon"
@@ -48,9 +42,8 @@
 
                         <button type="button" 
                             id="filter_entity"
-                            class="button face filter selector dropdown">
+                            class="btn btn-primary face filter selector dropdown">
                             Publicaciones
-                            <!-- @todo -->
                             <div class="selector-container shadow-level-1 opacity-face hide">
                                 <div>
                                     <ul>
@@ -63,9 +56,14 @@
                         </button>
                     </div>
 
-                    <div class="large-5 columns">
-                        <input type="text" name="filter_text" id="filter_text" class="input-group" placeholder="Buscar">
-                    </div>
+                    <form class="form" 
+                        class="pull-right">
+                        <input type="text" 
+                            name="filter_text" 
+                            id="filter_text" 
+                            class="input-group" 
+                            placeholder="Buscar">
+                    </form>
                 </div>
                 
             </form>
@@ -73,7 +71,7 @@
         </div>
 
         <!-- right -->
-        <div class="top-bar-right">
+        <div class="top-bar-right pull-right" style="border: solid 3px blue;">
 
             <% if logged_in? %>
 

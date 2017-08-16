@@ -22,8 +22,6 @@ function showFacebookUser() {
         console.info('user accounts...');
         console.log(userInfo.accounts);
 
-        // reload foundation to the document
-        $(document).foundation(); 
     }, { 
         fields: "id, name, email, cover, gender, link, accounts" 
     });

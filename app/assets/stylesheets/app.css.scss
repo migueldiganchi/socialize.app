@@ -1,11 +1,538 @@
-@import 'settings';
+@import "bootstrap";
+
+/* mixins, variables, etc. */
+$grayMediumLight: #eaeaea;
+$grayMediumLight: #eaeaea;
+$gray-lighter: #c9c9c9;
+$grayExtraLight: #e8e8e8;
+$containerWidth: 1024px;
+$containerWidth_m: 750px;
+$containerWidth_s: 550px;
+$containerWidth_xs: 350px;
+$containerWidth_xxs: 300px;
+
+$white: #fff;
+
+$yellow: #ecb731;
+$yellow_hover: #DBB042;
+
+$orange: #f93f26; 
+$orange_hover: #FF6A00; 
+
+$blue: #4285F4;
+$blue_hover: #6CA0F7;
+
+$blue_light: #00bce4;
+$blue_light_hover: #6CA0F7;
+
+$violet: #8e43e7;
+$violet_hover: #7C40C4;
+
+$blue_face: #3b5998;
+$blue_face_hover: #324770;
+
+$red: #D73D32;
+$red_hover: #F15B50;
+
+$green: #00a98f;
+$green_dark: #079C86;
+
+body {
+  background: url(image-path('bg.png'));
+  background-repeat: repeat;
+  background-attachment:fixed;
+  background-color: #111;
+  overflow-y: scroll;
+  // padding: 10px;
+
+  * {
+    font-family: Roboto Condensed, sans-serif;
+    color: #efefef;
+  }
+
+  *:not(h1, h2, h3, h4, h5) {
+    // font-size: 11px;
+  }
+
+}
+
+.top-radius-5 {
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.top-radius-10 {
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.no-float {
+  float: none !important;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+
+.p-5 {
+  padding: 5px;
+}
+
+.p-5-0 { 
+  padding: 5px 0;
+}
+
+.p-top-5 { 
+  padding: 5px 0 0;
+}
+
+.p-10 {
+  padding: 10px !important;
+}
+
+.p-10-0 {
+  padding: 10px 0;
+}
+
+.p-15-0 {
+  padding: 15px 0;
+}
+
+.p-0-10 {
+  padding: 0 10px;
+}
+
+.p-top-10 {
+  padding-top: 10px;
+}
+
+.p-right-10 {
+  padding-right: 10px;
+}
+
+.p-bottom-10 {
+  padding-bottom: 10px;
+}
+
+.p-left-10 {
+  padding-left: 10px;
+}
+
+.p-15 {
+  padding: 15px;
+}
+
+.p-30 {
+  padding: 30px;
+}
+
+.p-30-0 {
+  padding: 30px 0 !important;
+}
+
+.p-0-30 {
+  padding: 0 30px !important;
+}
+
+.p-50 {
+  padding: 50px;
+}
+
+.p-50-0 {
+  padding: 50px 0 !important;
+}
+
+.p-0-50 {
+  padding: 0 50px !important;
+}
+
+.p-100 {
+  padding: 100px;
+}
+
+.p-100-0 {
+  padding: 100px 0 !important;
+}
+
+.p-0-100 {
+  padding: 0 100px !important;
+}
+
+.m-5 {
+  margin: 5px;
+}
+
+.m-0-5 {
+  margin: 0 5px;
+}
+
+.m-5-0 {
+  margin: 5px 0;
+}
+
+.m-0 {
+  margin: 0 !important;
+}
+
+.m-10 {
+  margin: 10px;
+}
+
+.m-10-0 {
+  margin: 10px 0;
+}
+
+.m-15-0 {
+  margin: 15px 0;
+}
+
+.m-0-10 {
+  margin: 0 10px;
+}
+
+.m-30-0 {
+  margin: 30px 0;
+}
+
+.m-0-30 {
+  margin: 0 30px;
+}
+
+.p-top-30 {
+  padding-top: 30px;
+}
+
+.p-bottom-30 {
+  padding-bottom: 30px;
+}
+
+.p-left-30 {
+  padding-left: 30px;
+}
+
+.m-top-5 {
+  margin-top: 5px;
+}
+
+.m-top-10 {
+  margin-top: 10px !important;
+}
+
+.m-top-15 {
+  margin-top: 15px;
+}
+
+.m-top-30 {
+  margin-top: 30px;
+}
+
+.m-left-10 {
+  margin-left: 10px;
+}
+
+.m-left-5 {
+  margin-left: 5px;
+}
+
+.m-right-10 {
+  margin-right: 10px;
+}
+
+.m-right-5 {
+  margin-right: 5px;
+}
+
+.m-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.m-bottom-15 {
+  margin-bottom: 15px;
+}
+
+.m-bottom-5 {
+  margin-bottom: 5px;
+}
+
+.m-left-30 {
+  margin-left: 30px;
+}
+
+.m-right-30 {
+  margin-right: 30px;
+}
+
+.m-bottom-30 {
+  margin-bottom: 30px;
+}
+
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@mixin box_radius {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+@mixin radius_5 {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+@mixin radius_10 {
+  -webkit-border-radius: 10px !important;
+  -moz-border-radius: 10px !important;
+  border-radius: 10px !important;
+}
+
+@mixin no_radius {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
+@mixin box_radius_top {
+  -webkit-border-top-left-radius: 5px !important;
+  -webkit-border-top-right-radius: 5px !important;
+  -moz-border-radius-topleft: 5px !important;
+  -moz-border-radius-topright: 5px !important;
+  border-top-left-radius: 5px !important;
+  border-top-right-radius: 5px !important;
+}
+
+@mixin box_radius_top_10 {
+  -webkit-border-top-left-radius: 10px !important;
+  -webkit-border-top-right-radius: 10px !important;
+  -moz-border-radius-topleft: 10px !important;
+  -moz-border-radius-topright: 10px !important;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+}
+
+@mixin box_radius_bottom{
+  -webkit-border-bottom-left-radius: 3px !important;
+  -webkit-border-bottom-right-radius: 3px !important;
+  -moz-border-radius-bottomleft: 3px !important;
+  -moz-border-radius-bottomright: 3px !important;
+  border-bottom-left-radius: 3px !important;
+  border-bottom-right-radius: 3px !important;
+}
+
+@mixin box_radius_right_5 {
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+@mixin box_radius_left_5 {
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+@mixin box_shadow {
+  -moz-box-shadow:    0px 0px 3px 0px #c9c9c9 !important;
+  -webkit-box-shadow: 0px 0px 3px 0px #c9c9c9 !important;
+          box-shadow: 0px 0px 3px 0px #c9c9c9 !important;
+}
+
+@mixin box_shadow_orange {
+  -moz-box-shadow: 0 0 10px 1px $orange_hover;
+  -webkit-box-shadow: 0 0 10px 1px $orange_hover;
+  box-shadow: 0 0 10px 1px $orange_hover;
+}
+
+@mixin box_shadow_gold {
+  -moz-box-shadow: 0 0 10px 1px $yellow;
+  -webkit-box-shadow: 0 0 10px 1px $yellow;
+  box-shadow: 0 0 10px 1px $yellow;
+}
+
+@mixin box_shadow_white {
+  -moz-box-shadow: 0 0 10px 1px #efefef !important;
+  -webkit-box-shadow: 0 0 10px 1px #efefef !important;
+  box-shadow: 0 0 10px 1px #efefef !important;
+}
+
+@mixin box_shadow_strong {
+  -moz-box-shadow: 0 0 5px 1px #333;
+  -webkit-box-shadow: 0 0 5px 1px #333;
+  box-shadow: 0 0 5px 1px #333;
+}
+
+@mixin box_shadow_error {
+  -moz-box-shadow:    0px 0px 3px 0px $red;
+  -webkit-box-shadow: 0px 0px 3px 0px $red;
+          box-shadow: 0px 0px 3px 0px $red;
+
+}
+
+@mixin box_shadow_medium {
+  -moz-box-shadow: 1px 0 9px -1px $gray-lighter;
+  -webkit-box-shadow: 1px 0 9px -1px $gray-lighter;
+  box-shadow: 1px 0 9px -1px $gray-lighter;
+}
+
+@mixin no_shadow {
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+@mixin transparency_background {
+  /* Fallback for web browsers that doesn't support RGBa */
+  background-color: rgb(0, 0, 0) transparent !important;
+  /* RGBa with 0.6 opacity */
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  /* For IE 5.5 - 7*/
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000) !important;
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)" !important;
+}
+
+@mixin transparency_background_white {
+  /* Fallback for web browsers that doesn't support RGBa */
+  background-color: rgb(255, 255, 255) transparent;
+  /* RGBa with 0.6 opacity */
+  background-color: rgba(255, 255, 255, 0.5);
+  /* For IE 5.5 - 7*/
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#fffff, endColorstr=#fffff);
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#fffff, endColorstr=#fffff)";
+}
+
+@mixin not-hover-opacity {
+  zoom: 1;
+  filter: alpha(opacity=70);
+  opacity: 0.70;
+}
+
+@mixin hover-opacity {
+  filter: alpha(opacity=100);
+  opacity: 1;    
+  -webkit-transition: opacity 0.2s ease-in-out;
+     -moz-transition: opacity 0.2s ease-in-out;
+      -ms-transition: opacity 0.2s ease-in-out;
+       -o-transition: opacity 0.2s ease-in-out;
+          transition: opacity 0.2s ease-in-out;
+}
+
+@mixin transparency_background_white_strong {
+  /* Fallback for web browsers that doesn't support RGBa */
+  background: rgb(255, 255, 255) transparent;
+  /* RGBa with 0.6 opacity */
+  background: rgba(255, 255, 255, 0.9);
+  /* For IE 5.5 - 7*/
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#fffff, endColorstr=#fffff);
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#fffff, endColorstr=#fffff)";
+}
+
+@mixin box_circle {
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+     -moz-border-radius: 50%;
+}
+
+@mixin app_gradient {
+  background: #1a2a6c; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #111, #b21f1f, #fdbb2d); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #111, #b21f1f, #fdbb2d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@mixin rounder {
+  @include box_circle;
+
+  background-color: #fff;
+  display: inline-block;
+  border: solid 1px #c9c9c9;
+
+  &.size-xxs { 
+    width: 15px;
+    height: 15px;
+  }
+
+  &.size-xms { 
+    width: 20px;
+    height: 20px;
+  }
+
+  &.size-xs { 
+    width: 35px;
+    height: 35px;
+  }
+
+  &.size-s {
+    width: 39px;
+    height: 39px;
+  }
+
+  &.size-m {
+    width: 50px;
+    height: 50px;
+  }
+
+  &.size-n {
+    width: 75px;
+    height: 75px;
+  }
+
+  &.size-l {
+    width: 100px;
+    height: 100px; 
+  }
+
+  &.size-xl {
+    width: 110px;
+    height: 110px; 
+  }
+
+  &.size-xxl {
+    width: 150px;
+    height: 150px; 
+  }
+
+  &.size-xxxl {
+    width: 190px;
+    height: 190px; 
+  }
+
+  img {
+    @include box_circle;
+    width: 100%;
+    height: 100%;
+  }
+}
 
 header {
     padding: 2em;
 }
 
 main {
-    background: $blue-face;
+    background: $blue_face;
 }
 
 ul {
@@ -14,6 +541,11 @@ ul {
     li {
         list-style-type: none;  
     }
+}
+
+form.form {
+    border: solid 3px orange !important;
+
 }
 
 .circular-image {
@@ -44,7 +576,7 @@ ul {
         display: inline;
         outline: none;
         border: none;
-        border-bottom: solid 1px $sky;
+        border-bottom: solid 1px $blue;
 
         *:focus {
             outline: none;
@@ -121,10 +653,6 @@ ul {
     .posts-container {}
 }
 
-.radius-3 {
-    @include radius_3;
-}
-
 .radius-5 {
     @include radius_5;
 }
@@ -138,11 +666,7 @@ ul {
 }
 
 .shadow-level-1 {
-    @include shadow_level_1;
-}
-
-.shadow-level-2 {
-    @include shadow_level_2;
+    @include box_shadow;
 }
 
 .no-shadow {
@@ -153,12 +677,8 @@ ul {
     @include transparency_background;
 }
 
-.opacity-face {
-    @include transparency_background_face;
-}
-
 .button {
-    @include shadow_level_1;
+    @include box_shadow;
     margin: 0;
 
     &.pressed {
@@ -166,20 +686,20 @@ ul {
     }
 
     &.face {
-        background-color: $blue-face;
+        background-color: blue;
         &:hover, &:focus {
-            background-color: $blue-face-light;
+            background-color: blue-light;
             &.disabled {
-                background-color: $blue-face;
+                background-color: blue;
                 &:focus {
-                    background-color: $blue-face;
+                    background-color: blue;
                 }
             }
         }
     }
 
     &.face {
-        border: solid 0.1em $sky;
+        border: solid 0.1em $blue;
     }
 
     &.icn {
@@ -252,12 +772,11 @@ ul {
     }
 
     .selector-container {
-        @include shadow_level_1;
-        @include radius_3;
-        border: solid 1px $sky;
+        @include box_shadow;
+        @include radius_5;
+        border: solid 1px $blue;
         position: absolute;  
         top: 55px;
-        padding: 10px;
 
         &.left {
             margin-left: -20px;
@@ -289,7 +808,7 @@ ul {
                     display: inline-block;
                     padding: 5px 15px;
                     text-align: left;
-                    border: solid 1px $sky;
+                    border: solid 1px $blue;
                     width: 100%;
 
                     &:hover {
@@ -338,16 +857,13 @@ ul {
 }
 
 .post .base {
-
-    padding: 10px;
-
     @include radius_5;
-
-    // &.off { @include base_shadow; }
+    padding: 10px;
 }
 
 footer {
-    border: solid 1px violet;
+    border-top: solid 3px $blue_face;
+    background: $blue_face;
     padding: 50px;
     text-align: center;
 }
