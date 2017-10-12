@@ -4,7 +4,7 @@ class AppController < ApplicationController
 
   def index 
 
-    @title = 'ClasiFace.Com'
+    @title = 'Raffle.me'
 
     # check for json requet
     render partial: 'layouts/main' if request.xhr?

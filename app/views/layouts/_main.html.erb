@@ -1,15 +1,40 @@
 <% content_for(:title) do "ClasiFace.Com" end %>
 
-<%= render 'layouts/header' %>
+<div class="col-md-12 border-blue">
+    <% if logged_in? %>
+        <h1>Logged in user</h1>
+    <% else %>
 
-<div class="row">
-    <div class="col-md-12 p-15">
-        <% if logged_in? %>
-            <h1>Logged in user</h1>
-        <% else %>
-            <h3 class="m-0">
-                <b>Clasiface.com</b>
-            </h3>
-        <% end %>
-    </div>
-</div>  
+        <h3 class="m-0 text-center p-30">
+            <b>Rifus.me</b>
+        </h3>
+
+        <!-- raffles -->
+        <div class="row">
+            <div class="col-md-3 p-10" style="border: solid 1px red;">
+                content here
+            </div>
+            <div class="col-md-3 p-10" style="border: solid 1px red;">
+                content here
+            </div>
+            <div class="col-md-3 p-10" style="border: solid 1px red;">
+                content here
+            </div>
+            <div class="col-md-3 p-10" style="border: solid 1px red;">
+                content here
+            </div>
+            <div class="col-md-3 p-10" style="border: solid 1px red;">
+                content here
+            </div>
+            <div class="col-md-3 p-10" style="border: solid 1px red;">
+                content here
+            </div>
+            <div class="col-md-3 p-10" style="border: solid 1px red;">
+                content here
+            </div>
+            <div class="col-md-3 p-10" style="border: solid 1px red;">
+                content here
+            </div>
+        </div>
+    <% end %>
+</div>
