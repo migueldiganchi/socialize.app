@@ -1,6 +1,6 @@
 <% picture_url = logged_in? ? facebook_picture_url(current_user.uid) : facebook_picture_url  %>
 
-<header class="clearfix">
+<header class="clearfix border-blue pull-right">
 
     <!-- right -->
     <div class="pull-left">
@@ -44,14 +44,14 @@
                 'Comenzar con facebook', 
                 '/auth/facebook', 
                 id: 'login_button', 
-                class: 'btn btn-lg btn-facebook m-left-5'
+                class: 'btn btn-lg btn-facebook m-right-5'
             ) %>
 
         <% end %>
 
         <button type="button" 
             id="invite_button"
-            class="btn btn-lg btn-facebook m-left-5">
+            class="btn btn-lg btn-facebook m-right-10">
             Invita a tus amigos
         </button>
 

@@ -424,11 +424,11 @@ body {
   background-repeat: repeat;
   background-attachment:fixed;
   background-color: #111;
-  // overflow-y: scroll;
+  overflow-y: scroll;
   // padding: 10px;
 
   * {
-    font-family: 'Lato', sans-serif;
+    // font-family: "Robotoregular", 'Open Sans', sans-serif;
     color: #efefef;
   }
 
@@ -1130,6 +1130,10 @@ input:hidden {
 
   }
 
+}
+
+.full {
+  width: 100%;
 }
 
 .ajax-locker {
